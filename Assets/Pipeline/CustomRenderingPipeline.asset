@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26bbb0885269e7c4eb6fed4f857bb098, type: 3}
   m_Name: CustomRenderingPipeline
   m_EditorClassIdentifier: 
-  ShadowSettings:
-    maxDistance: 20
-    shadowBias: 0
-    directional:
-      atlasSize: 1024
-  lightingSetting:
-    EnvironmentMap: {fileID: 8900000, guid: 2288e023d12a740468d683a2c1ebddc8, type: 3}
+  RenderingSettings:
+    ShadowSettings:
+      maxDistance: 100
+      shadowBias: 0.001
+      directional:
+        atlasSize: 1024
+    LightingSetting:
+      EnvironmentMap: {fileID: 8900000, guid: 2288e023d12a740468d683a2c1ebddc8, type: 3}
+    PipelineResourceSetting:
+      RayGenerationShader: {fileID: 0}
+      DirectRayTracingShader: {fileID: 4807578003741378534, guid: 0fa7fe91288e4aa782f3f6d32bc8891f, type: 3}
+      IndirectRayTracingShader: {fileID: 4807578003741378534, guid: f602525f17ba7784885dafeca761eddd, type: 3}

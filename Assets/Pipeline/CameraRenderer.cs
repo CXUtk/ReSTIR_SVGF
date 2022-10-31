@@ -17,9 +17,8 @@ namespace Assets.Pipeline
     internal class CameraRenderer
     {
         private Camera m_camera;
-        private ShadowSettings m_shadowSettings;
-        private LightingSetting m_lightingSettings;
-        
+        private RenderingSettings m_renderingSettings;
+
         private ScriptableRenderContext m_context;
         private CullingResults m_cullingResults;
         public const int maxDirLightCount = 4;
@@ -38,25 +37,25 @@ namespace Assets.Pipeline
 
         private CommandBuffer m_commandBuffer;
 
-        private DeferredPath m_deferredPath;
-        private Shadows m_shadowRenderer;
+        // private DeferredPath m_deferredPath;
+        private RealtimeRayTracingPath m_realtimeRayTracingPath;
+        // private Shadows m_shadowRenderer;
 
 
-        public CameraRenderer(LightingSetting lightingSettings)
+        public CameraRenderer(RenderingSettings renderingSettings)
         {
-            this.m_lightingSettings = lightingSettings;
-            m_deferredPath = new DeferredPath();
-            m_shadowRenderer = new Shadows();
+            this.m_renderingSettings = renderingSettings;
+            m_realtimeRayTracingPath = new RealtimeRayTracingPath();
+            // m_shadowRenderer = new Shadows();
 
             dirLightColors = new Vector4[4];
             dirLightDirections = new Vector4[4];
         }
 
-        public void Render(Camera camera, ScriptableRenderContext context, ShadowSettings shadowSettings)
+        public void Render(Camera camera, ScriptableRenderContext context, RenderingSettings shadowSettings)
         {
             this.m_camera = camera;
             this.m_context = context;
-            this.m_shadowSettings = shadowSettings;
 
             if (!DoCulling())
             {
@@ -67,7 +66,8 @@ namespace Assets.Pipeline
             m_commandBuffer.name = "Camrea View";
 
             PrepareDirectionalLights();
-            RenderShadows();
+            // RenderShadows();
+            // m_realtimeRayTracingPath.RenderGeometry(camera, context, shadowSettings);
             RenderCameraView();
             
             if (Handles.ShouldRenderGizmos())
@@ -83,7 +83,7 @@ namespace Assets.Pipeline
         {
             if (m_camera.TryGetCullingParameters(out ScriptableCullingParameters p))
             {
-                p.shadowDistance = Mathf.Min(m_shadowSettings.maxDistance, m_camera.farClipPlane);
+                p.shadowDistance = Mathf.Min(m_renderingSettings.ShadowSettings.maxDistance, m_camera.farClipPlane);
                 m_cullingResults = m_context.Cull(ref p);
                 return true;
             }
@@ -100,7 +100,8 @@ namespace Assets.Pipeline
 
         private void RenderVisibleGeometry()
         {
-            m_deferredPath.RenderGeometry(m_camera, m_context, m_lightingSettings);
+            m_realtimeRayTracingPath.RenderGeometry(m_camera, m_context, m_renderingSettings);
+            // m_deferredPath.RenderGeometry(m_camera, m_context, m_renderingSettings);
             // m_camera.TryGetCullingParameters(out var cullingParameters);
             // var cullingResults = m_context.Cull(ref cullingParameters);
             //
@@ -143,10 +144,10 @@ namespace Assets.Pipeline
             dirLightDirections[dirLightDirIndex++] = -light.localToWorldMatrix.GetColumn(2);
         }
 
-        private void RenderShadows()
-        {
-            m_shadowRenderer.Setup(m_camera, m_context, m_shadowSettings, m_cullingResults);
-        }
+        // private void RenderShadows()
+        // {
+        //     m_shadowRenderer.Setup(m_camera, m_context, m_renderingSettings, m_cullingResults);
+        // }
 
         private void ExecuteBuffer()
         {
@@ -156,7 +157,7 @@ namespace Assets.Pipeline
 
         private void CleanUpShadow()
         {
-            m_shadowRenderer.Clean();
+            // m_shadowRenderer.Clean();
         }
     }
 }

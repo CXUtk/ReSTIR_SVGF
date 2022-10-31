@@ -21,3 +21,23 @@ float3 _WorldSpaceCameraPos;
 #define UNITY_PREV_MATRIX_I_M unity_WorldToObject
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
+
+
+struct Surface
+{
+    float3 worldPos;
+    float3 normal;
+    float3 color;
+    float alpha;
+    float roughness;
+    float metallic;
+};
+
+struct Light
+{
+    float3 dir;
+    float3 color;
+};
+
+float square(float x) { return x * x; }
+#define EPS 1e-4

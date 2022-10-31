@@ -1,3 +1,4 @@
+using System;
 using Assets.Pipeline;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,23 +9,22 @@ using UnityEngine.Rendering;
 
 public class CustomRenderingPipeline : RenderPipeline
 {
-    private ShadowSettings m_shadowSettings;
     private CameraRenderer m_cameraRenderer;
-    private LightingSetting m_lightingSetting;
-    public CustomRenderingPipeline(ShadowSettings shadowSettings, LightingSetting lightingSetting)
+    private RenderingSettings m_renderingSettings;
+    public CustomRenderingPipeline(RenderingSettings renderingSettings)
     {
-        this.m_shadowSettings = shadowSettings;
-        this.m_lightingSetting = lightingSetting;
+        this.m_renderingSettings = renderingSettings;
         
         GraphicsSettings.lightsUseLinearIntensity = true;
-        m_cameraRenderer = new CameraRenderer(m_lightingSetting);
+        m_cameraRenderer = new CameraRenderer(m_renderingSettings);
+        Debug.Log($"Support Ray Tracing: {SystemInfo.supportsRayTracing}");
     }
 
     protected override void Render(ScriptableRenderContext context, Camera[] cameras)
     {
         foreach (var camera in cameras)
         {
-            m_cameraRenderer.Render(camera, context, m_shadowSettings);
+            m_cameraRenderer.Render(camera, context, m_renderingSettings);
         }
     }
 }

@@ -58,5 +58,19 @@ Shader "Custom Deferred/Default"
             #include "../Deferred/Deferred.hlsl"
             ENDHLSL
         }
+        
+        Pass
+        {
+            Tags {
+                "LightMode" = "MyRaytraceShaderPass"
+            }    
+            Name "MyRaytraceShaderPass"
+            
+            HLSLPROGRAM
+
+            #pragma raytracing MyHitShader
+            #include "LightingModel.hlsl"
+            ENDHLSL
+        }
     }
 }

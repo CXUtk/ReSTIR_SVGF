@@ -1,5 +1,5 @@
 #pragma once
-#pragma max_recursion_depth 2
+#pragma max_recursion_depth 1
 #include "../Library/BRDF.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
 
@@ -8,8 +8,8 @@ int         _DirectionalLightCount;
 float3      _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
 float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
 
-RWTexture2D<float4> _renderTarget;
 RaytracingAccelerationStructure _RaytracingAccelerationStructure : register(t0);
+RWTexture2D<float4> _renderTarget;
 
 Texture2D _albedoR;
 Texture2D _normalM;
@@ -27,47 +27,35 @@ struct MyPayload
     float4 color;
 };
 
-uint wang_hash(inout uint seed)
-{
-    seed = (seed ^ 61) ^ (seed >> 16);
-    seed *= 9;
-    seed = seed ^ (seed >> 4);
-    seed *= 0x27d4eb2d;
-    seed = seed ^ (seed >> 15);
-    return seed;
-}
 
 [shader("anyhit")] // Add to hit group #0
 void ShadowAnyHit(inout MyPayload pay, BuiltInTriangleIntersectionAttributes attrib) 
 {
-    pay.color = 0;
+    pay.color.xyz = 0;
+    pay.color.a = 0;
 }
 
 [shader("miss")]
 void MyMissShader(inout MyPayload payload : SV_RayPayload)
 {
-    payload.color.xyz = _CubeMap.SampleLevel(my_point_clamp_sampler, WorldRayDirection(), 0).xyz * 5;
+    // float4(dispatchIdx.x & dispatchIdx.y, (dispatchIdx.x & 15)/15.0, (dispatchIdx.y & 15)/15.0, 0.0);
+    payload.color.xyz = 0;
     payload.color.a = 1;
 }
 
 
 [shader("raygeneration")]
-void MyRaygenShader()
+void ShadowDirectIllumination()
 {
     uint2 dispatchIdx = DispatchRaysIndex().xy;
     float2 uv = float2((float)dispatchIdx.x / _screenWidth, (float)dispatchIdx.y / _screenHeight);
-    
-    uint seed = _uGlobalFrames * 998244353u + dispatchIdx.y * 19993u + dispatchIdx.x;
-    float a = wang_hash(seed) / 4294967295.0;
-    float b = wang_hash(seed) / 4294967295.0;
-
     float4 normalM = _normalM.SampleLevel(my_point_clamp_sampler, uv, 0);
-    float3 worldPos = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
-    float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
     if(normalM.x == 0 && normalM.y == 0 && normalM.z == 0)
     {
         return;
     }
+    float3 worldPos = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
+    float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
     float3 N = normalize(normalM.xyz * 2 - 1);
 
     float4 albedoR = _albedoR.SampleLevel(my_point_clamp_sampler, uv, 0);
@@ -79,29 +67,23 @@ void MyRaygenShader()
     surface.alpha = 1;
     surface.roughness = albedoR.a;
     surface.metallic = normalM.a;
-
-    float3 wi;
-    float3 brdfNoLDivPdf = GGXImportanceSample(float2(a, b), surface, wo, wi);
     
-    RayDesc ray;
-    ray.Origin = worldPos + N * 1e-3; 
-    ray.Direction = wi;
-    ray.TMin = 0;
-    ray.TMax = 10000;
-
-    MyPayload payload;
-    payload.color = float4(0, 0, 0, 0);
+    MyPayload shadowPayLoad;
+    shadowPayLoad.color = float4(0, 0, 0, 0);
     
-    TraceRay(_RaytracingAccelerationStructure, RAY_FLAG_NONE, 0xFFFFFFF, 0, 1, 0, ray, payload);
+    RayDesc shadowRay;
+    float3 wLight = _DirectionalLightDirections[0].xyz;
+    shadowRay.Origin = worldPos + N * 1e-3; 
+    shadowRay.Direction = wLight;
+    shadowRay.TMin = 0;
+    shadowRay.TMax = 10000;
 
-    float4 oldColor = _renderTarget[dispatchIdx];
-    float4 newColor = float4(brdfNoLDivPdf, 1) * payload.color;
+    TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
+    0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
     
-    if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
-    {
-        _renderTarget[dispatchIdx] = float4(1, 0, 0, 1);
-        return;
-    }
-    _renderTarget[dispatchIdx] += newColor;
-    // _renderTarget[dispatchIdx] = float4(_renderTarget[dispatchIdx].rgb * surface.color, 1);
+    float NdotL = max(0, dot(N, _DirectionalLightDirections[0].xyz));
+    float3 BRDFCosTheta = _DirectionalLightColors[0] * BRDF_GGX(surface, wLight, wo) * NdotL;
+
+    float3 V = shadowPayLoad.color.a * BRDFCosTheta;
+    _renderTarget[dispatchIdx] = float4(V, 1);
 }

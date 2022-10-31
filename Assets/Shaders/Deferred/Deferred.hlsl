@@ -13,6 +13,7 @@ struct Varyings
 {
     float4 positionCS : SV_POSITION;
     float3 positionWS : VAR_POSITION;
+    float4 positionSS : VAR_POSITION1;
     float3 normalWS : VAR_NORMAL;
     float2 uv : VAR_BASE_UV;
 };
@@ -40,9 +41,10 @@ float4 _ZBufferParams;
 Varyings vert_gbuffer (Attributes v)
 {
     Varyings o;
-    float4 worldPos = mul(unity_ObjectToWorld, v.positionOS);
-    o.positionWS = worldPos.xyz / worldPos.w;
+    const float3 worldPos = TransformObjectToWorld(v.positionOS);
+    o.positionWS = worldPos;
     o.positionCS = TransformWorldToHClip(worldPos);
+    o.positionSS = TransformWorldToHClip(worldPos);
     o.normalWS = TransformObjectToWorldNormal(v.normalOS);
     o.uv = TRANSFORM_TEX(v.uv, _Albedo);
     return o;
@@ -65,7 +67,12 @@ out float4 worldPos : SV_Target3
 
     float4 prevPos = mul(_vpMatrixPrev, float4(i.positionWS, 1));
     prevPos.xyz /= prevPos.w;
-    motionVector = prevPos.xy - i.positionCS.xy;
+    float2 prevCoord = prevPos.xy * 0.5 + 0.5;
+    prevCoord.y = 1 - prevCoord.y;
+    float2 curCoord = i.positionSS.xy / i.positionSS.w * 0.5 + 0.5;
+    curCoord.y = 1 - curCoord.y;
+    motionVector = prevCoord - curCoord;
+    // motionVector = ;//prevPos.xy - i.positionCS;
 
     worldPos = float4(i.positionWS, 1);
 }
@@ -220,31 +227,31 @@ float4 frag_lit (Varyings i,  out float depthValue : SV_DEPTH) : SV_TARGET
     surface.color = col.xyz;
     surface.alpha = 1;
 
-    if(roughness == 0)
-    {
-        // float4 posCS = mul(_vpMatrix, float4(posWS.xyz, 1));//TransformWorldToHClip(pos);
-        // posCS.xyz /= posCS.w;
-        // posCS.xy = posCS.xy * 0.5 + 0.5;
-        // return float4(posCS.z, 0, 0, 1);
-                    
-        float3 hitPos;
-        float3 I = normalize(posWS.xyz - _WorldSpaceCameraPos);
-        float3 R = normalize(reflect(I, N));
-        float t;
-        // return float4(R*0.5+0.5, 1);
-
-        if(TraceScreenSpace(posWS.xyz + N * 0.01, R, hitPos))
-        {
-            float4 posCS = mul(_vpMatrixPrev, float4(hitPos, 1));
-            posCS.xyz /= posCS.w;
-            posCS.xy = posCS.xy * 0.5 + 0.5;
-            posCS.y = 1 - posCS.y;
-            
-            return _lastFrameScreen.SampleLevel(_my_point_clamp_sampler, posCS.xy, 0);
-        }
-        return texCUBE(_CubeMap, R);
-        return float4(Shading(surface), surface.alpha);
-    }
+    // if(roughness == 0)
+    // {
+    //     // float4 posCS = mul(_vpMatrix, float4(posWS.xyz, 1));//TransformWorldToHClip(pos);
+    //     // posCS.xyz /= posCS.w;
+    //     // posCS.xy = posCS.xy * 0.5 + 0.5;
+    //     // return float4(posCS.z, 0, 0, 1);
+    //                 
+    //     float3 hitPos;
+    //     float3 I = normalize(posWS.xyz - _WorldSpaceCameraPos);
+    //     float3 R = normalize(reflect(I, N));
+    //     float t;
+    //     // return float4(R*0.5+0.5, 1);
+    //
+    //     if(TraceScreenSpace(posWS.xyz + N * 0.01, R, hitPos))
+    //     {
+    //         float4 posCS = mul(_vpMatrixPrev, float4(hitPos, 1));
+    //         posCS.xyz /= posCS.w;
+    //         posCS.xy = posCS.xy * 0.5 + 0.5;
+    //         posCS.y = 1 - posCS.y;
+    //         
+    //         return _lastFrameScreen.SampleLevel(_my_point_clamp_sampler, posCS.xy, 0);
+    //     }
+    //     return texCUBE(_CubeMap, R);
+    //     return float4(Shading(surface), surface.alpha);
+    // }
     
     return float4(Shading(surface), surface.alpha);
 }

@@ -13,39 +13,40 @@
 			ColorMask 0
 			ZTest Always
 			
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment frag_depth_copy
 			
-			#include "UnityCG.cginc"
-
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
-
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-			};
-
-			v2f vert (appdata v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = v.uv;
-				return o;
-			}
+			#include "Misc.hlsl"
+			ENDHLSL
+		}
+		
+		// No culling or depth
+		Pass
+		{
+			Name "Copy color with depth"
+			ZWrite On
+			ZTest Always
 			
-			sampler2D _MainTex;
-
-			float frag (v2f i) : SV_Depth
-			{
-				return tex2D(_MainTex, i.uv).r;
-			}
-			ENDCG
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment frag_copy_with_depth
+			
+			#include "Misc.hlsl"
+			ENDHLSL
+		}
+		
+				Pass
+		{
+			Name "Color Copy"
+			ZTest Always
+			
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment frag_color_copy
+			
+			#include "Misc.hlsl"
+			ENDHLSL
 		}
 	}
 }

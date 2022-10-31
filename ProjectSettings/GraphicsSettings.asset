@@ -59,7 +59,8 @@ GraphicsSettings:
   m_FogKeepExp2: 1
   m_AlbedoSwatchInfos: []
   m_LightsUseLinearIntensity: 1
-  m_LightsUseColorTemperature: 0
-  m_DefaultRenderingLayerMask: 1
+  m_LightsUseColorTemperature: 1
+  m_DefaultRenderingLayerMask: 257
   m_LogWhenShaderIsCompiled: 0
-  m_SRPDefaultSettings: {}
+  m_SRPDefaultSettings:
+    UnityEngine.Rendering.HighDefinition.HDRenderPipeline: {fileID: 11400000, guid: ea7daa90e7985334ea8d69921673f457, type: 2}

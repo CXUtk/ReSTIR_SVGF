@@ -2,21 +2,6 @@
 #include "Common.hlsl"
 #include "Shadow.hlsl"
 
-struct Surface
-{
-    float3 worldPos;
-    float3 normal;
-    float3 color;
-    float alpha;
-};
-
-struct Light
-{
-    float3 dir;
-    float3 color;
-};
-
-
 #define MAX_DIRECTIONAL_LIGHTS 4
 int         _DirectionalLightCount;
 float3      _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];

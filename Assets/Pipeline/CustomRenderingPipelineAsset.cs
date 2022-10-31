@@ -14,14 +14,11 @@ namespace Assets.Pipeline
     internal class CustomRenderingPipelineAsset : RenderPipelineAsset
     {
         [SerializeField]
-        internal ShadowSettings ShadowSettings = default;
-
-        [FormerlySerializedAs("GraphicsSetting")] [SerializeField]
-        internal LightingSetting lightingSetting;
+        internal RenderingSettings RenderingSettings = default;
         
         protected override RenderPipeline CreatePipeline()
         {
-            return new CustomRenderingPipeline(ShadowSettings, lightingSetting);
+            return new CustomRenderingPipeline(RenderingSettings);
         }
     }
 }
