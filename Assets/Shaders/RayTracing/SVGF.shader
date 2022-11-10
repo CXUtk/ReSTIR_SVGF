@@ -16,5 +16,38 @@
 			#include "SVGF.hlsl"
 			ENDHLSL
 		}
+		
+		Pass
+		{
+			Name "Edge-avoiding A-trous wavelet transform"
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment main_filter
+			
+			#include "SVGF.hlsl"
+			ENDHLSL
+		}
+		
+		Pass
+		{
+			Name "Final Gather"
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment final_gather
+			
+			#include "SVGF.hlsl"
+			ENDHLSL
+		}
+		
+		Pass
+		{
+			Name "Variance Estimation [3]"
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment variance_estimation
+			
+			#include "SVGF.hlsl"
+			ENDHLSL
+		}
 	}
 }

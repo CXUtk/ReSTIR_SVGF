@@ -82,7 +82,7 @@ void ShadowDirectIllumination()
     0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
     
     float NdotL = max(0, dot(N, _DirectionalLightDirections[0].xyz));
-    float3 BRDFCosTheta = _DirectionalLightColors[0] * BRDF_GGX(surface, wLight, wo) * NdotL;
+    float3 BRDFCosTheta = _DirectionalLightColors[0] * BRDF_GGX_NoAlbedo(surface, wLight, wo) * NdotL;
 
     float3 V = shadowPayLoad.color.a * BRDFCosTheta;
     _renderTarget[dispatchIdx] = float4(V, 1);

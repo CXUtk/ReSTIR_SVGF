@@ -8,5 +8,6 @@ namespace Assets.Pipeline.Settings
         [SerializeField] public ShadowSettings ShadowSettings;
         [SerializeField] public LightingSetting LightingSetting;
         [SerializeField] public PipelineResourceSetting PipelineResourceSetting;
+        [SerializeField] public DenoisingSettings DenoisingSettings;
     }
 }

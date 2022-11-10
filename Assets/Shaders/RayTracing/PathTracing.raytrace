@@ -46,7 +46,7 @@ void ShadowAnyHit(inout MyPayload pay, BuiltInTriangleIntersectionAttributes att
 [shader("miss")]
 void MyMissShader(inout MyPayload payload : SV_RayPayload)
 {
-    payload.color.xyz = _CubeMap.SampleLevel(my_point_clamp_sampler, WorldRayDirection(), 0).xyz * 5;
+    payload.color.xyz = _CubeMap.SampleLevel(my_point_clamp_sampler, WorldRayDirection(), 0).xyz * 3;
     payload.color.a = 1;
 }
 
@@ -81,7 +81,7 @@ void MyRaygenShader()
     surface.metallic = normalM.a;
 
     float3 wi;
-    float3 brdfNoLDivPdf = GGXImportanceSample(float2(a, b), surface, wo, wi);
+    float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi);
     
     RayDesc ray;
     ray.Origin = worldPos + N * 1e-3; 
@@ -94,14 +94,13 @@ void MyRaygenShader()
     
     TraceRay(_RaytracingAccelerationStructure, RAY_FLAG_NONE, 0xFFFFFFF, 0, 1, 0, ray, payload);
 
-    float4 oldColor = _renderTarget[dispatchIdx];
-    float4 newColor = float4(brdfNoLDivPdf, 1) * payload.color;
+    float4 newColor = _renderTarget[dispatchIdx] + float4(brdfNoLDivPdf, 1) * payload.color;
     
     if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
     {
         _renderTarget[dispatchIdx] = float4(1, 0, 0, 1);
         return;
     }
-    _renderTarget[dispatchIdx] += newColor;
-    // _renderTarget[dispatchIdx] = float4(_renderTarget[dispatchIdx].rgb * surface.color, 1);
+    
+    _renderTarget[dispatchIdx] = newColor;// * float4(surface.color, 1);
 }

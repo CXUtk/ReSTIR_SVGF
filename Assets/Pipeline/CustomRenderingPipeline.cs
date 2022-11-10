@@ -27,4 +27,10 @@ public class CustomRenderingPipeline : RenderPipeline
             m_cameraRenderer.Render(camera, context, m_renderingSettings);
         }
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        m_cameraRenderer = null;
+        base.Dispose(disposing);
+    }
 }

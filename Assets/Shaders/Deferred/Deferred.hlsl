@@ -38,6 +38,8 @@ float4x4 _vpMatrixPrev;
 float _nearPlaneZ;
 float4 _ZBufferParams;
 
+int _ObjectId;
+
 Varyings vert_gbuffer (Attributes v)
 {
     Varyings o;
@@ -66,15 +68,14 @@ out float4 worldPos : SV_Target3
     normalM.a   = _Metallic;
 
     float4 prevPos = mul(_vpMatrixPrev, float4(i.positionWS, 1));
-    prevPos.xyz /= prevPos.w;
-    float2 prevCoord = prevPos.xy * 0.5 + 0.5;
-    prevCoord.y = 1 - prevCoord.y;
+    float2 prevCoord = prevPos.xy / prevPos.w * 0.5 + 0.5;
     float2 curCoord = i.positionSS.xy / i.positionSS.w * 0.5 + 0.5;
-    curCoord.y = 1 - curCoord.y;
-    motionVector = prevCoord - curCoord;
+    float2 v = prevCoord - curCoord;
+    v.y = -v.y;
+    motionVector = v;
     // motionVector = ;//prevPos.xy - i.positionCS;
 
-    worldPos = float4(i.positionWS, 1);
+    worldPos = float4(i.positionWS, _ObjectId / 512.0);
 }
 
 

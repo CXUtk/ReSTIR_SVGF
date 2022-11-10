@@ -21,6 +21,13 @@ MonoBehaviour:
     LightingSetting:
       EnvironmentMap: {fileID: 8900000, guid: 2288e023d12a740468d683a2c1ebddc8, type: 3}
     PipelineResourceSetting:
-      RayGenerationShader: {fileID: 0}
+      SVGFFilterShader: {fileID: 7200000, guid: 35c03422aa2f9bf419956a0d83489338, type: 3}
       DirectRayTracingShader: {fileID: 4807578003741378534, guid: 0fa7fe91288e4aa782f3f6d32bc8891f, type: 3}
       IndirectRayTracingShader: {fileID: 4807578003741378534, guid: f602525f17ba7784885dafeca761eddd, type: 3}
+    DenoisingSettings:
+      SigmaZ: 1
+      SigmaX: 4
+      SigmaC: 0.2
+      SigmaN: 64
+      TemporalFactor: 0.2
+      GroundTruth: 1
