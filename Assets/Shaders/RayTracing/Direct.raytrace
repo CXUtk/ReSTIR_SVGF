@@ -48,17 +48,16 @@ void MyMissShader(inout MyPayload payload : SV_RayPayload)
 void ShadowDirectIllumination()
 {
     uint2 dispatchIdx = DispatchRaysIndex().xy;
-    float2 uv = float2((float)dispatchIdx.x / _screenWidth, (float)dispatchIdx.y / _screenHeight);
-    float4 normalM = _normalM.SampleLevel(my_point_clamp_sampler, uv, 0);
+    float4 normalM = _normalM[dispatchIdx];
     if(normalM.x == 0 && normalM.y == 0 && normalM.z == 0)
     {
         return;
     }
-    float3 worldPos = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
+    float3 worldPos = _worldPos[dispatchIdx].xyz;
     float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
     float3 N = normalize(normalM.xyz * 2 - 1);
 
-    float4 albedoR = _albedoR.SampleLevel(my_point_clamp_sampler, uv, 0);
+    float4 albedoR = _albedoR[dispatchIdx];
     
     Surface surface;
     surface.worldPos = worldPos.xyz;

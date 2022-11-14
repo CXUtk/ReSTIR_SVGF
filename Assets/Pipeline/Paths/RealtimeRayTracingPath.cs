@@ -55,9 +55,9 @@ namespace Assets.Pipeline.Paths
             m_vpMatrixPrev = new Matrix4x4();
 
             m_renderTexture = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear);
+                RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
             m_swapTexture = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
+                RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
             {
                 enableRandomWrite = true
             };
@@ -98,7 +98,7 @@ namespace Assets.Pipeline.Paths
             for (int i = 0; i < 2; i++)
             {
                 m_colorRenderTargets[i] = new RenderTexture(Screen.width, Screen.height, 0,
-                    RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
+                    RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
                 {
                     enableRandomWrite = true
                 };
@@ -216,7 +216,7 @@ namespace Assets.Pipeline.Paths
                     cmd.SetComputeTextureParam(filterShader, 0, "_renderW", m_swapTexture);
 
                     // Wavelet transform, Level 0
-                    cmd.SetGlobalInt("_filterLevel", 0);
+                    cmd.SetComputeIntParam(filterShader, "_filterLevel", 0);
                     cmd.DispatchCompute(filterShader, 0,
                         DivCeil(m_renderTexture.width, 8),
                         DivCeil(m_renderTexture.height, 8),
@@ -227,11 +227,12 @@ namespace Assets.Pipeline.Paths
 
             using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Apply Temporal Filtering on Level 1")))
             {
+                cmd.SetGlobalTexture("_varianceTarget", m_varianceTexture[0]);
                 // Apply Temporal Filtering
                 cmd.Blit(CurrentColorTarget, m_renderTexture, svgfShader, 0);
                 // cmd.Blit(CurrentColorTarget, m_renderTexture);
 
-                // Copy color
+                // Copy color with sample count
                 cmd.Blit(m_renderTexture, PrevColorTarget);
             }
 
@@ -240,12 +241,12 @@ namespace Assets.Pipeline.Paths
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Wavelet Transform Level 2+")))
                 {
                     // Wavelet transform, Level 1+
-                    cmd.Blit(m_renderTexture, CurrentColorTarget);
+                    cmd.Blit(m_renderTexture, CurrentColorTarget, miscShader, 2);
                     for (int i = 0; i < 2; i++)
                     {
                         cmd.SetGlobalTexture("_varianceDataR", m_varianceTexture[1]);
                         cmd.SetGlobalTexture("_renderR", CurrentColorTarget);
-                        cmd.SetGlobalInt("_filterLevel", i * 2 + 1);
+                        cmd.SetComputeIntParam(filterShader, "_filterLevel", i * 2 + 1);
                         cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataW", m_varianceTexture[0]);
                         cmd.SetComputeTextureParam(filterShader, 0, "_renderW", m_swapTexture);
                         cmd.DispatchCompute(filterShader, 0,
@@ -256,7 +257,7 @@ namespace Assets.Pipeline.Paths
 
                         cmd.SetGlobalTexture("_varianceDataR", m_varianceTexture[0]);
                         cmd.SetGlobalTexture("_renderR", m_swapTexture);
-                        cmd.SetGlobalInt("_filterLevel", i * 2 + 2);
+                        cmd.SetComputeIntParam(filterShader, "_filterLevel", i * 2 + 2);
                         cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataW", m_varianceTexture[1]);
                         cmd.SetComputeTextureParam(filterShader, 0, "_renderW", CurrentColorTarget);
                         cmd.DispatchCompute(filterShader, 0,

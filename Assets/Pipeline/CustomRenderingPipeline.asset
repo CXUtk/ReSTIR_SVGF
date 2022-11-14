@@ -26,8 +26,8 @@ MonoBehaviour:
       IndirectRayTracingShader: {fileID: 4807578003741378534, guid: f602525f17ba7784885dafeca761eddd, type: 3}
     DenoisingSettings:
       SigmaZ: 1
-      SigmaX: 4
-      SigmaC: 0.2
-      SigmaN: 64
+      SigmaX: 0.16
+      SigmaC: 0.96
+      SigmaN: 128
       TemporalFactor: 0.2
-      GroundTruth: 1
+      GroundTruth: 0

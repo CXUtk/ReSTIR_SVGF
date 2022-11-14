@@ -36,14 +36,14 @@
 			ENDHLSL
 		}
 		
-				Pass
+		Pass
 		{
-			Name "Color Copy"
+			Name "Color Copy Sampled"
 			ZTest Always
 			
 			HLSLPROGRAM
 			#pragma vertex vert_tex2D
-			#pragma fragment frag_color_copy
+			#pragma fragment frag_color_copy_sample
 			
 			#include "Misc.hlsl"
 			ENDHLSL

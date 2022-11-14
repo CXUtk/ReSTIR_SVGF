@@ -32,9 +32,10 @@ float frag_depth_copy (v2f i) : SV_Depth
     return tex2D(_MainTex, i.uv).r;
 }
 
-float4 frag_color_copy (v2f i) : SV_TARGET
+float4 frag_color_copy_sample (v2f i) : SV_TARGET
 {
-    return float4((tex2D(_MainTex, i.uv).xy * 500) * 0.5 + 0.5, 0, 1);
+    float4 color = tex2D(_MainTex, i.uv);
+    return float4(color.rgb / color.a, 1);
 }
 
 float4 frag_copy_with_depth (v2f i, out float depthValue : SV_DEPTH) : SV_TARGET

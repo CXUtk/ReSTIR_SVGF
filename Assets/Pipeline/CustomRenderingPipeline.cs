@@ -31,6 +31,7 @@ public class CustomRenderingPipeline : RenderPipeline
     protected override void Dispose(bool disposing)
     {
         m_cameraRenderer = null;
+        m_renderingSettings = null;
         base.Dispose(disposing);
     }
 }

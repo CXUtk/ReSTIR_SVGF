@@ -86,93 +86,103 @@ float4 temporal_filter (v2f i) : SV_TARGET
     float3 Nprev = normalize(normalN_pre * 2 - 1);
     float4 prev = _prevColorTarget.SampleLevel(my_point_clamp_sampler, uv2, 0);
     float4 WSpos_prev = _worldPos_prev.SampleLevel(my_point_clamp_sampler, uv2, 0);
-    if (WSpos.w != WSpos_prev.w || dot(Nprev, Ncur) < 0.95)
+    if (WSpos.w != WSpos_prev.w || dot(Nprev, Ncur) < 0.9)
     {
         return cur;
     }
-    return lerp(prev, cur, _temporalFactor);
+    float3 variance = sqrt(_varianceTarget.SampleLevel(my_point_clamp_sampler, i.uv, 0).xyz);
+    
+    // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
+    float3 c = prev.rgb / prev.a;
+    float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur.rgb - c) / variance));
+    if(sigma > 2)
+    {
+        return float4(c + cur, 2);
+    }
+    return float4(prev.rgb + cur.rgb, prev.a + 1);
 }
 
 float4 main_filter (v2f V2F) : SV_TARGET
 {
-    float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
-    if(length(N) < 1e-5) return float4(0, 0, 0, 0);
-    N = normalize(N * 2 - 1);
-    
-    // float Z = _gdepth.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).r;
-    // float DzDx = (_gdepth.SampleLevel(my_point_clamp_sampler, V2F.uv + float2(_invScreenSize.x, 0), 0).r - Z) / _invScreenSize.x;
-    // float DzDy = (_gdepth.SampleLevel(my_point_clamp_sampler, V2F.uv + float2(0, _invScreenSize.y), 0).r - Z) / _invScreenSize.y;
-    // float2 gradZ = float2(DzDx, DzDy);
-    
-    float4 colorSelf = _MainTex.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
-
-    // posSelf.w is object Id
-    float4 posSelf = _worldPos.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
-
-
-    float variance = 0;
-    float variance_weight = 0;
-    for (int i = -1; i <= 1; i++)
-    {
-        for (int j = -1; j <= 1; j++)
-        {
-            float2 uv = V2F.uv + _invScreenSize.xy * float2(j, i);
-            if(uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) continue;
-            float3 v = _varianceTarget.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
-            float lv = abs(dot(float3(0.2126, 0.7152, 0.0722), v));
-            int k = (1 + i) * 3 + (1 + j);
-            variance += lv;
-            variance_weight += lv * gaussian[k];
-        }
-    }
-    float stdev = sqrt(max(0, variance / variance_weight));
-    
-    float weight = 0;
-    float3 colorComponents = 0;
-    float len = (1 << _filterLevel);
-    for (int i = -2; i <= 2; i++)
-    {
-        for (int j = -2; j <= 2; j++)
-        {
-            float2 offset = _invScreenSize.xy * float2(j, i) * len;
-            float2 uv = V2F.uv + offset;
-            if(uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) continue;
-            float3 nq = _normalM.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
-            // If is empty then skip
-            if(length(nq) < 1e-5) continue;
-            nq = normalize(nq * 2 - 1);
-            
-            float3 C = _MainTex.SampleLevel(my_point_clamp_sampler, uv, 0).rgb;
-
-            // Xq.w is object Id
-            float4 Xq = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0);
-            float3 dir = Xq.xyz - posSelf.xyz;
-            if (Length2(dir) > 1e-6)
-            {
-                dir = normalize(dir);
-            }
-
-            float Lumin = abs(dot(float3(0.2126, 0.7152, 0.0722), C - colorSelf));
-            
-            float wn = pow(max(0, dot(nq, N)), _sigmaN);
-            // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
-            float wz = -abs(dot(N, dir)) / _sigmaZ;
-            float wc = -Lumin / (_sigmaC * stdev + 1e-4);
-            float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
-            float wid = (Xq.w == posSelf.w) ? 1.0 : 0.0;
-            
-            int k = (2 + i) * 5 + (2 + j);
-            float w = h[k] * wn * exp(wz + wc + wx) * wid;
-
-            colorComponents += w * C;
-            weight += w;
-        }
-    }
-    if (weight < 1e-5)
-    {
-        return colorSelf;
-    }
-    return float4(colorComponents / weight, 1);
+    return _MainTex.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
+    // float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
+    // if(length(N) < 1e-5) return float4(0, 0, 0, 0);
+    // N = normalize(N * 2 - 1);
+    //
+    // // float Z = _gdepth.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).r;
+    // // float DzDx = (_gdepth.SampleLevel(my_point_clamp_sampler, V2F.uv + float2(_invScreenSize.x, 0), 0).r - Z) / _invScreenSize.x;
+    // // float DzDy = (_gdepth.SampleLevel(my_point_clamp_sampler, V2F.uv + float2(0, _invScreenSize.y), 0).r - Z) / _invScreenSize.y;
+    // // float2 gradZ = float2(DzDx, DzDy);
+    //
+    // float4 colorSelf = _MainTex.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
+    //
+    // // posSelf.w is object Id
+    // float4 posSelf = _worldPos.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
+    //
+    //
+    // float variance = 0;
+    // float variance_weight = 0;
+    // for (int i = -1; i <= 1; i++)
+    // {
+    //     for (int j = -1; j <= 1; j++)
+    //     {
+    //         float2 uv = V2F.uv + _invScreenSize.xy * float2(j, i);
+    //         if(uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) continue;
+    //         float3 v = _varianceTarget.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
+    //         float lv = abs(dot(float3(0.2126, 0.7152, 0.0722), v));
+    //         int k = (1 + i) * 3 + (1 + j);
+    //         variance += lv;
+    //         variance_weight += lv * gaussian[k];
+    //     }
+    // }
+    // float stdev = sqrt(max(0, variance / variance_weight));
+    //
+    // float weight = 0;
+    // float3 colorComponents = 0;
+    // float len = (1 << _filterLevel);
+    // for (int i = -2; i <= 2; i++)
+    // {
+    //     for (int j = -2; j <= 2; j++)
+    //     {
+    //         float2 offset = _invScreenSize.xy * float2(j, i) * len;
+    //         float2 uv = V2F.uv + offset;
+    //         if(uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) continue;
+    //         float3 nq = _normalM.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
+    //         // If is empty then skip
+    //         if(length(nq) < 1e-5) continue;
+    //         nq = normalize(nq * 2 - 1);
+    //         
+    //         float3 C = _MainTex.SampleLevel(my_point_clamp_sampler, uv, 0).rgb;
+    //
+    //         // Xq.w is object Id
+    //         float4 Xq = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0);
+    //         float3 dir = Xq.xyz - posSelf.xyz;
+    //         if (Length2(dir) > 1e-6)
+    //         {
+    //             dir = normalize(dir);
+    //         }
+    //
+    //         float Lumin = abs(dot(float3(0.2126, 0.7152, 0.0722), C - colorSelf));
+    //         
+    //         float wn = pow(max(0, dot(nq, N)), _sigmaN);
+    //         // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
+    //         float wz = -abs(dot(N, dir)) / _sigmaZ;
+    //         float wc = -Lumin / (_sigmaC * stdev + 1e-4);
+    //         float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
+    //         float wid = (Xq.w == posSelf.w) ? 1.0 : 0.0;
+    //         
+    //         int k = (2 + i) * 5 + (2 + j);
+    //         float w = h[k] * wn * exp(wz + wc + wx) * wid;
+    //
+    //         colorComponents += w * C;
+    //         weight += w;
+    //     }
+    // }
+    // if (weight < 1e-5)
+    // {
+    //     return colorSelf;
+    // }
+    // return float4(colorComponents / weight, 1);
 }
 
 Texture2D _temporalAccumulateMean;
