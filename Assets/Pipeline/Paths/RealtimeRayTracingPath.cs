@@ -15,7 +15,7 @@ using UnityEngine.Rendering;
 
 namespace Assets.Pipeline.Paths
 {
-    internal class RealtimeRayTracingPath
+    internal class RealtimeRayTracingPath : IDisposable
     {
         private Camera m_camera;
         private ScriptableRenderContext m_context;
@@ -31,13 +31,16 @@ namespace Assets.Pipeline.Paths
 
         private RenderTexture m_renderTexture;
         private RenderTexture m_swapTexture;
-        private RenderTexture m_temporalMeanTextureR, m_temporalMean2TextureR;
-        private RenderTexture m_temporalMeanTextureW, m_temporalMean2TextureW;
+        // private RenderTexture m_temporalMeanTextureW, m_temporalMean2TextureW;
         private RenderTexture[] m_varianceTexture;
         private RenderTexture[] m_colorRenderTargets;
+        private ComputeBuffer[] m_temporalBuffers;
         
         private GBufferPackage CurrentGBuffer => m_gBuffer[m_gbufferPointer];
         private GBufferPackage PrevGBuffer => m_gBuffer[1 - m_gbufferPointer];
+        
+        private ComputeBuffer CurrentTemporalBuffer => m_temporalBuffers[m_gbufferPointer];
+        private ComputeBuffer PrevTemporalBuffer => m_temporalBuffers[1 - m_gbufferPointer];
         private RenderTexture CurrentColorTarget => m_colorRenderTargets[0];
         private RenderTexture PrevColorTarget => m_colorRenderTargets[1];
 
@@ -67,7 +70,7 @@ namespace Assets.Pipeline.Paths
             for (int i = 0; i < 2; i++)
             {
                 m_varianceTexture[i] = new RenderTexture(Screen.width, Screen.height, 0,
-                    RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
+                    RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
                 {
                     enableRandomWrite = true
                 };
@@ -75,24 +78,31 @@ namespace Assets.Pipeline.Paths
             }
 
             // temporal variance 
-            m_temporalMeanTextureR = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear);
-            m_temporalMean2TextureR = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear);
-            
-            // temporal variance read/write buffer
-            m_temporalMeanTextureW = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
+
+            m_temporalBuffers = new ComputeBuffer[2];
+            for (int i = 0; i < 2; i++)
             {
-                enableRandomWrite = true
-            };
-            m_temporalMeanTextureW.Create();
-            m_temporalMean2TextureW = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
-            {
-                enableRandomWrite = true
-            };
-            m_temporalMean2TextureW.Create();
+                m_temporalBuffers[i] = new ComputeBuffer(Screen.width * Screen.height, sizeof(float) * 13,
+                    ComputeBufferType.Structured);
+            }
+            // m_temporalMeanTextureR = new RenderTexture(Screen.width, Screen.height, 0,
+            //     RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear);
+            // m_temporalMean2TextureR = new RenderTexture(Screen.width, Screen.height, 0,
+            //     RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear);
+            //
+            // // temporal variance read/write buffer
+            // m_temporalMeanTextureW = new RenderTexture(Screen.width, Screen.height, 0,
+            //     RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
+            // {
+            //     enableRandomWrite = true
+            // };
+            // m_temporalMeanTextureW.Create();
+            // m_temporalMean2TextureW = new RenderTexture(Screen.width, Screen.height, 0,
+            //     RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear)
+            // {
+            //     enableRandomWrite = true
+            // };
+            // m_temporalMean2TextureW.Create();
             
             m_colorRenderTargets = new RenderTexture[2];
             for (int i = 0; i < 2; i++)
@@ -140,17 +150,26 @@ namespace Assets.Pipeline.Paths
             {
                 var meshRenderer = gameObject.GetComponent<MeshRenderer>();
                 if (meshRenderer == null || meshRenderer.material == null) continue;
-                var material = meshRenderer.material;
-                if (material.shader.Equals(defaultShader))
+                int numMaterials = meshRenderer.materials.Length;
+                for (int i = 0; i < numMaterials; i++)
                 {
-                    meshRenderer.material = new Material(replaceShader);
-                    meshRenderer.material.SetTexture("_Albedo", material.mainTexture);
-                    meshRenderer.material.SetColor("_TintColor", material.color);
+                    var material = meshRenderer.sharedMaterials[i];
+                    if (material.shader.name.Equals("Standard"))
+                    {
+                        var mat2 = new Material(replaceShader)
+                        {
+                            name = "M" + material.name
+                        };
+                        meshRenderer.materials[i].shader = replaceShader;
+                        meshRenderer.materials[i].SetTexture("_Albedo", material.mainTexture);
+                        meshRenderer.materials[i].SetColor("_TintColor", material.color);
                     
-                    //1.0f - material.GetFloat("_Glossiness")
-                    meshRenderer.material.SetFloat("_Roughness", 1.0f);
-                    meshRenderer.material.SetFloat("_Metallic", material.GetFloat("_Metallic"));
+                        //1.0f - material.GetFloat("_Glossiness")
+                        meshRenderer.materials[i].SetFloat("_Roughness", 1.0f);
+                        meshRenderer.materials[i].SetFloat("_Metallic", material.GetFloat("_Metallic"));
+                    }
                 }
+                
             }
             Debug.Log($"number of invalid: {count}");
         }
@@ -158,10 +177,8 @@ namespace Assets.Pipeline.Paths
         private void Filtering_PrepareData(CommandBuffer cmd)
         {
             var filterShader = m_renderSettings.PipelineResourceSetting.SVGFFilterShader;
-            cmd.SetComputeTextureParam(filterShader, 1, "_temporalAccumulateMean", m_temporalMeanTextureR);
-            cmd.SetComputeTextureParam(filterShader, 1, "_temporalAccumulateMean2", m_temporalMean2TextureR);
-            cmd.SetComputeTextureParam(filterShader, 1, "_temporalAccumulateMeanW", m_temporalMeanTextureW);
-            cmd.SetComputeTextureParam(filterShader, 1, "_temporalAccumulateMean2W", m_temporalMean2TextureW);
+            cmd.SetComputeBufferParam(filterShader, 2, "_temporalBufferR", PrevTemporalBuffer);
+            cmd.SetComputeBufferParam(filterShader, 2, "_temporalBufferW", CurrentTemporalBuffer);
             cmd.SetComputeIntParam(filterShader, "_screenWidth", m_renderTexture.width);
             cmd.SetComputeIntParam(filterShader, "_screenHeight", m_renderTexture.height);
             
@@ -187,12 +204,10 @@ namespace Assets.Pipeline.Paths
             {
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Temporal Variance")))
                 {
-                    cmd.DispatchCompute(filterShader, 1,
-                        DivCeil(m_renderTexture.width, 8),
-                        DivCeil(m_renderTexture.height, 8),
+                    cmd.DispatchCompute(filterShader, 2,
+                        DivCeil(m_renderTexture.width, 16),
+                        DivCeil(m_renderTexture.height, 16),
                         1);
-                    cmd.Blit(m_temporalMeanTextureW, m_temporalMeanTextureR);
-                    cmd.Blit(m_temporalMean2TextureW, m_temporalMean2TextureR);
                 }
 
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Variance Estimate")))
@@ -203,23 +218,24 @@ namespace Assets.Pipeline.Paths
                     cmd.SetGlobalFloat("_sigmaX", m_renderSettings.DenoisingSettings.SigmaX);
 
                     // Variance Estimate
-                    cmd.SetGlobalTexture("_temporalAccumulateMean", m_temporalMeanTextureW);
-                    cmd.SetGlobalTexture("_temporalAccumulateMean2", m_temporalMean2TextureW);
+                    cmd.SetGlobalBuffer("_temporalBufferR", CurrentTemporalBuffer);
                     cmd.Blit(CurrentColorTarget, m_varianceTexture[0], svgfShader, 3);
+                    // cmd.Blit(m_varianceTexture[0], m_renderTexture);
+                    // return;
                 }
 
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Wavelet Transform Level 1")))
                 {
-                    cmd.SetGlobalTexture("_varianceDataR", m_varianceTexture[0]);
-                    cmd.SetGlobalTexture("_renderR", CurrentColorTarget);
+                    cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataR", m_varianceTexture[0]);
+                    cmd.SetComputeTextureParam(filterShader, 0, "_renderR", CurrentColorTarget);
                     cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataW", m_varianceTexture[1]);
                     cmd.SetComputeTextureParam(filterShader, 0, "_renderW", m_swapTexture);
 
                     // Wavelet transform, Level 0
                     cmd.SetComputeIntParam(filterShader, "_filterLevel", 0);
                     cmd.DispatchCompute(filterShader, 0,
-                        DivCeil(m_renderTexture.width, 8),
-                        DivCeil(m_renderTexture.height, 8),
+                        DivCeil(m_renderTexture.width, 16),
+                        DivCeil(m_renderTexture.height, 16),
                         1);
                     cmd.Blit(m_swapTexture, CurrentColorTarget);
                 }
@@ -227,25 +243,26 @@ namespace Assets.Pipeline.Paths
 
             using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Apply Temporal Filtering on Level 1")))
             {
-                cmd.SetGlobalTexture("_varianceTarget", m_varianceTexture[0]);
+                cmd.SetGlobalTexture("_varianceTarget", m_varianceTexture[1]);
                 // Apply Temporal Filtering
                 cmd.Blit(CurrentColorTarget, m_renderTexture, svgfShader, 0);
                 // cmd.Blit(CurrentColorTarget, m_renderTexture);
 
                 // Copy color with sample count
                 cmd.Blit(m_renderTexture, PrevColorTarget);
+
             }
 
             if (!m_renderSettings.DenoisingSettings.GroundTruth)
             {
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Wavelet Transform Level 2+")))
                 {
-                    // Wavelet transform, Level 1+
                     cmd.Blit(m_renderTexture, CurrentColorTarget, miscShader, 2);
+                    // Wavelet transform, Level 1+
                     for (int i = 0; i < 2; i++)
                     {
-                        cmd.SetGlobalTexture("_varianceDataR", m_varianceTexture[1]);
-                        cmd.SetGlobalTexture("_renderR", CurrentColorTarget);
+                        cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataR", m_varianceTexture[1]);
+                        cmd.SetComputeTextureParam(filterShader, 0, "_renderR", CurrentColorTarget);
                         cmd.SetComputeIntParam(filterShader, "_filterLevel", i * 2 + 1);
                         cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataW", m_varianceTexture[0]);
                         cmd.SetComputeTextureParam(filterShader, 0, "_renderW", m_swapTexture);
@@ -255,8 +272,8 @@ namespace Assets.Pipeline.Paths
                             1);
                         //cmd.Blit(CurrentColorTarget, m_swapTexture, svgfShader, 1);
 
-                        cmd.SetGlobalTexture("_varianceDataR", m_varianceTexture[0]);
-                        cmd.SetGlobalTexture("_renderR", m_swapTexture);
+                        cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataR", m_varianceTexture[0]);
+                        cmd.SetComputeTextureParam(filterShader, 0, "_renderR", m_swapTexture);
                         cmd.SetComputeIntParam(filterShader, "_filterLevel", i * 2 + 2);
                         cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataW", m_varianceTexture[1]);
                         cmd.SetComputeTextureParam(filterShader, 0, "_renderW", CurrentColorTarget);
@@ -272,9 +289,10 @@ namespace Assets.Pipeline.Paths
             }
             else
             {
-                // Final apply albedo
-                cmd.Blit(m_renderTexture, CurrentColorTarget);
+
+                cmd.Blit(m_renderTexture, CurrentColorTarget, miscShader, 2);
                 // cmd.Blit(CurrentGBuffer.GBuffers[2], m_renderTexture, miscShader, 2);
+                // Final apply albedo
                 cmd.Blit(CurrentColorTarget, m_renderTexture, svgfShader, 2);
             }
 
@@ -328,6 +346,7 @@ namespace Assets.Pipeline.Paths
 
                 // Replace materials
                 // InitialSetMaterials();
+                InitializeBuffers(command);
                 UpdateAccelStructure(command);
                 m_firstFrame = false;
             }
@@ -370,6 +389,21 @@ namespace Assets.Pipeline.Paths
 
         }
 
+        private void InitializeBuffers(CommandBuffer cmd)
+        {
+            var filterShader = m_renderSettings.PipelineResourceSetting.SVGFFilterShader;
+            cmd.SetComputeBufferParam(filterShader, 3, "_temporalBufferW", CurrentTemporalBuffer);
+            cmd.DispatchCompute(filterShader, 3,
+                DivCeil(m_renderTexture.width, 16),
+                DivCeil(m_renderTexture.height, 16),
+                1);
+            cmd.SetComputeBufferParam(filterShader, 3, "_temporalBufferW", PrevTemporalBuffer);
+            cmd.DispatchCompute(filterShader, 3,
+                DivCeil(m_renderTexture.width, 16),
+                DivCeil(m_renderTexture.height, 16),
+                1);
+        }
+
         private void DoPostProcessing()
         {
             
@@ -394,7 +428,8 @@ namespace Assets.Pipeline.Paths
             cmd.SetGlobalInt("_uGlobalFrames", Time.frameCount);
             cmd.SetGlobalMatrix("_vpMatrixPrev", m_vpMatrixPrev);
             cmd.SetGlobalVector("_invScreenSize", 
-                new Vector4(1.0f / CurrentColorTarget.width, 1.0f / CurrentColorTarget.height, 0, 0));
+                new Vector4(1.0f / CurrentColorTarget.width, 1.0f / CurrentColorTarget.height,  
+                    CurrentColorTarget.width,  CurrentColorTarget.height));
             ExecuteCommand(cmd);
         }
 
@@ -474,9 +509,9 @@ namespace Assets.Pipeline.Paths
         public void RenderGeometry(Camera camera, ScriptableRenderContext context, RenderingSettings renderingSettings)
         {
             InitializeStates(camera, context, renderingSettings);
-            
+
             m_context.SetupCameraProperties(m_camera);
-            
+
             if (m_camera.TryGetCullingParameters(out var cullingParameters))
             {
                 m_cullResults = m_context.Cull(ref cullingParameters);
@@ -493,6 +528,15 @@ namespace Assets.Pipeline.Paths
             m_context.DrawSkybox(m_camera);
             DoPostProcessing();
             FinalPass();
+        }
+
+        public void Dispose()
+        {
+            m_rayTracingAccelerationStructure?.Dispose();
+            for (int i = 0; i < 2; i++)
+            {
+                m_temporalBuffers[0]?.Dispose();
+            }
         }
     }
 }

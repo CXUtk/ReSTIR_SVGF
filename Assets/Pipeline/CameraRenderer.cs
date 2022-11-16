@@ -14,7 +14,7 @@ using UnityEngine.Rendering;
 
 namespace Assets.Pipeline
 {
-    internal class CameraRenderer
+    internal class CameraRenderer : IDisposable
     {
         private Camera m_camera;
         private RenderingSettings m_renderingSettings;
@@ -158,6 +158,12 @@ namespace Assets.Pipeline
         private void CleanUpShadow()
         {
             // m_shadowRenderer.Clean();
+        }
+
+        public void Dispose()
+        {
+            m_commandBuffer?.Dispose();
+            m_realtimeRayTracingPath?.Dispose();
         }
     }
 }
