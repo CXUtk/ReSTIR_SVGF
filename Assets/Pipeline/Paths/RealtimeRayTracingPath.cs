@@ -58,7 +58,11 @@ namespace Assets.Pipeline.Paths
             m_vpMatrixPrev = new Matrix4x4();
 
             m_renderTexture = new RenderTexture(Screen.width, Screen.height, 0,
-                RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+                RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
+            {
+                enableRandomWrite = true
+            };
+            m_renderTexture.Create();
             m_swapTexture = new RenderTexture(Screen.width, Screen.height, 0,
                 RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
             {
@@ -245,7 +249,12 @@ namespace Assets.Pipeline.Paths
             {
                 cmd.SetGlobalTexture("_varianceTarget", m_varianceTexture[1]);
                 // Apply Temporal Filtering
-                cmd.Blit(CurrentColorTarget, m_renderTexture, svgfShader, 0);
+                cmd.SetComputeTextureParam(filterShader, 4, "_renderW", m_renderTexture);
+                cmd.DispatchCompute(filterShader, 4, 
+                    DivCeil(m_renderTexture.width, 16),
+                    DivCeil(m_renderTexture.height, 16),
+                    1);
+                // cmd.Blit(CurrentColorTarget, m_renderTexture, svgfShader, 0);
                 // cmd.Blit(CurrentColorTarget, m_renderTexture);
 
                 // Copy color with sample count

@@ -65,6 +65,7 @@ static const float gaussian[9] = { 1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0,
         1.0 / 8.0,  1.0 / 4.0, 1.0 / 8.0,
         1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0 };
 
+
 float4 temporal_filter (v2f i) : SV_TARGET
 {
     float2 motion = _motionVector.SampleLevel(my_point_clamp_sampler, i.uv, 0).xy;
@@ -193,7 +194,7 @@ float4 main_filter (v2f V2F) : SV_TARGET
 
 float4 variance_estimation (v2f V2F) : SV_TARGET
 {
-    int2 imageCoord = V2F.uv / _invScreenSize.xy;
+    int2 imageCoord = round(V2F.uv / _invScreenSize.xy);
     int bufferId = imageCoord.y * (int)_invScreenSize.z + imageCoord.x;
     
     float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
@@ -223,7 +224,7 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
                 if(length(nq) < 1e-5) continue;
                 nq = normalize(nq * 2 - 1);
 
-                int2 imageCoord2 = uv / _invScreenSize.xy;
+                int2 imageCoord2 = round(uv / _invScreenSize.xy);
                 int bufferId2 = imageCoord2.y * (int)_invScreenSize.z + imageCoord2.x;
                 
                 float3 C = _temporalBufferR[bufferId2].mean;
@@ -245,11 +246,11 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
                 float wid = (Xq.w == posSelf.w) ? 1 : 0;
                 
                 int k = (2 + i) * 5 + (2 + j);
-                float w = h[k] * wn * exp(wz + wx) * wid;
+                float w = h[k] * wn * exp(wz + wx) * wid * _temporalBufferR[bufferId2].count;
         
                 mean += w * C;
                 mean2 += w * C2;
-                weight += w * _temporalBufferR[bufferId2].count;
+                weight += w ;
             }
         }
         if (weight < 1e-5)
@@ -259,8 +260,8 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
         return float4(abs(mean2 / weight - mean * mean / (weight * weight)), 1);
     }
     
-    float3 mean = data.mean / data.count;
-    float3 mean2 = data.mean2 / data.count;
+    float3 mean = data.mean ;
+    float3 mean2 = data.mean2 ;
     float3 stdev = sqrt(abs(mean2 - mean * mean));
     
     //abs(_temporalBufferR[bufferId].mean2 - mean * mean)
