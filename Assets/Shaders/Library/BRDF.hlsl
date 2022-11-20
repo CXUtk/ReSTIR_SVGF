@@ -58,14 +58,18 @@ float3 GGXImportanceSampleH(float2 sample, float alpha)
     return UniformUnitVectorUsingCos(cosTheta, phi);
 }
 
-float3 Pdf_GGX(in Surface surface, float3 wi, float3 wo)
+float Pdf_GGX(in Surface surface, float3 wi, float3 wo)
 {
+    if(surface.roughness == 1)
+    {
+        return max(1e-5, dot(surface.normal, wi)) / PI;
+    }
     float alpha = RoughnessToAlpha(surface.roughness);
     float3 H = normalize(wi + wo);
-    float3 D = D_GGX(surface.normal, H, alpha);
+    float D = D_GGX(surface.normal, H, alpha);
     float VdotH = max(0, dot(wo, H));
     float NdotH = max(0, dot(surface.normal, H));
-    return D * NdotH / (4 * VdotH);
+    return max(1e-5, D * NdotH / (4 * VdotH));
 }
 
 float3 BRDF_Diffuse(in Surface surface, float3 wi, float3 wo)
@@ -86,6 +90,20 @@ float3 BRDF_GGX(in Surface surface, float3 wi, float3 wo)
     float V = V_SmithGGXCorrelated(surface.normal, wi, wo, alpha);
     float3 F = F_Schlick(surface.color, H, wi);
     return D * V * F;
+}
+
+float3 BRDFNoL_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)
+{
+    if(surface.roughness == 1)
+    {
+        return max(1e-5, dot(surface.normal, wi)) / PI;
+    }
+    float alpha = RoughnessToAlpha(surface.roughness);
+    float3 H = normalize(wi + wo);
+    float D = D_GGX(surface.normal, H, alpha);
+    float V = V_SmithGGXCorrelated(surface.normal, wi, wo, alpha);
+    float3 F = F_Schlick(surface.color, H, wi);
+    return D * V * F * max(1e-5, dot(surface.normal, wi));
 }
 
 float3 BRDF_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)
@@ -128,11 +146,12 @@ float3 GGXImportanceSample(float2 sample, in Surface surface, float3 wo, out flo
     return (4 * F * V * VdotH * NdotL) / max(EPS, NdotH);
 }
 
-float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo, out float3 wi)
+float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo, out float3 wi, out float pdf)
 {
     if(surface.roughness == 1)
     {
         float3 wIn = SampleHemisphereCosine(sample.x, sample.y, surface.normal);
+        pdf = Pdf_GGX(surface, wIn, wo);
         wi = wIn;
         return 1;
     }
@@ -150,5 +169,6 @@ float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo
     float NdotL = max(0, dot(wIn, surface.normal));
     
     wi = wIn;
+    pdf = Pdf_GGX(surface, wIn, wo);
     return (4 * F * V * VdotH * NdotL) / max(EPS, NdotH);
 }

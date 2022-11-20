@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../Library/Common.hlsl"
 #include "../Library/Lighting.hlsl"
+#include "../Library/BRDF.hlsl"
 #include "SVGFStructure.hlsl"
 
 struct appdata
@@ -330,4 +331,39 @@ float4 final_gather (v2f i) : SV_TARGET
     float3 light = _MainTex.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
     float3 colorSelf = _albedoR.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
     return float4(light * colorSelf, 1);
+}
+
+
+
+StructuredBuffer<restir_RESERVOIR> _restirBuffer;
+float4 restir_color_check (v2f i) : SV_TARGET
+{
+    int2 imageCoord = round(i.uv / _invScreenSize.xy);
+    int bufferId = imageCoord.y * (int)_invScreenSize.z + imageCoord.x;
+    
+    float4 normalN = _normalM.SampleLevel(my_point_clamp_sampler, i.uv, 0);
+    if(length(normalN.xyz) < 1e-5) return float4(0, 0, 0, 1);
+    float3 N = normalize(normalN.xyz * 2 - 1);
+    
+    float4 posSelf = _worldPos.SampleLevel(my_point_clamp_sampler, i.uv, 0);
+    float3 wo = normalize(_WorldSpaceCameraPos.xyz - posSelf);
+
+    float4 albedoR = _MainTex.SampleLevel(my_point_clamp_sampler, i.uv, 0);
+    
+    Surface surface;
+    surface.worldPos = posSelf.xyz;
+    surface.normal = N;
+    surface.color = albedoR.xyz;
+    surface.alpha = 1;
+    surface.roughness = albedoR.a;
+    surface.metallic = normalN.a;
+
+    const restir_RESERVOIR R = _restirBuffer[bufferId];
+    float3 WI = normalize(R.sample.Xs - R.sample.Xv);
+    float3 newColor = BRDFNoL_GGX_NoAlbedo(surface, WI, wo) * R.sample.Lo * R.Wout;
+    if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
+    {
+        return float4(1, 0, 1, 1);
+    }
+    return float4(newColor, 1);
 }

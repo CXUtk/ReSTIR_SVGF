@@ -35,12 +35,16 @@ namespace Assets.Pipeline.Paths
         private RenderTexture[] m_varianceTexture;
         private RenderTexture[] m_colorRenderTargets;
         private ComputeBuffer[] m_temporalBuffers;
+        private ComputeBuffer[] m_restirBuffers;
         
         private GBufferPackage CurrentGBuffer => m_gBuffer[m_gbufferPointer];
         private GBufferPackage PrevGBuffer => m_gBuffer[1 - m_gbufferPointer];
         
         private ComputeBuffer CurrentTemporalBuffer => m_temporalBuffers[m_gbufferPointer];
         private ComputeBuffer PrevTemporalBuffer => m_temporalBuffers[1 - m_gbufferPointer];
+        
+        private ComputeBuffer CurrentReSTIRBuffer => m_restirBuffers[m_gbufferPointer];
+        private ComputeBuffer PrevReSTIRBuffer => m_restirBuffers[1 - m_gbufferPointer];
         private RenderTexture CurrentColorTarget => m_colorRenderTargets[0];
         private RenderTexture PrevColorTarget => m_colorRenderTargets[1];
 
@@ -87,6 +91,12 @@ namespace Assets.Pipeline.Paths
             for (int i = 0; i < 2; i++)
             {
                 m_temporalBuffers[i] = new ComputeBuffer(Screen.width * Screen.height, sizeof(float) * 13,
+                    ComputeBufferType.Structured);
+            }
+            m_restirBuffers = new ComputeBuffer[2];
+            for (int i = 0; i < 2; i++)
+            {
+                m_restirBuffers[i] = new ComputeBuffer(Screen.width * Screen.height, sizeof(float) * 18,
                     ComputeBufferType.Structured);
             }
             // m_temporalMeanTextureR = new RenderTexture(Screen.width, Screen.height, 0,
@@ -189,6 +199,7 @@ namespace Assets.Pipeline.Paths
             cmd.SetGlobalTexture("_prevColorTarget", PrevColorTarget);
             cmd.SetGlobalTexture("_curColorTarget", CurrentColorTarget);
             cmd.SetGlobalFloat("_temporalFactor", m_renderSettings.DenoisingSettings.TemporalFactor);
+            cmd.SetGlobalInt("_useReSTIR",  m_renderSettings.DenoisingSettings.EnableReSTIR ? 1 : 0);
         }
 
         private int DivCeil(int n, int d)
@@ -330,15 +341,38 @@ namespace Assets.Pipeline.Paths
                 
             var indirectIlluminationShader = m_renderSettings.PipelineResourceSetting.IndirectRayTracingShader;
             cmd.SetRayTracingTextureParam(indirectIlluminationShader, "_renderTarget", CurrentColorTarget);
+            cmd.SetRayTracingBufferParam(indirectIlluminationShader, "_restirTemporalBuffer", m_restirBuffers[0]);
             cmd.SetRayTracingAccelerationStructure(indirectIlluminationShader, 
                 "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
             cmd.SetRayTracingShaderPass(indirectIlluminationShader, "MyRaytraceShaderPass");
             cmd.DispatchRays(indirectIlluminationShader, 
-                "MyRaygenShader", 
+                 m_renderSettings.DenoisingSettings.EnableReSTIR ? "MyRaygenShader_ReSTIR" : "MyRaygenShader", 
                 (uint)CurrentGBuffer.Albedo.width,
                 (uint)CurrentGBuffer.Albedo.height, 
                 1u,
                 m_camera);
+            
+            var filterShader = m_renderSettings.PipelineResourceSetting.SVGFFilterShader;
+            Material svgfShader = new Material(Shader.Find("RayTracing/SVGF"));
+
+            if (m_renderSettings.DenoisingSettings.EnableReSTIR)
+            {
+                using (var scope = new ProfilingScope(cmd, new ProfilingSampler("ReSTIR Spatial Filtering")))
+                {
+                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBuffer", m_restirBuffers[0]);
+                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBufferDest", m_restirBuffers[1]);
+                    cmd.DispatchCompute(filterShader, 8,
+                        DivCeil(m_renderTexture.width, 16),
+                        DivCeil(m_renderTexture.height, 16),
+                        1);
+                    
+                    cmd.SetGlobalBuffer("_restirBuffer", m_restirBuffers[0]);
+                    cmd.Blit(m_renderTexture, CurrentColorTarget, svgfShader, 4);
+                    
+                    cmd.SetGlobalBuffer("_restirBuffer", m_restirBuffers[1]);
+                    cmd.Blit(m_renderTexture, CurrentColorTarget, svgfShader, 4);
+                }
+            }
         }
 
         private void DoRayTracingRender()
@@ -357,6 +391,7 @@ namespace Assets.Pipeline.Paths
                 // InitialSetMaterials();
                 InitializeBuffers(command);
                 UpdateAccelStructure(command);
+                ExecuteCommand(command);
                 m_firstFrame = false;
             }
 
@@ -408,6 +443,12 @@ namespace Assets.Pipeline.Paths
                 1);
             cmd.SetComputeBufferParam(filterShader, 3, "_temporalBufferW", PrevTemporalBuffer);
             cmd.DispatchCompute(filterShader, 3,
+                DivCeil(m_renderTexture.width, 16),
+                DivCeil(m_renderTexture.height, 16),
+                1);
+            
+            cmd.SetComputeBufferParam(filterShader, 5, "_restirBufferDest", m_restirBuffers[0]);
+            cmd.DispatchCompute(filterShader, 5,
                 DivCeil(m_renderTexture.width, 16),
                 DivCeil(m_renderTexture.height, 16),
                 1);
@@ -544,7 +585,11 @@ namespace Assets.Pipeline.Paths
             m_rayTracingAccelerationStructure?.Dispose();
             for (int i = 0; i < 2; i++)
             {
-                m_temporalBuffers[0]?.Dispose();
+                m_temporalBuffers[i]?.Dispose();
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                m_restirBuffers[i]?.Dispose();
             }
         }
     }

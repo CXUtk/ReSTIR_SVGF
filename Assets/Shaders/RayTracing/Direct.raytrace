@@ -25,6 +25,8 @@ uint _uGlobalFrames;
 struct MyPayload
 {
     float4 color;
+    float T;
+    float3 N;
 };
 
 
@@ -69,6 +71,8 @@ void ShadowDirectIllumination()
     
     MyPayload shadowPayLoad;
     shadowPayLoad.color = float4(0, 0, 0, 0);
+    shadowPayLoad.T = 10000;
+    shadowPayLoad.N = 0;
     
     RayDesc shadowRay;
     float3 wLight = _DirectionalLightDirections[0].xyz;
@@ -80,8 +84,7 @@ void ShadowDirectIllumination()
     TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
     0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
     
-    float NdotL = max(0, dot(N, _DirectionalLightDirections[0].xyz));
-    float3 BRDFCosTheta = _DirectionalLightColors[0] * BRDF_GGX_NoAlbedo(surface, wLight, wo) * NdotL;
+    float3 BRDFCosTheta = _DirectionalLightColors[0] * BRDFNoL_GGX_NoAlbedo(surface, wLight, wo);
 
     float3 V = shadowPayLoad.color.a * BRDFCosTheta;
     _renderTarget[dispatchIdx] = float4(V, 1);

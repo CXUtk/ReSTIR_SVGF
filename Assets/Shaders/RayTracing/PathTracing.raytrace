@@ -1,6 +1,8 @@
 #pragma once
 #pragma max_recursion_depth 2
 #include "../Library/BRDF.hlsl"
+#include "../Library/Utils.hlsl"
+#include "SVGFStructure.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
 
 #define MAX_DIRECTIONAL_LIGHTS 4
@@ -10,6 +12,7 @@ float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
 
 RWTexture2D<float4> _renderTarget;
 RaytracingAccelerationStructure _RaytracingAccelerationStructure : register(t0);
+RWStructuredBuffer<restir_RESERVOIR> _restirTemporalBuffer;
 
 Texture2D _albedoR;
 Texture2D _normalM;
@@ -25,6 +28,8 @@ uint _uGlobalFrames;
 struct MyPayload
 {
     float4 color;
+    float T;
+    float3 N;
 };
 
 uint wang_hash(inout uint seed)
@@ -48,7 +53,98 @@ void MyMissShader(inout MyPayload payload : SV_RayPayload)
 {
     payload.color.xyz = _CubeMap.SampleLevel(my_point_clamp_sampler, WorldRayDirection(), 0).xyz * 3;
     payload.color.a = 1;
+    payload.N = -WorldRayDirection();
 }
+
+
+[shader("raygeneration")]
+void MyRaygenShader_ReSTIR()
+{
+    uint2 dispatchIdx = DispatchRaysIndex().xy;
+    
+    uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
+    float a = wang_hash(seed) / 4294967295.0;
+    float b = wang_hash(seed) / 4294967295.0;
+
+    float4 normalM = _normalM[dispatchIdx];
+    float3 worldPos = _worldPos[dispatchIdx].xyz;
+    float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
+    if(normalM.x == 0 && normalM.y == 0 && normalM.z == 0)
+    {
+        return;
+    }
+    float3 N = normalize(normalM.xyz * 2 - 1);
+
+    float4 albedoR = _albedoR[dispatchIdx];
+    
+    Surface surface;
+    surface.worldPos = worldPos.xyz;
+    surface.normal = N;
+    surface.color = albedoR.xyz;
+    surface.alpha = 1;
+    surface.roughness = albedoR.a;
+    surface.metallic = normalM.a;
+
+    float3 wi;
+    float pdf;
+    float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi, pdf);
+    
+    RayDesc ray;
+    ray.Origin = worldPos + N * 1e-3; 
+    ray.Direction = wi;
+    ray.TMin = 0;
+    ray.TMax = 10000;
+
+    MyPayload payload;
+    payload.color = float4(0, 0, 0, 0);
+    payload.T = 10000;
+    payload.N = 0;
+
+    TraceRay(_RaytracingAccelerationStructure, RAY_FLAG_NONE, 0xFFFFFFF, 0, 1, 0, ray, payload);
+
+    // ------------------- ReSTIR process
+    float3 Lo = payload.color;
+
+    restir_RESERVOIR R;
+    R.sample.Xv = worldPos;
+    R.sample.Nv = N;
+    R.sample.Xs = worldPos + N * 1e-3 + wi * payload.T;
+    R.sample.Ns = payload.N; 
+    R.sample.Lo = Lo;
+
+    float pQ = Luminance(Lo) / pdf;
+    R.w = pQ;
+    R.M = 1;
+    R.Wout = pQ / Luminance(Lo);
+    
+    uint seed2 = _uGlobalFrames * 7714523u + dispatchIdx.y * 7732u + dispatchIdx.x * 123;
+    float p = wang_hash(seed2) / 4294967295.0;
+    uint bufferId = dispatchIdx.y * _screenWidth + dispatchIdx.x;
+
+    restir_RESERVOIR cur_sample = R;
+    restir_RESERVOIR old_sample = _restirTemporalBuffer[bufferId];
+    float w = cur_sample.w;
+    RESERVOIR_update(old_sample, cur_sample.sample, w, p);
+    old_sample.Wout = old_sample.w / (old_sample.M * Luminance(old_sample.sample.Lo));
+    _restirTemporalBuffer[bufferId] = old_sample;
+
+    // Lo = old_sample.sample.Lo * old_sample.Wout;
+
+    // ------------------- ReSTIR process END
+
+    // float3 WI = normalize(old_sample.sample.Xs - old_sample.sample.Xv);
+
+    float3 newColor = _renderTarget[dispatchIdx] + Lo;
+    
+    if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
+    {
+        _renderTarget[dispatchIdx] = float4(1, 0, 1, 1);
+        return;
+    }
+    
+    _renderTarget[dispatchIdx] = float4(newColor, 1);
+}
+
 
 
 [shader("raygeneration")]
@@ -80,7 +176,8 @@ void MyRaygenShader()
     surface.metallic = normalM.a;
 
     float3 wi;
-    float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi);
+    float pdf;
+    float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi, pdf);
     
     RayDesc ray;
     ray.Origin = worldPos + N * 1e-3; 
@@ -90,6 +187,8 @@ void MyRaygenShader()
 
     MyPayload payload;
     payload.color = float4(0, 0, 0, 0);
+    payload.T = 10000;
+    payload.N = 0;
     
     TraceRay(_RaytracingAccelerationStructure, RAY_FLAG_NONE, 0xFFFFFFF, 0, 1, 0, ray, payload);
 
@@ -97,7 +196,7 @@ void MyRaygenShader()
     
     if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
     {
-        _renderTarget[dispatchIdx] = float4(1, 0, 0, 1);
+        _renderTarget[dispatchIdx] = float4(1, 1, 0, 1);
         return;
     }
     

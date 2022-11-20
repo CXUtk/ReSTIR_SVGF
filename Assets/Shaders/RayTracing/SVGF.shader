@@ -49,5 +49,16 @@
 			#include "SVGF.hlsl"
 			ENDHLSL
 		}
+		
+		Pass
+		{
+			Name "[Check] ReSTIR Color Check [4]"
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment restir_color_check
+			
+			#include "SVGF.hlsl"
+			ENDHLSL
+		}
 	}
 }

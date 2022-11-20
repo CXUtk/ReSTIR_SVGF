@@ -26,7 +26,9 @@ float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
 
 struct MyPayload
 {
-    float4 color; 
+    float4 color;
+    float T;
+    float3 N;
 };
                         
 struct AttributeData
@@ -59,9 +61,9 @@ void MyHitShader(inout MyPayload payload : SV_RayPayload,
     v1.texcoord = UnityRayTracingFetchVertexAttribute2(triangleIndicies.y, kVertexAttributeTexCoord0);
     v2.texcoord = UnityRayTracingFetchVertexAttribute2(triangleIndicies.z, kVertexAttributeTexCoord0);
 
-    v0.position = UnityRayTracingFetchVertexAttribute3(triangleIndicies.x, kVertexAttributePosition);
-    v1.position = UnityRayTracingFetchVertexAttribute3(triangleIndicies.y, kVertexAttributePosition);
-    v2.position = UnityRayTracingFetchVertexAttribute3(triangleIndicies.z, kVertexAttributePosition);
+    // v0.position = UnityRayTracingFetchVertexAttribute3(triangleIndicies.x, kVertexAttributePosition);
+    // v1.position = UnityRayTracingFetchVertexAttribute3(triangleIndicies.y, kVertexAttributePosition);
+    // v2.position = UnityRayTracingFetchVertexAttribute3(triangleIndicies.z, kVertexAttributePosition);
 
     v0.normal = UnityRayTracingFetchVertexAttribute3(triangleIndicies.x, kVertexAttributeNormal);
     v1.normal = UnityRayTracingFetchVertexAttribute3(triangleIndicies.y, kVertexAttributeNormal);
@@ -98,6 +100,8 @@ void MyHitShader(inout MyPayload payload : SV_RayPayload,
 
     MyPayload shadowPayLoad;
     shadowPayLoad.color = float4(0, 0, 0, 0);
+    shadowPayLoad.T = 10000;
+    shadowPayLoad.N = 0;
     
     RayDesc shadowRay;
     shadowRay.Origin = posWS + normalWS * 1e-2; 
@@ -111,4 +115,6 @@ void MyHitShader(inout MyPayload payload : SV_RayPayload,
     float NdotL = max(0, dot(normalWS, wLight));
     float3 BRDFCosTheta = shadowPayLoad.color.a * _DirectionalLightColors[0] * BRDF_GGX(surface,_DirectionalLightDirections[0].xyz, wo) * NdotL;
     payload.color = float4(BRDFCosTheta, 1);
+    payload.T = RayTCurrent();
+    payload.N = normalWS;
 }
