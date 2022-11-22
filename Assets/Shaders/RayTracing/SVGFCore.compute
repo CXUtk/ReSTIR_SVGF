@@ -302,7 +302,7 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
 
     float2 motion = _motionVector[imageCoord];
     float4 cur = _curColorTarget[imageCoord];
-    int2 imageCoord_prev = (uv + motion) * float2(_screenWidth, _screenHeight) + 0.5;
+    int2 imageCoord_prev = round((uv + motion) * float2(_screenWidth, _screenHeight));
     int bufferId_prev = imageCoord_prev.y * _screenWidth + imageCoord_prev.x;
     
     if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0
@@ -460,14 +460,14 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
     if(_useReSTIR == 0)
     {
     
-        float3 variance = max(0.01, sqrt(_varianceTarget[imageCoord].rgb));
+        float3 variance = sqrt(_varianceTarget[imageCoord].rgb);
     
         // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
     
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, variance)));
         if(sigma > 10)
         {
-            spp = min(spp * exp(-sigma / 7), 10);
+            spp = 1;
         }
     }
     else

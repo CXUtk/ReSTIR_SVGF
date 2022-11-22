@@ -27,9 +27,9 @@ MonoBehaviour:
     DenoisingSettings:
       SigmaZ: 1
       SigmaX: 4
-      SigmaC: 4
+      SigmaC: 1
       SigmaN: 64
       TemporalFactor: 0.2
       GroundTruth: 0
       TemporalPlus: 0
-      EnableReSTIR: 1
+      EnableReSTIR: 0

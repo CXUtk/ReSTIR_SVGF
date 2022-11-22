@@ -195,7 +195,7 @@ float4 main_filter (v2f V2F) : SV_TARGET
 
 float4 variance_estimation (v2f V2F) : SV_TARGET
 {
-    int2 imageCoord = round(V2F.uv / _invScreenSize.xy);
+    int2 imageCoord = floor(V2F.uv / _invScreenSize.xy);
     int bufferId = imageCoord.y * (int)_invScreenSize.z + imageCoord.x;
     
     float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
