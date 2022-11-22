@@ -239,6 +239,16 @@ namespace Assets.Pipeline.Paths
                     // return;
                 }
 
+                if (m_renderSettings.DenoisingSettings.EnableReSTIR)
+                {
+                    using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Generate ReSTIR Frame")))
+                    {
+                        cmd.SetGlobalBuffer("_restirBuffer", m_restirBuffers[1]);
+                        // cmd.Blit(CurrentColorTarget, m_swapTexture);
+                        cmd.Blit(m_swapTexture, CurrentColorTarget, svgfShader, 4);
+                    }
+                }
+
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Wavelet Transform Level 1")))
                 {
                     cmd.SetComputeTextureParam(filterShader, 0, "_varianceDataR", m_varianceTexture[0]);
@@ -365,12 +375,6 @@ namespace Assets.Pipeline.Paths
                         DivCeil(m_renderTexture.width, 16),
                         DivCeil(m_renderTexture.height, 16),
                         1);
-                    
-                    cmd.SetGlobalBuffer("_restirBuffer", m_restirBuffers[0]);
-                    cmd.Blit(m_renderTexture, CurrentColorTarget, svgfShader, 4);
-                    
-                    cmd.SetGlobalBuffer("_restirBuffer", m_restirBuffers[1]);
-                    cmd.Blit(m_renderTexture, CurrentColorTarget, svgfShader, 4);
                 }
             }
         }

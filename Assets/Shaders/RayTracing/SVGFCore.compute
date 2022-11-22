@@ -1,0 +1,628 @@
+#include "SVGFStructure.hlsl"
+#include "../Library/Utils.hlsl"
+
+// Each #kernel tells which function to compile; you can have many kernels
+
+// 0
+#pragma kernel MainSVGFFilter
+
+// 1
+#pragma kernel VarianceTemporalAccumulation
+
+// 2
+#pragma kernel VarianceTemporalAccumulation_Plus
+
+// 3
+#pragma kernel ClearTemporalBuffer
+
+// 4
+#pragma kernel Temporal_Reprojection
+
+// 5
+#pragma kernel ReSTIR_Clear
+
+// 6
+#pragma kernel ReSTIR_Copy
+
+// 7
+#pragma kernel ReSTIR_Temporal
+
+// 8
+#pragma kernel ReSTIR_Spatial
+
+
+Texture2D<float4> _prevColorTarget;
+Texture2D<float4> _curColorTarget;
+
+Texture2D<float> _gdepth;
+Texture2D<float4> _albedoR;
+Texture2D<float4> _normalM;
+Texture2D<float2> _motionVector;
+Texture2D<float4> _worldPos;
+
+Texture2D<float> _gdepth_prev;
+Texture2D<float4> _albedoR_prev;
+Texture2D<float4> _normalM_prev;
+Texture2D<float2> _motionVector_prev;
+Texture2D<float4> _worldPos_prev;
+
+Texture2D<float4> _varianceTarget;
+
+uint _screenWidth;
+uint _screenHeight;
+
+uint _uGlobalFrames;
+
+float _temporalFactor;
+
+int _filterLevel;
+int _sigmaN;
+float _sigmaZ;
+float _sigmaC;
+float _sigmaX;
+int _useReSTIR;
+
+Texture2D<float4> _varianceDataR;
+Texture2D<float4> _renderR;
+RWTexture2D<float4> _varianceDataW;
+RWTexture2D<float4> _renderW;
+
+static const float h[25] = {
+    1.0 / 256.0, 1.0 / 64.0, 3.0 / 128.0, 1.0 / 64.0, 1.0 / 256.0,
+    1.0 / 64.0, 1.0 / 16.0, 3.0 / 32.0, 1.0 / 16.0, 1.0 / 64.0,
+    3.0 / 128.0, 3.0 / 32.0, 9.0 / 64.0, 3.0 / 32.0, 3.0 / 128.0,
+    1.0 / 64.0, 1.0 / 16.0, 3.0 / 32.0, 1.0 / 16.0, 1.0 / 64.0,
+    1.0 / 256.0, 1.0 / 64.0, 3.0 / 128.0, 1.0 / 64.0, 1.0 / 256.0
+};
+
+static const float gaussian[9] = {
+    1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0,
+    1.0 / 8.0, 1.0 / 4.0, 1.0 / 8.0,
+    1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0
+};
+
+[numthreads(16, 16, 1)]
+void MainSVGFFilter(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+
+    float3 N = _normalM[imageCoord].xyz;
+    if (length(N) < 1e-5)
+    {
+        _renderW[imageCoord] = float4(0, 0, 0, 0);
+        _varianceDataW[imageCoord] = float4(0, 0, 0, 0);
+        return;
+    }
+    N = normalize(N * 2 - 1);
+
+    float3 colorSelf = _renderR[imageCoord].rgb;
+
+    // posSelf.w is object Id
+    float4 posSelf = _worldPos[imageCoord];
+    
+    float3 variance = 0;
+    float variance_weight = 0;
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
+            int2 coord = imageCoord + int2(j, i);
+            if (coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight) continue;
+            float3 v = _varianceDataR[coord];
+
+            int k = (1 + i) * 3 + (1 + j);
+            float w = gaussian[k];
+            variance += v * w;
+            variance_weight += w;
+        }
+    }
+    float3 stdev = sqrt(variance);
+    if (variance_weight > 1e-5)
+    {
+        stdev = sqrt(variance / variance_weight);
+    }
+
+    float weight = 0;
+    float3 colorComponents = 0;
+    float3 varianceComponents = 0;
+    int len = (1 << _filterLevel);
+    for (int i = -2; i <= 2; i++)
+    {
+        for (int j = -2; j <= 2; j++)
+        {
+            int2 coord = imageCoord + int2(j * len, i * len);
+            if (coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight) continue;
+            float3 nq = _normalM[coord].xyz;
+            // If is empty then skip
+            if (length(nq) < 1e-5) continue;
+            nq = normalize(nq * 2 - 1);
+
+            float3 C = _renderR[coord].rgb;
+
+            // Xq.w is object Id
+            float4 Xq = _worldPos[coord];
+
+            if (Xq.w != posSelf.w) continue;
+            
+            float3 dir = Xq.xyz - posSelf.xyz;
+            if (length(dir) > 1e-5)
+            {
+                dir = normalize(dir);
+            }
+
+            float wn = pow(max(0, dot(nq, N)), _sigmaN);
+            // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
+            float wz = - dot(N, dir) * dot(N, dir) / _sigmaZ;
+            float wc = -abs(dot(float3(0.2126, 0.7152, 0.0722), (C - colorSelf) / (_sigmaC * stdev + 1e-5)));
+            float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
+
+            int k = (2 + i) * 5 + (2 + j);
+            float w = h[k] * wn * exp(wz + wc + wx);
+            float w2 = w * w;
+
+            varianceComponents += w2 * _varianceDataR[coord];
+            colorComponents += w * C;
+            weight += w;
+        }
+    }
+    if (weight < 1e-5)
+    {
+        _renderW[imageCoord] = float4(0, 0, 0, 1);
+        _varianceDataW[imageCoord] = float4(0, 0, 0, 1);
+        return;
+    }
+    _renderW[imageCoord] = float4(colorComponents / weight, 1);
+    _varianceDataW[imageCoord] = float4(varianceComponents / (weight * weight), 1);
+}
+
+// Texture2D<float4> _temporalAccumulateMean;
+// Texture2D<float4> _temporalAccumulateMean2;
+// RWTexture2D<float4> _temporalAccumulateMeanW;
+// RWTexture2D<float4> _temporalAccumulateMean2W;
+//
+// [numthreads(8, 8, 1)]
+// void VarianceTemporalAccumulation(uint3 id : SV_DispatchThreadID)
+// {
+//     uint2 imageCoord = id.xy;
+//     if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+//     {
+//         return;
+//     }
+//     float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
+//
+//     float2 motion = _motionVector[imageCoord];
+//     float4 cur = _curColorTarget[imageCoord];
+//     uint2 imageCoord_prev = (uv + motion) * float2(_screenWidth, _screenHeight) + 0.5;
+//     
+//     if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0 || imageCoord_prev.y >=
+//         _screenHeight)
+//     {
+//         _temporalAccumulateMeanW[imageCoord] = float4(cur.xyz, 1);
+//         _temporalAccumulateMean2W[imageCoord] = float4(cur.xyz * cur.xyz, 1);
+//         return;
+//     }
+//
+//     float4 WSpos = _worldPos[imageCoord_prev];
+//     float objectId = WSpos.w;
+//
+//     float prevObjectId = _worldPos_prev[imageCoord_prev].a;
+//     if (objectId != prevObjectId)
+//     {
+//         _temporalAccumulateMeanW[imageCoord] = float4(cur.xyz, 1);
+//         _temporalAccumulateMean2W[imageCoord] = float4(cur.xyz * cur.xyz, 1);
+//         return;master
+//     }
+//     float3 prevMean = _temporalAccumulateMean[imageCoord_prev].xyz;
+//     float3 prevMean2 = _temporalAccumulateMean2[imageCoord_prev].xyz;
+//     _temporalAccumulateMeanW[imageCoord] = float4(lerp(prevMean, cur.xyz, _temporalFactor), 1);
+//     _temporalAccumulateMean2W[imageCoord] = float4(lerp(prevMean2, cur.xyz * cur.xyz, _temporalFactor), 1);
+// }
+
+
+RWStructuredBuffer<temporal_data> _temporalBufferR;
+RWStructuredBuffer<temporal_data> _temporalBufferW;
+
+[numthreads(16, 16, 1)]
+void VarianceTemporalAccumulation(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
+
+    float2 motion = _motionVector[imageCoord];
+    float4 cur = _curColorTarget[imageCoord];
+    int2 imageCoord_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
+    
+    if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0
+        || imageCoord_prev.y >= _screenHeight)
+    {
+        temporal_data data;
+        data.mean = cur.rgb;
+        data.mean2 = cur.rgb * cur.rgb;
+        data.meanShort = cur.rgb;
+        data.count = 1;
+        _temporalBufferW[bufferId] = data;
+        return;
+    }
+
+    float4 WSpos = _worldPos[imageCoord_prev];
+    float objectId = WSpos.w;
+
+    float prevObjectId = _worldPos_prev[imageCoord_prev].a;
+    if (objectId != prevObjectId)
+    {
+        temporal_data data;
+        data.mean = cur.rgb;
+        data.mean2 = cur.rgb * cur.rgb;
+        data.meanShort = cur.rgb;
+        data.count = 1;
+        _temporalBufferW[bufferId] = data;
+        return;
+    }
+
+    const temporal_data prev = _temporalBufferR[bufferId];
+
+    int cnt = prev.count + 1;
+    temporal_data data;
+    if(cnt < 4)
+    {
+        data.mean = prev.mean + cur.rgb;
+        data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
+    }
+    else
+    {
+        data.mean = lerp(prev.mean, cur.rgb, 0.25);
+        data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, 0.25);
+    }
+    data.meanShort = lerp(prev.meanShort, cur.rgb, _temporalFactor);
+    data.count = min(cnt, 4);
+
+    _temporalBufferW[bufferId] = data;
+}
+
+
+[numthreads(16, 16, 1)]
+void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
+
+    float2 motion = _motionVector[imageCoord];
+    float4 cur = _curColorTarget[imageCoord];
+    int2 imageCoord_prev = (uv + motion) * float2(_screenWidth, _screenHeight) + 0.5;
+    int bufferId_prev = imageCoord_prev.y * _screenWidth + imageCoord_prev.x;
+    
+    if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0
+        || imageCoord_prev.y >= _screenHeight)
+    {
+        temporal_data data;
+        data.mean = cur.rgb;
+        data.mean2 = cur.rgb * cur.rgb;
+        data.meanShort = cur.rgb;
+        data.count = 1;
+        _temporalBufferW[bufferId] = data;
+        return;
+    }
+
+    const temporal_data prev = _temporalBufferR[bufferId_prev];
+    float4 WSpos = _worldPos[imageCoord_prev];
+    float objectId = WSpos.w;
+    float prevObjectId = _worldPos_prev[imageCoord_prev].a;
+    if (objectId != prevObjectId)
+    {
+        temporal_data data;
+        data.mean = cur.rgb;
+        data.mean2 = cur.rgb * cur.rgb;
+        data.meanShort = cur.rgb;
+        data.count = 1;
+        _temporalBufferW[bufferId] = data;
+        return;
+    }
+    
+    temporal_data data;
+    // data.mean = prev.mean + cur.rgb;
+    // data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
+    data.mean = lerp(prev.mean, cur.rgb, max(1 / (prev.count + 1), _temporalFactor));
+    data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / (prev.count + 1), _temporalFactor));
+    data.meanShort = lerp(prev.meanShort, cur.rgb, max(1 / (prev.count + 1), _temporalFactor));
+    data.count = min(10, prev.count + 1);
+    
+    float3 mean = data.mean;
+    float3 mean2 = data.mean2;
+    float3 stdev = sqrt(abs(mean2 - mean * mean));
+    float3 diffV = (data.meanShort - mean) / max(1e-5, mean);
+    float diff = abs(dot(float3(0.2126, 0.7152, 0.0722), (data.meanShort - mean) / max(1e-5, stdev)));
+    if (diff > 0.5)
+    {
+        float t = min(data.count * exp(-diff / 3), 10);
+        data.mean = 0.5 * (mean + cur.rgb);
+        data.mean2 = 0.5 * (mean2 + cur.rgb * cur.rgb);
+        data.count = 1;
+    }
+    _temporalBufferW[bufferId] = data;
+}
+
+
+[numthreads(16, 16, 1)]
+void ClearTemporalBuffer(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    
+    temporal_data data;
+    data.mean = 0;
+    data.mean2 = 0;
+    data.meanShort = 0;
+    data.count = 0;
+
+    _temporalBufferW[bufferId] = data;
+}
+
+
+[numthreads(16, 16, 1)]
+void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
+    float2 motion = _motionVector[imageCoord];
+    float2 pixel_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
+    int2 imageCoord_prev = floor(pixel_prev);
+
+    float cur_Z = _gdepth[imageCoord];
+    float4 cur_color = _curColorTarget[imageCoord];
+    float4 cur_WSpos = _worldPos[imageCoord];
+    float3 cur_normalN = _normalM[imageCoord];
+    // Current is empty pixel
+    if(length(cur_normalN) < 1e-5)
+    {
+        _renderW[imageCoord] = float4(0, 0, 0, 1);
+        return;
+    }
+    float3 cur_N = normalize(cur_normalN * 2 - 1);
+    
+    // Compute bilinear filtering weights
+    int2 offsets[4];
+    offsets[0] = int2(0, 0);
+    offsets[1] = int2(1, 0);
+    offsets[2] = int2(0, 1);
+    offsets[3] = int2(1, 1);
+
+    float2 pix_fract = pixel_prev - imageCoord_prev;
+    float2 inv_pix_fract = 1.0f - pix_fract;
+    float weights[4];
+    weights[0] = inv_pix_fract.x * inv_pix_fract.y;
+    weights[1] = pix_fract.x * inv_pix_fract.y;
+    weights[2] = inv_pix_fract.x * pix_fract.y;
+    weights[3] = pix_fract.x * pix_fract.y;
+
+    float sum_weights = 0;
+    float3 sum_color = 0;
+    float sum_spp = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        int2 uvQ = imageCoord_prev + offsets[i];
+        if (uvQ.x < 0 || uvQ.x >= _screenWidth || uvQ.y < 0 || uvQ.y >= _screenHeight)
+        {
+            continue;
+        }
+        
+        float3 prev_normalN = _normalM_prev[uvQ];
+        if(length(prev_normalN) < 1e-5)
+        {
+            continue;
+        }
+        float3 prev_normal = normalize(prev_normalN * 2 - 1);
+        float4 prev_color = _prevColorTarget[uvQ];
+        float4 prev_WSPos = _worldPos_prev[uvQ];
+        float prev_Z = _gdepth_prev[uvQ];
+
+        float3 c = prev_color.rgb / prev_color.a;
+        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.85 || abs(prev_Z - cur_Z) > 0.01)
+        {
+            continue;
+        }
+
+        sum_color += c * weights[i];
+        sum_weights += weights[i];
+        sum_spp += weights[i] * prev_color.a;
+    }
+
+    if(sum_weights < 1e-4)
+    {
+        _renderW[imageCoord] = float4(cur_color.rgb, 1);
+        return;
+    }
+
+    float spp = sum_spp / sum_weights;
+    float3 ss_color = sum_color / sum_weights;
+
+    if(_useReSTIR == 0)
+    {
+    
+        float3 variance = max(0.01, sqrt(_varianceTarget[imageCoord].rgb));
+    
+        // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
+    
+        float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, variance)));
+        if(sigma > 10)
+        {
+            spp = min(spp * exp(-sigma / 7), 10);
+        }
+    }
+    else
+    {
+        if (isnan(cur_color.x) || isnan(cur_color.y) || isnan(cur_color.z))
+        {
+            _renderW[imageCoord] = float4(1, 0, 1, 1);
+            return;
+        }
+        _renderW[imageCoord] = float4(cur_color.rgb, 1);
+        return;
+    }
+
+    _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);
+}
+
+
+StructuredBuffer<restir_RESERVOIR> _restirBuffer;
+RWStructuredBuffer<restir_RESERVOIR> _restirBufferDest;
+
+[numthreads(16, 16, 1)]
+void ReSTIR_Clear(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    _restirBufferDest[bufferId].sample.Xv = 0;
+    _restirBufferDest[bufferId].sample.Nv = 0;
+    _restirBufferDest[bufferId].sample.Ns = 0;
+    _restirBufferDest[bufferId].sample.Xs = 0;
+    _restirBufferDest[bufferId].M = 0;
+    _restirBufferDest[bufferId].w = 0;
+    _restirBufferDest[bufferId].Wout = 0;
+}
+
+[numthreads(16, 16, 1)]
+void ReSTIR_Copy(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    _restirBufferDest[bufferId] = _restirBuffer[bufferId];
+}
+
+
+uint wang_hash(inout uint seed)
+{
+    seed = (seed ^ 61) ^ (seed >> 16);
+    seed *= 9;
+    seed = seed ^ (seed >> 4);
+    seed *= 0x27d4eb2d;
+    seed = seed ^ (seed >> 15);
+    return seed;
+}
+
+[numthreads(16, 16, 1)]
+void ReSTIR_Temporal(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    uint seed = _uGlobalFrames * 7714523u + bufferId * 23u;
+    float p = wang_hash(seed) / 4294967295.0;
+
+    restir_RESERVOIR cur_sample = _restirBuffer[bufferId];
+    restir_RESERVOIR old_sample = _restirBufferDest[bufferId];
+    float w = cur_sample.w;
+    RESERVOIR_update(old_sample, cur_sample.sample, w, p);
+    old_sample.Wout = old_sample.w / (old_sample.M * Luminance(old_sample.sample.Lo));
+    _restirBufferDest[bufferId] = old_sample;
+}
+
+[numthreads(16, 16, 1)]
+void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
+{
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    uint seed = _uGlobalFrames * 7314523u + bufferId * 2u;
+
+    float4 cur_WSpos = _worldPos[imageCoord];
+    float3 cur_normalN = _normalM[imageCoord];
+    // Current is empty pixel
+    if(length(cur_normalN) < 1e-5)
+    {
+        return;
+    }
+    
+    float3 cur_N = normalize(cur_normalN * 2 - 1);
+
+    restir_RESERVOIR Q = _restirBuffer[bufferId];
+    
+    const int Radius = 5;
+    int m_count = 0;
+    for(int i = 0; i < 9; i++)
+    {
+        float x = wang_hash(seed) / 4294967295.0;
+        float y = wang_hash(seed) / 4294967295.0;
+
+        int dx = (x * 2 - 1) * Radius;
+        int dy = (y * 2 - 1) * Radius;
+
+        int2 coord = imageCoord + int2(dx, dy);
+
+        if (coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight)
+        {
+            continue;
+        }
+
+        if(coord.x == imageCoord.x && coord.y == imageCoord.y)
+        {
+            continue;
+        }
+        
+        float3 q_normalN = _normalM[coord];
+        if(length(q_normalN) < 1e-5)
+        {
+            continue;
+        }
+        float3 q_normal = normalize(q_normalN * 2 - 1);
+        float4 q_WSPos = _worldPos[coord];
+        
+        if (length(cur_WSpos.xyz - q_WSPos.xyz) > 3 || dot(q_normal, cur_N) < 0.9)
+        {
+            continue;
+        }
+
+        int bufferId2 = coord.y * _screenWidth + coord.x;
+        restir_RESERVOIR Rn = _restirBuffer[bufferId2];
+
+        float3 Qdir = Rn.sample.Xs - Q.sample.Xv;
+        float3 Rdir = Rn.sample.Xs - Rn.sample.Xv;
+        
+        float a = abs(dot(Q.sample.Ns, normalize(Qdir))) / abs(dot(Q.sample.Ns, normalize(Rdir)));
+        float b = max(1e-5, dot(Rdir, Rdir) / dot(Qdir, Qdir));
+        float J = a / b;
+        
+        float Pz = Luminance(Rn.sample.Lo) / J;
+        Rn.sample.Xv = cur_WSpos.xyz;
+        RESERVOIR_merge_spataial(Q, Rn, Pz,  wang_hash(seed) / 4294967295.0);
+        m_count += Rn.M;
+    }
+
+    Q.Wout = Q.w / (m_count * Luminance(Q.sample.Lo));
+    _restirBufferDest[bufferId] = Q;
+}

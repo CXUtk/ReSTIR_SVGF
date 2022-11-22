@@ -365,5 +365,9 @@ float4 restir_color_check (v2f i) : SV_TARGET
     {
         return float4(1, 0, 1, 1);
     }
+    if (isinf(newColor.x) || isinf(newColor.y) || isinf(newColor.z))
+    {
+        return float4(0, 1, 1, 1);
+    }
     return float4(newColor, 1);
 }
