@@ -10,10 +10,12 @@ namespace Assets.Pipeline.Paths
         public RenderTargetIdentifier[] GBufferIds => m_gBufferIds;
 
         public RenderTexture Albedo => m_gBuffers[0];
+
+        private const int GBUFFER_COUNT = 5;
         
         private RenderTexture m_gDepth;
-        private RenderTexture[] m_gBuffers = new RenderTexture[4];
-        private RenderTargetIdentifier[] m_gBufferIds = new RenderTargetIdentifier[4];
+        private RenderTexture[] m_gBuffers = new RenderTexture[GBUFFER_COUNT];
+        private RenderTargetIdentifier[] m_gBufferIds = new RenderTargetIdentifier[GBUFFER_COUNT];
 
         public GBufferPackage()
         {
@@ -32,9 +34,12 @@ namespace Assets.Pipeline.Paths
             // World Position (RGB)
             m_gBuffers[3] = new RenderTexture(Screen.width, Screen.height, 0,
                 RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+            // Emission
+            m_gBuffers[4] = new RenderTexture(Screen.width, Screen.height, 0,
+                RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Linear);
 
             // 给纹理 ID 赋值
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < GBUFFER_COUNT; i++)
             {
                 m_gBufferIds[i] = m_gBuffers[i];
             }

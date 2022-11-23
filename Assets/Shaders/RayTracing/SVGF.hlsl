@@ -37,6 +37,7 @@ Texture2D _albedoR;
 Texture2D _normalM;
 Texture2D _motionVector;
 Texture2D _worldPos;
+Texture2D _emission;
 
 Texture2D _gdepth_prev;
 Texture2D _albedoR_prev;
@@ -225,7 +226,7 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
                 if(length(nq) < 1e-5) continue;
                 nq = normalize(nq * 2 - 1);
 
-                int2 imageCoord2 = round(uv / _invScreenSize.xy);
+                int2 imageCoord2 = floor(uv * _invScreenSize.zw);
                 int bufferId2 = imageCoord2.y * (int)_invScreenSize.z + imageCoord2.x;
                 
                 float3 C = _temporalBufferR[bufferId2].mean;
@@ -243,11 +244,11 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
                 float wn = pow(max(0, dot(nq, N)), _sigmaN);
                 // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
                 float wz = -abs(dot(N, dir)) / _sigmaZ;
-                float wx = 0;//-length(Xq.xyz - posSelf.xyz) / _sigmaX;
+                float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
                 float wid = (Xq.w == posSelf.w) ? 1 : 0;
                 
                 int k = (2 + i) * 5 + (2 + j);
-                float w = h[k] * wn * exp(wz + wx) * wid * _temporalBufferR[bufferId2].count;
+                float w = wn * exp(wz + wx) * wid;
         
                 mean += w * C;
                 mean2 += w * C2;
@@ -258,7 +259,9 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
         {
             return float4(0, 0, 0, 1);
         }
-        return float4(abs(mean2 / weight - mean * mean / (weight * weight)), 1);
+        float3 mean2W = mean2 / weight;
+        float3 meanW = mean / weight;
+        return float4(abs(mean2W - meanW * meanW), 1);
     }
     
     float3 mean = data.mean ;
@@ -330,7 +333,8 @@ float4 final_gather (v2f i) : SV_TARGET
 {
     float3 light = _MainTex.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
     float3 colorSelf = _albedoR.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
-    return float4(light * colorSelf, 1);
+    float3 emission = _emission.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
+    return float4(emission + light * colorSelf, 1);
 }
 
 

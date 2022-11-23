@@ -6,6 +6,8 @@ Shader "Custom Deferred/Default"
         _TintColor ("TintColor", Color) = (1, 1, 1, 1)
         _Metallic ("Metallic", Range(0, 1)) = 0
         _Roughness ("Roughness", Range(0, 1)) = 0.5
+        _Emission ("Emission", Color) = (0, 0, 0, 0)
+        _EmissionIntensity ("EmissionIntensity", Range(0, 1000)) = 1
     }
     SubShader
     {

@@ -26,6 +26,8 @@ samplerCUBE _CubeMap;
 float4      _TintColor;
 float       _Metallic;
 float       _Roughness;
+float4      _Emission;
+float       _EmissionIntensity;
 float      _ScreenBufferSizeX;
 float      _ScreenBufferSizeY;
 
@@ -56,7 +58,8 @@ void frag_gbuffer (Varyings i,
 out float4 albedoR : SV_Target0,
 out float4 normalM : SV_Target1,
 out float2 motionVector : SV_Target2,
-out float4 worldPos : SV_Target3
+out float4 worldPos : SV_Target3,
+out float4 emission : SV_Target4
 )
 {
     float4 albedo = tex2D(_Albedo, i.uv) * _TintColor;
@@ -76,6 +79,15 @@ out float4 worldPos : SV_Target3
     // motionVector = ;//prevPos.xy - i.positionCS;
 
     worldPos = float4(i.positionWS, _ObjectId / 512.0);
+    
+    if(dot(_WorldSpaceCameraPos - i.positionWS, i.normalWS) > 0)
+    {
+        emission = float4(_Emission.rgb * _EmissionIntensity, 0);
+    }
+    else
+    {
+        emission = 0;
+    }
 }
 
 
@@ -84,6 +96,7 @@ Texture2D _albedoR;
 Texture2D _normalM;
 Texture2D _motionVector;
 Texture2D _worldPos;
+Texture2D _emission;
 
 Texture2D _lastFrameScreen;
 

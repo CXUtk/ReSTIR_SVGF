@@ -22,7 +22,9 @@ namespace Assets.Pipeline
         private ScriptableRenderContext m_context;
         private CullingResults m_cullingResults;
         public const int maxDirLightCount = 4;
+        public const int MAX_AREALIGHT_COUNT = 2;
         public const int maxShadowedDirectionalLightCount = 1;
+        private bool m_firstFrame;
 
         private static int
             dirLightCountId = Shader.PropertyToID("_DirectionalLightCount"),
@@ -34,6 +36,22 @@ namespace Assets.Pipeline
             dirLightDirections;
 
         private static int dirLightColorsIndex, dirLightDirIndex;
+
+
+        private static int
+            areaLightCountId = Shader.PropertyToID("_AreaLightCount"),
+            areaLightEmissionId = Shader.PropertyToID("_AreaLightEmission"),
+            areaLightVAId = Shader.PropertyToID("_AreaLightVA"),
+            areaLightVBId = Shader.PropertyToID("_AreaLightVB"),
+            areaLightVCId = Shader.PropertyToID("_AreaLightVC");
+        
+        private static Vector4[]
+            areaLightEmissions,
+            areaLightVA,
+            areaLightVB,
+            areaLightVC;
+
+        private static int areaLightIndex;
 
         private CommandBuffer m_commandBuffer;
 
@@ -50,6 +68,13 @@ namespace Assets.Pipeline
 
             dirLightColors = new Vector4[4];
             dirLightDirections = new Vector4[4];
+
+            areaLightEmissions = new Vector4[MAX_AREALIGHT_COUNT];
+            areaLightVA = new Vector4[MAX_AREALIGHT_COUNT];
+            areaLightVB = new Vector4[MAX_AREALIGHT_COUNT];
+            areaLightVC = new Vector4[MAX_AREALIGHT_COUNT];
+
+            m_firstFrame = true;
         }
 
         public void Render(Camera camera, ScriptableRenderContext context, RenderingSettings shadowSettings)
@@ -66,6 +91,7 @@ namespace Assets.Pipeline
             m_commandBuffer.name = "Camrea View";
 
             PrepareDirectionalLights();
+            PrepareAreaLights();
             // RenderShadows();
             // m_realtimeRayTracingPath.RenderGeometry(camera, context, shadowSettings);
             RenderCameraView();
@@ -77,6 +103,8 @@ namespace Assets.Pipeline
             }
             // 提交绘制命令
             m_context.Submit();
+
+            m_firstFrame = false;
         }
 
         private bool DoCulling()
@@ -137,11 +165,65 @@ namespace Assets.Pipeline
             m_commandBuffer.SetGlobalVectorArray(dirLightDirectionsId, dirLightDirections);
             ExecuteBuffer();
         }
+        
+        private void PrepareAreaLights()
+        {
+            if (m_firstFrame)
+            {
+                areaLightIndex = 0;
+
+                MeshRenderer[] allObjects = UnityEngine.Object.FindObjectsOfType<MeshRenderer>();
+                foreach (var renderer in allObjects)
+                {
+                    if (renderer.sharedMaterial.shader.name.Equals("Custom Deferred/Default"))
+                    {
+                        Color color = renderer.sharedMaterial.GetColor("_Emission");
+                        color *= renderer.sharedMaterial.GetFloat("_EmissionIntensity");
+                        if (color.r > 0 && color.g > 0 && color.b > 0)
+                        {
+                            Debug.Log(color);
+
+                            var meshFilter = renderer.GetComponentInParent<MeshFilter>();
+                            var mesh = meshFilter.sharedMesh;
+                            int[] triangles = mesh.GetTriangles(0);
+                            for (int i = 0; i < triangles.Length; i += 3)
+                            {
+                                Vector3 A = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i]]);
+                                Vector3 B = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i + 1]]);
+                                Vector3 C = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i + 2]]);
+                                
+                                AddAreaLight(color, A, B, C);
+                                break;
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+                m_commandBuffer.SetGlobalInt(areaLightCountId, areaLightIndex);
+                m_commandBuffer.SetGlobalVectorArray(areaLightEmissionId, areaLightEmissions);
+                m_commandBuffer.SetGlobalVectorArray(areaLightVAId, areaLightVA);
+                m_commandBuffer.SetGlobalVectorArray(areaLightVBId, areaLightVB);
+                m_commandBuffer.SetGlobalVectorArray(areaLightVCId, areaLightVC);
+                ExecuteBuffer();
+            }
+        }
 
         private void AddDirectionalLight(in VisibleLight light)
         {
             dirLightColors[dirLightColorsIndex++] = light.finalColor;
             dirLightDirections[dirLightDirIndex++] = -light.localToWorldMatrix.GetColumn(2);
+        }
+        
+        private void AddAreaLight(Color color, Vector3 A, Vector3 B, Vector3 C)
+        {
+            if (areaLightIndex >= MAX_AREALIGHT_COUNT) return;
+            areaLightEmissions[areaLightIndex] = new Vector4(color.r, color.g, color.b, color.a);
+            areaLightVA[areaLightIndex] = A;
+            areaLightVB[areaLightIndex] = B;
+            areaLightVC[areaLightIndex] = C;
+            areaLightIndex++;
         }
 
         // private void RenderShadows()

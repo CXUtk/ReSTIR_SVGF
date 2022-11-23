@@ -1,17 +1,11 @@
 #pragma once
 #pragma max_recursion_depth 2
-#include "../Library/BRDF.hlsl"
 #include "../Library/Utils.hlsl"
 #include "SVGFStructure.hlsl"
+#include "RayTraceLighting.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
 
-#define MAX_DIRECTIONAL_LIGHTS 4
-int         _DirectionalLightCount;
-float3      _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
-float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
-
 RWTexture2D<float4> _renderTarget;
-RaytracingAccelerationStructure _RaytracingAccelerationStructure : register(t0);
 RWStructuredBuffer<restir_RESERVOIR> _restirTemporalBuffer;
 
 Texture2D _albedoR;
@@ -24,13 +18,6 @@ SamplerState my_point_clamp_sampler;
 uint _screenWidth;
 uint _screenHeight;
 uint _uGlobalFrames;
-
-struct MyPayload
-{
-    float4 color;
-    float T;
-    float3 N;
-};
 
 uint wang_hash(inout uint seed)
 {
@@ -65,6 +52,13 @@ void MyRaygenShader_ReSTIR()
     uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
     float a = wang_hash(seed) / 4294967295.0;
     float b = wang_hash(seed) / 4294967295.0;
+    
+    int t = _uGlobalFrames % 16;
+    int row = t / 4;
+    int col = t % 4;
+    
+    a = 0.25 * row + a * 0.25;
+    b = 0.25 * col + b * 0.25;
 
     float4 normalM = _normalM[dispatchIdx];
     float3 worldPos = _worldPos[dispatchIdx].xyz;
@@ -174,6 +168,7 @@ void MyRaygenShader()
     surface.alpha = 1;
     surface.roughness = albedoR.a;
     surface.metallic = normalM.a;
+    surface.emission = 0;
 
     float3 wi;
     float pdf;

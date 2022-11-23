@@ -157,7 +157,7 @@ void MainSVGFFilter(uint3 id : SV_DispatchThreadID)
             float wn = pow(max(0, dot(nq, N)), _sigmaN);
             // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
             float wz = - dot(N, dir) * dot(N, dir) / _sigmaZ;
-            float wc = -abs(dot(float3(0.2126, 0.7152, 0.0722), (C - colorSelf) / (_sigmaC * stdev + 1e-5)));
+            float wc = -abs(dot(float3(0.2126, 0.7152, 0.0722), (C - colorSelf) / (_sigmaC * stdev + 1e-2)));
             float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
 
             int k = (2 + i) * 5 + (2 + j);
@@ -335,10 +335,11 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
     temporal_data data;
     // data.mean = prev.mean + cur.rgb;
     // data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
-    data.mean = lerp(prev.mean, cur.rgb, max(1 / (prev.count + 1), _temporalFactor));
-    data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / (prev.count + 1), _temporalFactor));
-    data.meanShort = lerp(prev.meanShort, cur.rgb, max(1 / (prev.count + 1), _temporalFactor));
     data.count = min(10, prev.count + 1);
+    data.mean = lerp(prev.mean, cur.rgb, max(1 / data.count, _temporalFactor));
+    data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / data.count, _temporalFactor));
+    data.meanShort = lerp(prev.meanShort, cur.rgb, max(1 / data.count, _temporalFactor));
+
     
     float3 mean = data.mean;
     float3 mean2 = data.mean2;
@@ -459,15 +460,13 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
 
     if(_useReSTIR == 0)
     {
-    
         float3 variance = sqrt(_varianceTarget[imageCoord].rgb);
-    
         // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
     
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, variance)));
-        if(sigma > 10)
+        if(sigma > 4)
         {
-            spp = 1;
+            spp = min(spp * exp(-sigma / 7), 10);
         }
     }
     else

@@ -1,4 +1,4 @@
-﻿#include "../Library/BRDF.hlsl"
+﻿#include "../RayTracing/RayTraceLighting.hlsl"
 #include "UnityRayTracingMeshUtils.cginc"
 // ------------------ Ray tracing ------------------
 
@@ -7,30 +7,19 @@ Texture2D _albedoR;
 Texture2D _normalM;
 Texture2D _motionVector;
 Texture2D _worldPos;
+Texture2D _emission;
 
 Texture2D _lastFrameScreen;
 
 SamplerState my_point_clamp_sampler;
-
-RaytracingAccelerationStructure _RaytracingAccelerationStructure : register(t0);
 Texture2D<float4>   _Albedo;
 float4      _Albedo_ST;
 float4      _TintColor;
 float       _Metallic;
 float       _Roughness;
-
-#define     MAX_DIRECTIONAL_LIGHTS 4
-int         _DirectionalLightCount;
-float3      _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
-float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
-
-struct MyPayload
-{
-    float4 color;
-    float T;
-    float3 N;
-};
-                        
+float4      _Emission;
+float       _EmissionIntensity;
+                   
 struct AttributeData
 {
     float2 barycentrics; 
@@ -77,7 +66,14 @@ void MyHitShader(inout MyPayload payload : SV_RayPayload,
     ////v0.position * barycentrics.x + v1.position * barycentrics.y + v2.position * barycentrics.z;
     // float3 posWS = mul(ObjectToWorld3x4(), v0.position * barycentrics.x + v1.position * barycentrics.y + v2.position * barycentrics.z);
     float3 normalWS = normalize(mul((float3x3)ObjectToWorld3x4(), v0.normal * barycentrics.x + v1.normal * barycentrics.y + v2.normal * barycentrics.z));
-
+    float3 wo = -WorldRayDirection();
+    
+    float3 E =_Emission * _EmissionIntensity;
+    if (dot(normalWS, wo) <= 0)
+    {
+        E = 0;
+    }
+    
     // payload.color = float4(normalWS * 0.5 + 0.5, 1);
     // return;
     if(dot(normalWS, WorldRayDirection()) > 0)
@@ -86,9 +82,6 @@ void MyHitShader(inout MyPayload payload : SV_RayPayload,
     }
     
     float3 color = _Albedo.SampleLevel(my_point_clamp_sampler, texCoord, 0) * _TintColor;
-
-    float3 wo = -WorldRayDirection();
-    float3 wLight = _DirectionalLightDirections[0].xyz;
     
     Surface surface;
     surface.worldPos = posWS;
@@ -97,23 +90,26 @@ void MyHitShader(inout MyPayload payload : SV_RayPayload,
     surface.alpha = 1;
     surface.roughness = _Roughness;
     surface.metallic = _Metallic;
+    surface.emission = _Emission * _EmissionIntensity;
 
-    MyPayload shadowPayLoad;
-    shadowPayLoad.color = float4(0, 0, 0, 0);
-    shadowPayLoad.T = 10000;
-    shadowPayLoad.N = 0;
-    
-    RayDesc shadowRay;
-    shadowRay.Origin = posWS + normalWS * 1e-2; 
-    shadowRay.Direction = wLight;
-    shadowRay.TMin = 0;
-    shadowRay.TMax = 10000;
-    
-    TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
-    0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
+    // MyPayload shadowPayLoad;
+    // shadowPayLoad.color = float4(0, 0, 0, 0);
+    // shadowPayLoad.T = 10000;
+    // shadowPayLoad.N = 0;
+    //
+    // RayDesc shadowRay;
+    // shadowRay.Origin = posWS + normalWS * 1e-2; 
+    // shadowRay.Direction = wLight;
+    // shadowRay.TMin = 0;
+    // shadowRay.TMax = 10000;
+    //
+    // TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
+    // 0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
+    //
+    // float NdotL = max(0, dot(normalWS, wLight));
 
-    float NdotL = max(0, dot(normalWS, wLight));
-    float3 BRDFCosTheta = shadowPayLoad.color.a * _DirectionalLightColors[0] * BRDF_GGX(surface,_DirectionalLightDirections[0].xyz, wo) * NdotL;
+    
+    float3 BRDFCosTheta = E  + Direct_DirectionalLight(surface, wo);//+ shadowPayLoad.color.a * _DirectionalLightColors[0] * BRDF_GGX(surface,_DirectionalLightDirections[0].xyz, wo) * NdotL;
     payload.color = float4(BRDFCosTheta, 1);
     payload.T = RayTCurrent();
     payload.N = normalWS;

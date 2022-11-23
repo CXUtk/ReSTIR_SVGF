@@ -31,6 +31,7 @@ struct Surface
     float alpha;
     float roughness;
     float metallic;
+    float3 emission;
 };
 
 struct Light

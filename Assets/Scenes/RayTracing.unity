@@ -149,9 +149,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &20727423
@@ -180,9 +183,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &26393546
@@ -211,9 +217,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &40746511
@@ -242,9 +251,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &49379884
@@ -273,9 +285,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &54314064
@@ -304,9 +319,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &65147092
@@ -335,9 +353,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &75739380
@@ -366,9 +387,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &76360573
@@ -397,9 +421,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &77025418
@@ -428,9 +455,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &79222748
@@ -459,9 +489,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &92764147
@@ -534,6 +567,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionIntensity: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -549,7 +583,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.12636375, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &102201958
@@ -578,9 +614,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &103626338
@@ -612,7 +651,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 50
+  m_Intensity: 100
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -703,9 +742,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &106779348
@@ -734,9 +776,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &113754355
@@ -765,9 +810,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &113821630
@@ -796,9 +844,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &117435615
@@ -827,9 +878,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &117521916
@@ -858,9 +912,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &127051170
@@ -889,9 +946,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &131359612
@@ -920,9 +980,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &131593000
@@ -951,9 +1014,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &137868140
@@ -982,9 +1048,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &139811083
@@ -1013,9 +1082,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &144501077
@@ -1044,9 +1116,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &152081637
@@ -1075,9 +1150,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &156072525
@@ -1106,9 +1184,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &164056120
@@ -1137,9 +1218,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &166265563
@@ -1168,9 +1252,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &173809228
@@ -1199,9 +1286,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &177708375
@@ -1230,9 +1320,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &178429304
@@ -1261,9 +1354,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &183046755
@@ -1292,9 +1388,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &188844266
@@ -1323,9 +1422,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &189237569
@@ -1354,9 +1456,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &190080314
@@ -1385,9 +1490,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &190333981
@@ -1416,9 +1524,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &190710030
@@ -1541,9 +1652,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &195291552
@@ -1669,9 +1783,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &210883972
@@ -1700,9 +1817,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &211221325
@@ -1731,9 +1851,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &217143429
@@ -1762,9 +1885,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &222785298
@@ -1793,9 +1919,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &230118505
@@ -1824,9 +1953,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &230304473
@@ -1855,9 +1987,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 0.155
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &230636590
@@ -1886,9 +2021,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &232192331
@@ -1917,9 +2055,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &233830580
@@ -1948,9 +2089,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &237863124
@@ -1979,9 +2123,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &240741996
@@ -2010,9 +2157,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &242243716
@@ -2041,9 +2191,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &248768009
@@ -2072,9 +2225,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &252634721
@@ -2103,9 +2259,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &255522288
@@ -2134,9 +2293,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &257926341
@@ -2165,9 +2327,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &262950540
@@ -2196,9 +2361,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &263173877
@@ -2227,9 +2395,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &271429783
@@ -2258,9 +2429,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &276072402
@@ -2289,9 +2463,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &289248968
@@ -2320,9 +2497,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &290073578
@@ -2351,9 +2531,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &290211495
@@ -2382,9 +2565,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &292999578
@@ -2413,9 +2599,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &300066877
@@ -2444,9 +2633,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &301534267
@@ -2475,9 +2667,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &306072890
@@ -2506,9 +2701,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &306345386
@@ -2537,9 +2735,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &313994699
@@ -2568,9 +2769,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &322317411
@@ -2599,9 +2803,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &369384805
@@ -2630,9 +2837,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &370395421
@@ -2661,9 +2871,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &379825335
@@ -2692,9 +2905,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &389129698
@@ -2723,9 +2939,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &393883361
@@ -2754,9 +2973,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &396318787
@@ -2785,9 +3007,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &412496277
@@ -2816,9 +3041,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &413726757
@@ -2847,9 +3075,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &418188604
@@ -2878,9 +3109,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &419588914
@@ -2909,9 +3143,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &428055557
@@ -2940,9 +3177,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &434989015
@@ -2971,9 +3211,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &436363302
@@ -3002,9 +3245,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &437120134
@@ -3033,9 +3279,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &444700500
@@ -3064,9 +3313,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &451327392
@@ -3095,9 +3347,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &458425724
@@ -3126,9 +3381,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &465757546
@@ -3157,9 +3415,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &468115337
@@ -3188,9 +3449,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &468133405
@@ -3219,9 +3483,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &471760629
@@ -3250,9 +3517,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &472404126
@@ -3281,9 +3551,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &473083816
@@ -3312,9 +3585,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &477631821
@@ -3343,9 +3619,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &488817530
@@ -3374,9 +3653,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &491992587
@@ -3405,9 +3687,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &493135736
@@ -3436,9 +3721,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &501854665
@@ -3467,9 +3755,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &513914119
@@ -3498,9 +3789,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &518341928
@@ -3529,9 +3823,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!4 &523156967 stripped
@@ -3565,9 +3862,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &530132209
@@ -3596,9 +3896,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &544755899
@@ -3627,9 +3930,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &549426888
@@ -3658,9 +3964,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &550527899
@@ -3689,9 +3998,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &553390362
@@ -3720,9 +4032,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &554317393
@@ -3751,9 +4066,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &586836086
@@ -3782,9 +4100,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &591862100
@@ -3813,9 +4134,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &594945193
@@ -3844,9 +4168,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &598359499
@@ -3875,9 +4202,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &599202087
@@ -3906,9 +4236,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &603048839
@@ -3937,9 +4270,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &618138518
@@ -3968,9 +4304,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &623504882
@@ -3999,9 +4338,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &629931076
@@ -4030,9 +4372,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &637074210
@@ -4061,9 +4406,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &641173083
@@ -4092,9 +4440,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &644864104
@@ -4123,9 +4474,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &658485089
@@ -4154,9 +4508,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &660197649
@@ -4185,9 +4542,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &663012060
@@ -4216,9 +4576,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &675752466
@@ -4247,9 +4610,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1001 &680828101
@@ -4343,9 +4709,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &685938134
@@ -4374,9 +4743,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &688261725
@@ -4405,9 +4777,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.47039992, g: 0.47039992, b: 0.47039992, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &689570564
@@ -4436,9 +4811,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &690447211
@@ -4467,9 +4845,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &690896713
@@ -4498,9 +4879,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &706673851
@@ -4529,9 +4913,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &712722543
@@ -4560,9 +4947,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &717575440
@@ -4591,9 +4981,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &723337354
@@ -4622,9 +5015,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &729480861
@@ -4653,9 +5049,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &738458926
@@ -4684,9 +5083,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &740483663
@@ -4715,9 +5117,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &749625317
@@ -4746,9 +5151,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &751057904
@@ -4777,9 +5185,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &751576328
@@ -4808,9 +5219,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &767361251
@@ -4839,9 +5253,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &769154648
@@ -4870,9 +5287,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &777830105
@@ -4901,9 +5321,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &784585274
@@ -4932,9 +5355,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &792558338
@@ -4963,9 +5389,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &793256727
@@ -4994,9 +5423,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &799246329
@@ -5025,9 +5457,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &806994765
@@ -5056,9 +5491,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &807648480
@@ -5087,9 +5525,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &809259385
@@ -5118,9 +5559,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &814090739
@@ -5149,9 +5593,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &832387042
@@ -5180,9 +5627,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &834510649
@@ -5211,9 +5661,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &850646227
@@ -5242,9 +5695,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &851441968
@@ -5273,9 +5729,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &852287668
@@ -5304,9 +5763,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &852901507
@@ -5335,9 +5797,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &853489575
@@ -5366,9 +5831,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &857989569
@@ -5397,9 +5865,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &867392591
@@ -5428,9 +5899,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &867886565
@@ -5459,9 +5933,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &874498339
@@ -5490,9 +5967,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &876662022
@@ -5521,9 +6001,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1001 &878372546
@@ -7197,9 +7680,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &888934348
@@ -7228,9 +7714,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &898380919
@@ -7259,9 +7748,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &898542306
@@ -7290,9 +7782,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &906520798
@@ -7321,9 +7816,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &908779815
@@ -7352,9 +7850,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &914091136
@@ -7383,9 +7884,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &919829396
@@ -7414,9 +7918,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &930031468
@@ -7445,9 +7952,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &934001545
@@ -7476,9 +7986,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &940671856
@@ -7507,9 +8020,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &949290743
@@ -7538,9 +8054,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &951704096
@@ -7569,9 +8088,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &953235725
@@ -7600,9 +8122,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &953541202
@@ -7631,9 +8156,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &959250528
@@ -7662,9 +8190,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &961007111
@@ -7693,9 +8224,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &965427489
@@ -7724,9 +8258,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &967810562
@@ -7755,9 +8292,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 0.5
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &969749265
@@ -7786,9 +8326,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &970855620
@@ -7817,9 +8360,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &972650441
@@ -7848,9 +8394,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &975333963
@@ -7879,9 +8428,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &977493724
@@ -7910,9 +8462,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &986922685
@@ -7941,9 +8496,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &997482696
@@ -7972,9 +8530,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1019873683
@@ -8003,9 +8564,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1021240907
@@ -8034,9 +8598,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1025528906
@@ -8065,9 +8632,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1029003278
@@ -8096,9 +8666,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1029814813
@@ -8127,9 +8700,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1041590017
@@ -8158,9 +8734,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1060976695
@@ -8189,9 +8768,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1069024229
@@ -8220,9 +8802,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1075824809
@@ -8251,9 +8836,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1077222446
@@ -8282,9 +8870,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1078420398
@@ -8313,9 +8904,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1083421007
@@ -8344,9 +8938,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1110815643
@@ -8375,9 +8972,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1112497821
@@ -8406,9 +9006,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1115049112
@@ -8437,9 +9040,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1117148986
@@ -8468,9 +9074,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1117202195
@@ -8499,9 +9108,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1118006702
@@ -8530,9 +9142,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1120392553
@@ -8561,9 +9176,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1130087889
@@ -8592,9 +9210,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1136657567
@@ -8623,9 +9244,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1143252877
@@ -8654,9 +9278,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1164181556
@@ -8685,9 +9312,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1171797744
@@ -8716,9 +9346,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1189083285
@@ -8747,9 +9380,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1189492978
@@ -8778,9 +9414,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1191590196
@@ -8809,9 +9448,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1198303165
@@ -8884,6 +9526,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionIntensity: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -8899,7 +9542,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0, g: 0.5995288, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1206018966
@@ -8928,9 +9573,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1211647193
@@ -8959,9 +9607,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1218503233
@@ -8990,9 +9641,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 0.109
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &1222866087
@@ -9021,9 +9675,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1225875347
@@ -9052,9 +9709,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1228021908
@@ -9083,9 +9743,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1231621351
@@ -9114,9 +9777,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1234562087
@@ -9145,9 +9811,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1239486456
@@ -9176,9 +9845,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1244737678
@@ -9207,9 +9879,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1249827945
@@ -9238,9 +9913,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1250586838
@@ -9269,9 +9947,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1258862220
@@ -9300,9 +9981,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1271137153
@@ -9425,9 +10109,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1279130383
@@ -9456,9 +10143,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1287994645
@@ -9487,9 +10177,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1290285632
@@ -9518,9 +10211,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1294414964
@@ -9549,9 +10245,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1305973021
@@ -9580,9 +10279,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1309048211
@@ -9611,9 +10313,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1311252701
@@ -9642,9 +10347,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1312576741
@@ -9673,9 +10381,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1333321272
@@ -9704,9 +10415,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1334307710
@@ -9735,9 +10449,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1336165956
@@ -9766,9 +10483,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1340515880
@@ -9797,9 +10517,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1342976875
@@ -9828,9 +10551,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1349114465
@@ -9859,9 +10585,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1349664961
@@ -9890,9 +10619,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1356407226
@@ -9958,9 +10690,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1367383009
@@ -9989,9 +10724,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1371334680
@@ -10020,9 +10758,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1371952739
@@ -10051,9 +10792,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1376505514
@@ -10082,9 +10826,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1382173414
@@ -10113,9 +10860,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1385970947
@@ -10144,9 +10894,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1389719355
@@ -10175,9 +10928,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1393291398
@@ -10290,9 +11046,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1394925405
@@ -10321,9 +11080,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1401103317
@@ -10352,9 +11114,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1404344780
@@ -10383,9 +11148,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1409904975
@@ -10414,9 +11182,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1411197778
@@ -10445,9 +11216,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1414015256
@@ -10476,9 +11250,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1430615735
@@ -10507,9 +11284,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1430799742
@@ -10538,9 +11318,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1433943358
@@ -10569,9 +11352,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1436184969
@@ -10600,9 +11386,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1436467146
@@ -10631,9 +11420,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1453169685
@@ -10662,9 +11454,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1456080630
@@ -10804,9 +11599,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1495490898
@@ -10835,9 +11633,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1496140554
@@ -10866,9 +11667,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1505406947
@@ -10897,9 +11701,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1510624470
@@ -10928,9 +11735,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1512074955
@@ -10959,9 +11769,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1513303796
@@ -10990,9 +11803,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1532127534
@@ -11021,9 +11837,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1542116443
@@ -11052,9 +11871,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1543936934
@@ -11083,9 +11905,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1552955468
@@ -11114,9 +11939,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1562382168
@@ -11145,9 +11973,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1568598353
@@ -11176,9 +12007,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1577322228
@@ -11207,9 +12041,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1577779117
@@ -11238,9 +12075,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1580802891
@@ -11269,9 +12109,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1584531341
@@ -11300,9 +12143,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1594161006
@@ -11331,9 +12177,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1597421785
@@ -11362,9 +12211,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1598103680
@@ -11393,9 +12245,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1598299973
@@ -11424,9 +12279,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1623210811
@@ -11455,9 +12313,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1624584856
@@ -11486,9 +12347,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1626182993
@@ -11517,9 +12381,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1632995309
@@ -11592,6 +12459,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionIntensity: 100
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -11607,7 +12475,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.12636375, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1634458332
@@ -11636,9 +12506,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1636964845
@@ -11667,9 +12540,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1641105869
@@ -11698,9 +12574,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1646561173
@@ -11729,9 +12608,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1656873852
@@ -11760,9 +12642,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1657040171
@@ -11791,9 +12676,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1657183832
@@ -11822,9 +12710,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1659855388
@@ -11853,9 +12744,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1661098339
@@ -11884,9 +12778,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1675497146
@@ -11915,9 +12812,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1679957329
@@ -11946,9 +12846,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1685310526
@@ -11977,9 +12880,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1694700772
@@ -12008,9 +12914,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1695236837
@@ -12039,9 +12948,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1700635067
@@ -12070,9 +12982,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1701040197
@@ -12101,9 +13016,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1706987310
@@ -12132,9 +13050,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1708204095
@@ -12163,9 +13084,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1712798800
@@ -12194,9 +13118,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1720727453
@@ -12225,9 +13152,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1737410039
@@ -12256,9 +13186,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1751293600
@@ -12287,9 +13220,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1753849903
@@ -12318,9 +13254,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1757999563
@@ -12349,9 +13288,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1760355147
@@ -12380,9 +13322,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1761051929
@@ -12411,9 +13356,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1764187419
@@ -12442,9 +13390,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1766561642
@@ -12473,9 +13424,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1767488156
@@ -12504,9 +13458,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1767505368
@@ -12535,9 +13492,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1769648910
@@ -12566,9 +13526,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1772033728
@@ -12597,9 +13560,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1772494598
@@ -12628,9 +13594,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1777926700
@@ -12659,9 +13628,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1778591145
@@ -12690,9 +13662,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1778845335
@@ -12721,9 +13696,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1780658171
@@ -12752,9 +13730,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1783278492
@@ -12783,9 +13764,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1789925338
@@ -12814,9 +13798,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1802090647
@@ -12845,9 +13832,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1811152266
@@ -12876,9 +13866,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1814360818
@@ -12907,9 +13900,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1816681088
@@ -12938,9 +13934,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1816827771
@@ -12969,9 +13968,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1817396018
@@ -13000,9 +14002,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1818806712
@@ -13031,9 +14036,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1821009637
@@ -13062,9 +14070,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1827614868
@@ -13093,9 +14104,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1827999277
@@ -13124,9 +14138,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1835353229
@@ -13155,9 +14172,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1847688946
@@ -13186,9 +14206,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1849478802
@@ -13217,9 +14240,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1849523637
@@ -13248,9 +14274,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1856496432
@@ -13279,9 +14308,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1858756118
@@ -13310,9 +14342,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1864396677
@@ -13341,9 +14376,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1865596828
@@ -13372,9 +14410,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1866803598
@@ -13403,9 +14444,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1873986504
@@ -13434,9 +14478,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1879207905
@@ -13465,9 +14512,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1879950740
@@ -13496,9 +14546,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1880018859
@@ -13625,9 +14678,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1886378276
@@ -13656,9 +14712,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1891851521
@@ -13687,9 +14746,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1894343432
@@ -13816,9 +14878,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1903364739
@@ -13847,9 +14912,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1906538658
@@ -13878,9 +14946,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1908395979
@@ -13909,9 +14980,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1910772245
@@ -13940,9 +15014,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1911014990
@@ -13971,9 +15048,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1918386411
@@ -14002,9 +15082,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1918652282
@@ -14144,9 +15227,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1922472087
@@ -14175,9 +15261,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1925729021
@@ -14206,9 +15295,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1944693460
@@ -14237,9 +15329,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1955964191
@@ -14268,9 +15363,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1956184274
@@ -14299,9 +15397,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1959648912
@@ -14330,9 +15431,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1968582512
@@ -14361,9 +15465,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1969163933
@@ -14392,9 +15499,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1975000823
@@ -14423,9 +15533,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1977571044
@@ -14454,9 +15567,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1979901097
@@ -14485,9 +15601,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1984082437
@@ -14516,9 +15635,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1985491074
@@ -14547,9 +15669,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1986954821
@@ -14578,9 +15703,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1988315730
@@ -14609,9 +15737,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2015482557
@@ -14640,9 +15771,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2019349695
@@ -14671,9 +15805,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2019784611
@@ -14702,9 +15839,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2021322907
@@ -14733,9 +15873,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2022866228
@@ -14764,9 +15907,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2026090317
@@ -14795,9 +15941,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2027321735
@@ -14826,9 +15975,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2041088575
@@ -14857,9 +16009,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &2041699928
@@ -14952,7 +16107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041699928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.63, y: 2, z: -2.58}
+  m_LocalPosition: {x: 3.45, y: 6.44, z: -2.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14985,9 +16140,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2047576776
@@ -15016,9 +16174,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2068171517
@@ -15047,9 +16208,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2068357439
@@ -15078,9 +16242,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &2081925988
@@ -15206,9 +16373,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2101314718
@@ -15237,9 +16407,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2102982456
@@ -15268,9 +16441,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2105452386
@@ -15299,9 +16475,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2112193356
@@ -15330,9 +16509,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2112459904
@@ -15361,9 +16543,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2119437693
@@ -15392,9 +16577,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2132572452
@@ -15423,9 +16611,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2134690506
@@ -15454,9 +16645,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2145027348
@@ -15485,8 +16679,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EmissionIntensity: 1
     - _Metallic: 0
     - _Roughness: 1
     m_Colors:
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

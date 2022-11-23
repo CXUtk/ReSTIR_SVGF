@@ -156,31 +156,30 @@ namespace Assets.Pipeline.Paths
         private void InitialSetMaterials()
         {
             // Turn all standard material to custom material
-            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            MeshRenderer[] allObjects = UnityEngine.Object.FindObjectsOfType<MeshRenderer>();
             var defaultShader = Shader.Find("Standard");
             var replaceShader = Shader.Find("Custom Deferred/Default");
             int count = 0;
-            foreach (var gameObject in allObjects)
+            foreach (var renderer in allObjects)
             {
-                var meshRenderer = gameObject.GetComponent<MeshRenderer>();
-                if (meshRenderer == null || meshRenderer.material == null) continue;
-                int numMaterials = meshRenderer.materials.Length;
+                int numMaterials = renderer.sharedMaterials.Length;
                 for (int i = 0; i < numMaterials; i++)
                 {
-                    var material = meshRenderer.sharedMaterials[i];
+                    var material = renderer.sharedMaterials[i];
                     if (material.shader.name.Equals("Standard"))
                     {
+                        var color = material.color;
                         var mat2 = new Material(replaceShader)
                         {
                             name = "M" + material.name
                         };
-                        meshRenderer.materials[i].shader = replaceShader;
-                        meshRenderer.materials[i].SetTexture("_Albedo", material.mainTexture);
-                        meshRenderer.materials[i].SetColor("_TintColor", material.color);
+                        renderer.sharedMaterials[i].shader = replaceShader;
+                        renderer.sharedMaterials[i].SetTexture("_Albedo", material.mainTexture);
+                        renderer.sharedMaterials[i].SetColor("_TintColor", color);
                     
                         //1.0f - material.GetFloat("_Glossiness")
-                        meshRenderer.materials[i].SetFloat("_Roughness", 1.0f);
-                        meshRenderer.materials[i].SetFloat("_Metallic", material.GetFloat("_Metallic"));
+                        renderer.sharedMaterials[i].SetFloat("_Roughness", 1 - material.GetFloat("_Glossiness"));
+                        renderer.sharedMaterials[i].SetFloat("_Metallic", material.GetFloat("_Metallic"));
                     }
                 }
                 
@@ -392,7 +391,7 @@ namespace Assets.Pipeline.Paths
                 ExecuteCommand(command);
 
                 // Replace materials
-                // InitialSetMaterials();
+                InitialSetMaterials();
                 InitializeBuffers(command);
                 UpdateAccelStructure(command);
                 ExecuteCommand(command);
@@ -514,17 +513,34 @@ namespace Assets.Pipeline.Paths
                 cmd.ClearRenderTarget(true, true, Color.clear);
                 ExecuteCommand(cmd);
 
-                GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+                MeshRenderer[] allObjects = UnityEngine.Object.FindObjectsOfType<MeshRenderer>();
                 int globalObjectID = 0;
-                foreach (var obj in allObjects)
+                foreach (var renderer in allObjects)
                 {
-                    var renderer = obj.GetComponent<MeshRenderer>();
-                    if (obj.activeInHierarchy && renderer != null)
-                    {
-                        cmd.SetGlobalInt("_ObjectId", globalObjectID++);
-                        // cmd.DrawMesh(mesh, obj.transform.localToWorldMatrix, renderer.sharedMaterial, renderer.subMeshStartIndex, 0);
-                        cmd.DrawRenderer(renderer, renderer.sharedMaterial, renderer.subMeshStartIndex, 0);
-                    }
+                   var mesh = renderer.GetComponentInParent<MeshFilter>();
+                   // cmd.DrawMesh(mesh.mesh, renderer.transform.localToWorldMatrix, renderer.sharedMaterial, renderer.subMeshStartIndex, 0);
+                   for (int i = 0; i < mesh.sharedMesh.subMeshCount; i++)
+                   {
+                       var submesh = mesh.sharedMesh.GetSubMesh(i);
+                       cmd.SetGlobalInt("_ObjectId", globalObjectID++);
+                       cmd.DrawMesh(mesh.sharedMesh, renderer.transform.localToWorldMatrix, renderer.sharedMaterials[i],
+                           i, 0);
+                   }
+                   
+                   
+                    // var renderer = obj.GetComponent<MeshRenderer>();
+
+                        // cmd.SetGlobalInt("_ObjectId", globalObjectID++);
+                        // // cmd.DrawMesh(mesh, obj.transform.localToWorldMatrix, renderer.sharedMaterial, renderer.subMeshStartIndex, 0);
+                        // cmd.DrawRenderer(renderer, renderer.sharedMaterial, renderer.subMeshStartIndex, 0);
+                        //
+
+                    // foreach (var r in obj.GetComponentsInChildren<MeshRenderer>())
+                    // {
+                    //     cmd.SetGlobalInt("_ObjectId", globalObjectID++);
+                    //     // cmd.DrawMesh(mesh, obj.transform.localToWorldMatrix, renderer.sharedMaterial, renderer.subMeshStartIndex, 0);
+                    //     cmd.DrawRenderer(r, r.sharedMaterial, r.subMeshStartIndex, 0);
+                    // }
                 }
 
                 ExecuteCommand(cmd);
@@ -548,12 +564,14 @@ namespace Assets.Pipeline.Paths
             cmd.SetGlobalTexture("_normalM", CurrentGBuffer.GBuffers[1]);
             cmd.SetGlobalTexture("_motionVector", CurrentGBuffer.GBuffers[2]);
             cmd.SetGlobalTexture("_worldPos", CurrentGBuffer.GBuffers[3]);
+            cmd.SetGlobalTexture("_emission", CurrentGBuffer.GBuffers[4]);
             
             cmd.SetGlobalTexture("_gdepth_prev", PrevGBuffer.DepthBuffer);
             cmd.SetGlobalTexture("_albedoR_prev", PrevGBuffer.GBuffers[0]);
             cmd.SetGlobalTexture("_normalM_prev", PrevGBuffer.GBuffers[1]);
             cmd.SetGlobalTexture("_motionVector_prev", PrevGBuffer.GBuffers[2]);
             cmd.SetGlobalTexture("_worldPos_prev", PrevGBuffer.GBuffers[3]);
+            cmd.SetGlobalTexture("_emission_prev", PrevGBuffer.GBuffers[4]);
             
             cmd.SetGlobalTexture("_CubeMap", m_renderSettings.LightingSetting.EnvironmentMap);
             ExecuteCommand(cmd);

@@ -1,19 +1,14 @@
 #pragma once
 #pragma max_recursion_depth 1
-#include "../Library/BRDF.hlsl"
+#include "RayTraceLighting.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
 
-#define MAX_DIRECTIONAL_LIGHTS 4
-int         _DirectionalLightCount;
-float3      _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
-float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
-
-RaytracingAccelerationStructure _RaytracingAccelerationStructure : register(t0);
 RWTexture2D<float4> _renderTarget;
 
 Texture2D _albedoR;
 Texture2D _normalM;
 Texture2D _worldPos;
+Texture2D _emission;
 TextureCube _CubeMap;
 
 SamplerState my_point_clamp_sampler;
@@ -21,14 +16,6 @@ SamplerState my_point_clamp_sampler;
 uint _screenWidth;
 uint _screenHeight;
 uint _uGlobalFrames;
-
-struct MyPayload
-{
-    float4 color;
-    float T;
-    float3 N;
-};
-
 
 [shader("anyhit")] // Add to hit group #0
 void ShadowAnyHit(inout MyPayload pay, BuiltInTriangleIntersectionAttributes attrib) 
@@ -45,6 +32,16 @@ void MyMissShader(inout MyPayload payload : SV_RayPayload)
     payload.color.a = 1;
 }
 
+uint wang_hash(inout uint seed)
+{
+    seed = (seed ^ 61) ^ (seed >> 16);
+    seed *= 9;
+    seed = seed ^ (seed >> 4);
+    seed *= 0x27d4eb2d;
+    seed = seed ^ (seed >> 15);
+    return seed;
+}
+
 
 [shader("raygeneration")]
 void ShadowDirectIllumination()
@@ -58,6 +55,7 @@ void ShadowDirectIllumination()
     float3 worldPos = _worldPos[dispatchIdx].xyz;
     float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
     float3 N = normalize(normalM.xyz * 2 - 1);
+    float3 E = _emission[dispatchIdx].rgb;
 
     float4 albedoR = _albedoR[dispatchIdx];
     
@@ -68,7 +66,9 @@ void ShadowDirectIllumination()
     surface.alpha = 1;
     surface.roughness = albedoR.a;
     surface.metallic = normalM.a;
+    surface.emission = E;
     
+    /*
     MyPayload shadowPayLoad;
     shadowPayLoad.color = float4(0, 0, 0, 0);
     shadowPayLoad.T = 10000;
@@ -87,5 +87,10 @@ void ShadowDirectIllumination()
     float3 BRDFCosTheta = _DirectionalLightColors[0] * BRDFNoL_GGX_NoAlbedo(surface, wLight, wo);
 
     float3 V = shadowPayLoad.color.a * BRDFCosTheta;
-    _renderTarget[dispatchIdx] = float4(V, 1);
+    */
+    
+    uint seed = _uGlobalFrames * 3712231u + dispatchIdx.y * 2732u + dispatchIdx.x;
+    float a = wang_hash(seed) / 4294967295.0;
+    float b = wang_hash(seed) / 4294967295.0;
+    _renderTarget[dispatchIdx] = float4(Direct_DirectionalLight(surface, wo) + Direct_AreaLight(surface, wo, float2(a, b)), 1);
 }
