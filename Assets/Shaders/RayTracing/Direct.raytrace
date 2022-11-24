@@ -1,4 +1,3 @@
-#pragma once
 #pragma max_recursion_depth 1
 #include "RayTraceLighting.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
@@ -17,6 +16,7 @@ uint _screenWidth;
 uint _screenHeight;
 uint _uGlobalFrames;
 
+
 [shader("anyhit")] // Add to hit group #0
 void ShadowAnyHit(inout MyPayload pay, BuiltInTriangleIntersectionAttributes attrib) 
 {
@@ -31,17 +31,6 @@ void MyMissShader(inout MyPayload payload : SV_RayPayload)
     payload.color.xyz = 0;
     payload.color.a = 1;
 }
-
-uint wang_hash(inout uint seed)
-{
-    seed = (seed ^ 61) ^ (seed >> 16);
-    seed *= 9;
-    seed = seed ^ (seed >> 4);
-    seed *= 0x27d4eb2d;
-    seed = seed ^ (seed >> 15);
-    return seed;
-}
-
 
 [shader("raygeneration")]
 void ShadowDirectIllumination()
@@ -92,5 +81,5 @@ void ShadowDirectIllumination()
     uint seed = _uGlobalFrames * 3712231u + dispatchIdx.y * 2732u + dispatchIdx.x;
     float a = wang_hash(seed) / 4294967295.0;
     float b = wang_hash(seed) / 4294967295.0;
-    _renderTarget[dispatchIdx] = float4(Direct_DirectionalLight(surface, wo) + Direct_AreaLight(surface, wo, float2(a, b)), 1);
+    _renderTarget[dispatchIdx] = float4(Direct_DirectionalLight(surface, wo) + Direct_AreaLight(surface, wo, seed), 1);
 }

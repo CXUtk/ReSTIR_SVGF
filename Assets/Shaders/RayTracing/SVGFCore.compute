@@ -439,7 +439,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         float prev_Z = _gdepth_prev[uvQ];
 
         float3 c = prev_color.rgb / prev_color.a;
-        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.85 || abs(prev_Z - cur_Z) > 0.01)
+        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.85)
         {
             continue;
         }

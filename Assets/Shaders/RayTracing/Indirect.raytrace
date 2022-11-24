@@ -19,16 +19,6 @@ uint _screenWidth;
 uint _screenHeight;
 uint _uGlobalFrames;
 
-uint wang_hash(inout uint seed)
-{
-    seed = (seed ^ 61) ^ (seed >> 16);
-    seed *= 9;
-    seed = seed ^ (seed >> 4);
-    seed *= 0x27d4eb2d;
-    seed = seed ^ (seed >> 15);
-    return seed;
-}
-
 [shader("anyhit")] // Add to hit group #0
 void ShadowAnyHit(inout MyPayload pay, BuiltInTriangleIntersectionAttributes attrib) 
 {

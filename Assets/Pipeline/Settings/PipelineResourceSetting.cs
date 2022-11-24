@@ -9,5 +9,6 @@ namespace Assets.Pipeline.Settings
         public ComputeShader SVGFFilterShader;
         public RayTracingShader DirectRayTracingShader;
         public RayTracingShader IndirectRayTracingShader;
+        public RayTracingShader PathTracingShader;
     }
 }
