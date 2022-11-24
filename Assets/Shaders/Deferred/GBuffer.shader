@@ -74,5 +74,19 @@ Shader "Custom Deferred/Default"
             #include "LightingModel.hlsl"
             ENDHLSL
         }
+        
+        Pass
+        {
+            Tags {
+                "LightMode" = "MyPathtracingShaderPass"
+            }    
+            Name "MyPathtracingShaderPass"
+            
+            HLSLPROGRAM
+
+            #pragma raytracing MyHitPathTracerShader
+            #include "PathTracing.hlsl"
+            ENDHLSL
+        }
     }
 }

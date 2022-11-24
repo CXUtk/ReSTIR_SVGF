@@ -92,6 +92,20 @@ float3 BRDF_GGX(in Surface surface, float3 wi, float3 wo)
     return D * V * F;
 }
 
+float3 BRDFNoL_GGX(in Surface surface, float3 wi, float3 wo)
+{
+    if(surface.roughness == 1)
+    {
+        return BRDF_Diffuse(surface, wi, wo) * max(1e-5, dot(surface.normal, wi)) / PI;
+    }
+    float alpha = RoughnessToAlpha(surface.roughness);
+    float3 H = normalize(wi + wo);
+    float D = D_GGX(surface.normal, H, alpha);
+    float V = V_SmithGGXCorrelated(surface.normal, wi, wo, alpha);
+    float3 F = F_Schlick(surface.color, H, wi);
+    return D * V * F * max(1e-5, dot(surface.normal, wi));
+}
+
 float3 BRDFNoL_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)
 {
     if(surface.roughness == 1)
@@ -116,16 +130,17 @@ float3 BRDF_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)
     float3 H = normalize(wi + wo);
     float D = D_GGX(surface.normal, H, alpha);
     float V = V_SmithGGXCorrelated(surface.normal, wi, wo, alpha);
-    float3 F = F_Schlick(surface.color, H, wi);
+    float3 F = F_Schlick(1, H, wi);
     return D * V * F;
 }
 
 
-float3 GGXImportanceSample(float2 sample, in Surface surface, float3 wo, out float3 wi)
+float3 GGXImportanceSample(float2 sample, in Surface surface, float3 wo, out float3 wi, out float pdf)
 {
     if(surface.roughness == 1)
     {
         float3 wIn = SampleHemisphereCosine(sample.x, sample.y, surface.normal);
+        pdf = Pdf_GGX(surface, wIn, wo);
         wi = wIn;
         return surface.color;
     }
@@ -143,6 +158,7 @@ float3 GGXImportanceSample(float2 sample, in Surface surface, float3 wo, out flo
     float NdotL = max(0, dot(wIn, surface.normal));
     
     wi = wIn;
+    pdf = Pdf_GGX(surface, wIn, wo);
     return (4 * F * V * VdotH * NdotL) / max(EPS, NdotH);
 }
 
@@ -163,7 +179,7 @@ float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo
 
     float3 wIn = reflect(-wo, H);
     float V = V_SmithGGXCorrelated(surface.normal, wIn, wo, alpha);
-    float3 F = F_Schlick(surface.color, H, wIn);
+    float3 F = F_Schlick(1, H, wIn);
     float VdotH = max(0, dot(wo, H));
     float NdotH = max(0, dot(surface.normal, H));
     float NdotL = max(0, dot(wIn, surface.normal));

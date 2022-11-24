@@ -24,6 +24,7 @@ MonoBehaviour:
       SVGFFilterShader: {fileID: 7200000, guid: 35c03422aa2f9bf419956a0d83489338, type: 3}
       DirectRayTracingShader: {fileID: 4807578003741378534, guid: 0fa7fe91288e4aa782f3f6d32bc8891f, type: 3}
       IndirectRayTracingShader: {fileID: 4807578003741378534, guid: f602525f17ba7784885dafeca761eddd, type: 3}
+      PathTracingShader: {fileID: 4807578003741378534, guid: 6190be3c8b9fcd142b5604b11c2e6f64, type: 3}
     DenoisingSettings:
       SigmaZ: 1
       SigmaX: 4

@@ -337,25 +337,41 @@ namespace Assets.Pipeline.Paths
             // cmd.Blit(m_gBuffer[0].DepthBuffer, m_renderTexture, gBufferPassShader, 1);
 
             var directIlluminationShader = m_renderSettings.PipelineResourceSetting.DirectRayTracingShader;
-            cmd.SetRayTracingTextureParam(directIlluminationShader, "_renderTarget", CurrentColorTarget);
-            cmd.SetRayTracingAccelerationStructure(directIlluminationShader, 
-                "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
-            cmd.SetRayTracingShaderPass(directIlluminationShader, "MyRaytraceShaderPass");
-            cmd.DispatchRays(directIlluminationShader, 
-                "ShadowDirectIllumination", 
-                (uint)CurrentGBuffer.Albedo.width,
-                (uint)CurrentGBuffer.Albedo.height, 
-                1u,
-                m_camera);
-                
+            var pathTracingShader = m_renderSettings.PipelineResourceSetting.PathTracingShader;
             var indirectIlluminationShader = m_renderSettings.PipelineResourceSetting.IndirectRayTracingShader;
-            cmd.SetRayTracingTextureParam(indirectIlluminationShader, "_renderTarget", CurrentColorTarget);
-            cmd.SetRayTracingBufferParam(indirectIlluminationShader, "_restirTemporalBuffer", m_restirBuffers[0]);
-            cmd.SetRayTracingAccelerationStructure(indirectIlluminationShader, 
+            
+            // // Direct
+            // cmd.SetRayTracingTextureParam(directIlluminationShader, "_renderTarget", CurrentColorTarget);
+            // cmd.SetRayTracingAccelerationStructure(directIlluminationShader, 
+            //     "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
+            // cmd.SetRayTracingShaderPass(directIlluminationShader, "MyRaytraceShaderPass");
+            // cmd.DispatchRays(directIlluminationShader, 
+            //     "ShadowDirectIllumination", 
+            //     (uint)CurrentGBuffer.Albedo.width,
+            //     (uint)CurrentGBuffer.Albedo.height, 
+            //     1u,
+            //     m_camera);
+            //     
+            // // Indirect
+            // cmd.SetRayTracingTextureParam(indirectIlluminationShader, "_renderTarget", CurrentColorTarget);
+            // cmd.SetRayTracingBufferParam(indirectIlluminationShader, "_restirTemporalBuffer", m_restirBuffers[0]);
+            // cmd.SetRayTracingAccelerationStructure(indirectIlluminationShader, 
+            //     "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
+            // cmd.SetRayTracingShaderPass(indirectIlluminationShader, "MyRaytraceShaderPass");
+            // cmd.DispatchRays(indirectIlluminationShader, 
+            //      m_renderSettings.DenoisingSettings.EnableReSTIR ? "MyRaygenShader_ReSTIR" : "MyRaygenShader", 
+            //     (uint)CurrentGBuffer.Albedo.width,
+            //     (uint)CurrentGBuffer.Albedo.height, 
+            //     1u,
+            //     m_camera);
+            
+            cmd.SetRayTracingTextureParam(pathTracingShader, "_renderTarget", CurrentColorTarget);
+            cmd.SetRayTracingBufferParam(pathTracingShader, "_restirTemporalBuffer", m_restirBuffers[0]);
+            cmd.SetRayTracingAccelerationStructure(pathTracingShader, 
                 "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
-            cmd.SetRayTracingShaderPass(indirectIlluminationShader, "MyRaytraceShaderPass");
-            cmd.DispatchRays(indirectIlluminationShader, 
-                 m_renderSettings.DenoisingSettings.EnableReSTIR ? "MyRaygenShader_ReSTIR" : "MyRaygenShader", 
+            cmd.SetRayTracingShaderPass(pathTracingShader, "MyPathtracingShaderPass");
+            cmd.DispatchRays(pathTracingShader, 
+                "MyRaygenShader", 
                 (uint)CurrentGBuffer.Albedo.width,
                 (uint)CurrentGBuffer.Albedo.height, 
                 1u,
@@ -391,7 +407,7 @@ namespace Assets.Pipeline.Paths
                 ExecuteCommand(command);
 
                 // Replace materials
-                InitialSetMaterials();
+                // InitialSetMaterials();
                 InitializeBuffers(command);
                 UpdateAccelStructure(command);
                 ExecuteCommand(command);
