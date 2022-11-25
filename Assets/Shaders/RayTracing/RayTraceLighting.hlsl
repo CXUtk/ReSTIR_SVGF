@@ -26,7 +26,7 @@ int         _DirectionalLightCount;
 float3      _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
 float3      _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
 
-#define MAX_AREA_LIGHTS 4
+#define MAX_AREA_LIGHTS 8
 int         _AreaLightCount;
 float3      _AreaLightEmission[MAX_AREA_LIGHTS];
 float3      _AreaLightVA[MAX_AREA_LIGHTS];
@@ -232,7 +232,7 @@ float3 Direct_AreaLight_alter(in Surface surface, float3 wo, uint seed, float3 c
         
         // Light ---------------------------------------
         float a = wang_hash(seed) / 4294967295.0;
-        seed = seed * 2 + 773;
+        seed = seed + 734273;
         float b = wang_hash(seed) / 4294967295.0;
         
         float u0 = sqrt(a);
@@ -270,8 +270,6 @@ float3 Direct_AreaLight_alter(in Surface surface, float3 wo, uint seed, float3 c
         seed = seed * 2 + 773;
         b = wang_hash(seed) / 4294967295.0;
 
-        shadowPayLoad = CreatePathTracingPayload();
-        
         float3 wi;
         float3 brdfNoLDivPdf = changeAlbedo * GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi, pdfBSDF);
         float tt;
@@ -282,6 +280,8 @@ float3 Direct_AreaLight_alter(in Surface surface, float3 wo, uint seed, float3 c
             shadowRay.TMin = 0;
             shadowRay.TMax = tt - 1e-2;
 
+            shadowPayLoad = CreatePathTracingPayload();
+            
             TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
             0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
 

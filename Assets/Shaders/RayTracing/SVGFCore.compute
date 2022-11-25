@@ -157,7 +157,7 @@ void MainSVGFFilter(uint3 id : SV_DispatchThreadID)
             float wn = pow(max(0, dot(nq, N)), _sigmaN);
             // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
             float wz = - dot(N, dir) * dot(N, dir) / _sigmaZ;
-            float wc = -abs(dot(float3(0.2126, 0.7152, 0.0722), (C - colorSelf) / (_sigmaC * stdev + 1e-2)));
+            float wc = -abs(dot(float3(0.2126, 0.7152, 0.0722), (C - colorSelf) / (_sigmaC * max(1e-4, stdev))));
             float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
 
             int k = (2 + i) * 5 + (2 + j);
@@ -321,16 +321,16 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
     float4 WSpos = _worldPos[imageCoord_prev];
     float objectId = WSpos.w;
     float prevObjectId = _worldPos_prev[imageCoord_prev].a;
-    if (objectId != prevObjectId)
-    {
-        temporal_data data;
-        data.mean = cur.rgb;
-        data.mean2 = cur.rgb * cur.rgb;
-        data.meanShort = cur.rgb;
-        data.count = 1;
-        _temporalBufferW[bufferId] = data;
-        return;
-    }
+    // if (objectId != prevObjectId)
+    // {
+    //     temporal_data data;
+    //     data.mean = cur.rgb;
+    //     data.mean2 = cur.rgb * cur.rgb;
+    //     data.meanShort = cur.rgb;
+    //     data.count = 1;
+    //     _temporalBufferW[bufferId] = data;
+    //     return;
+    // }
     
     temporal_data data;
     // data.mean = prev.mean + cur.rgb;
@@ -338,21 +338,21 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
     data.count = min(10, prev.count + 1);
     data.mean = lerp(prev.mean, cur.rgb, max(1 / data.count, _temporalFactor));
     data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / data.count, _temporalFactor));
-    data.meanShort = lerp(prev.meanShort, cur.rgb, max(1 / data.count, _temporalFactor));
+    data.meanShort = lerp(prev.meanShort, cur.rgb, 0.33);
 
     
-    float3 mean = data.mean;
-    float3 mean2 = data.mean2;
-    float3 stdev = sqrt(abs(mean2 - mean * mean));
-    float3 diffV = (data.meanShort - mean) / max(1e-5, mean);
-    float diff = abs(dot(float3(0.2126, 0.7152, 0.0722), (data.meanShort - mean) / max(1e-5, stdev)));
-    if (diff > 0.5)
-    {
-        float t = min(data.count * exp(-diff / 3), 10);
-        data.mean = 0.5 * (mean + cur.rgb);
-        data.mean2 = 0.5 * (mean2 + cur.rgb * cur.rgb);
-        data.count = 1;
-    }
+    // float3 mean = data.mean;
+    // float3 mean2 = data.mean2;
+    // float3 stdev = sqrt(abs(mean2 - mean * mean));
+    // float3 diffV = (data.meanShort - mean) / max(1e-5, mean);
+    // float diff = abs(dot(float3(0.2126, 0.7152, 0.0722), (data.meanShort - mean) / max(1e-5, stdev)));
+    // if (diff > 0.5)
+    // {
+    //     float t = min(data.count * exp(-diff / 3), 10);
+    //     data.mean = 0.5 * (mean + cur.rgb);
+    //     data.mean2 = 0.5 * (mean2 + cur.rgb * cur.rgb);
+    //     data.count = 1;
+    // }
     _temporalBufferW[bufferId] = data;
 }
 
@@ -389,8 +389,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
     float2 motion = _motionVector[imageCoord];
     float2 pixel_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
     int2 imageCoord_prev = floor(pixel_prev);
-
-    float cur_Z = _gdepth[imageCoord];
+    
     float4 cur_color = _curColorTarget[imageCoord];
     float4 cur_WSpos = _worldPos[imageCoord];
     float3 cur_normalN = _normalM[imageCoord];
@@ -436,10 +435,10 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         float3 prev_normal = normalize(prev_normalN * 2 - 1);
         float4 prev_color = _prevColorTarget[uvQ];
         float4 prev_WSPos = _worldPos_prev[uvQ];
-        float prev_Z = _gdepth_prev[uvQ];
+        float3 diff_N = prev_normal - cur_N;
 
         float3 c = prev_color.rgb / prev_color.a;
-        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.85)
+        if (cur_WSpos.w != prev_WSPos.w || dot(diff_N, diff_N) >= 0.1)
         {
             continue;
         }
@@ -451,7 +450,48 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
 
     if(sum_weights < 1e-4)
     {
-        _renderW[imageCoord] = float4(cur_color.rgb, 1);
+        // If we could not find 2x2, try 3x3
+        sum_color = 0;
+        sum_weights = 0;
+        sum_spp = 0;
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int2 coord = imageCoord_prev + int2(j, i);
+                if (coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight) continue;
+                float3 prev_normalN = _normalM_prev[coord];
+                if(length(prev_normalN) < 1e-5)
+                {
+                    continue;
+                }
+                float3 prev_normal = normalize(prev_normalN * 2 - 1);
+                float4 prev_color = _prevColorTarget[coord];
+                float4 prev_WSPos = _worldPos_prev[coord];
+                float3 diff_N = prev_normal - cur_N;
+
+                float3 c = prev_color.rgb / prev_color.a;
+                if (cur_WSpos.w != prev_WSPos.w || dot(diff_N, diff_N) >= 0.1)
+                {
+                    continue;
+                }
+
+                sum_color += c;
+                sum_weights += 1;
+                sum_spp += prev_color.a;
+            }
+        }
+
+        if(sum_weights > 0)
+        {
+            float spp = sum_spp / sum_weights;
+            float3 ss_color = sum_color / sum_weights;
+            _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);
+        }
+        else
+        {
+            _renderW[imageCoord] = float4(cur_color.rgb, 1);
+        }
         return;
     }
 
@@ -466,7 +506,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, variance)));
         if(sigma > 4)
         {
-            spp = min(spp * exp(-sigma / 7), 10);
+            spp = min(floor(spp * exp(-sigma * sigma / 7)), 10);
         }
     }
     else

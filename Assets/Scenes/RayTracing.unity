@@ -9643,11 +9643,11 @@ Material:
     m_Floats:
     - _EmissionIntensity: 1
     - _Metallic: 0
-    - _Roughness: 0.109
+    - _Roughness: 0.093
     m_Colors:
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionIntensity: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 0}
+    - _TintColor: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &1222866087
 Material:
@@ -16016,7 +16016,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041699928}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.45, y: 6.44, z: -2.58}
+  m_LocalPosition: {x: 3.45, y: 2.1, z: -2.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -116,7 +116,7 @@ float3 BRDFNoL_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)
     float3 H = normalize(wi + wo);
     float D = D_GGX(surface.normal, H, alpha);
     float V = V_SmithGGXCorrelated(surface.normal, wi, wo, alpha);
-    float3 F = F_Schlick(surface.color, H, wi);
+    float3 F = F_Schlick(1, H, wi);
     return D * V * F * max(1e-5, dot(surface.normal, wi));
 }
 

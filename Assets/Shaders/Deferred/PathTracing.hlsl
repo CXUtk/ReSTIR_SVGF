@@ -74,14 +74,14 @@ void MyHitPathTracerShader(inout PathTracingPayload payload : SV_RayPayload,
     
     float3 color = _Albedo.SampleLevel(my_point_clamp_sampler, texCoord, 0) * _TintColor;
     
-    Surface surface;
-    surface.worldPos = posWS;
-    surface.normal = normalWS;
-    surface.color = color;
-    surface.alpha = 1;
-    surface.roughness = _Roughness;
-    surface.metallic = _Metallic;
-    surface.emission = _Emission * _EmissionIntensity;
+    // Surface surface;
+    // surface.worldPos = posWS;
+    // surface.normal = normalWS;
+    // surface.color = color;
+    // surface.alpha = 1;
+    // surface.roughness = _Roughness;
+    // surface.metallic = _Metallic;
+    // surface.emission = E;
 
     payload.L = 1;
     payload.T = RayTCurrent();

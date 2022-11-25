@@ -365,6 +365,7 @@ namespace Assets.Pipeline.Paths
             //     1u,
             //     m_camera);
             
+            cmd.SetGlobalInt("_PathBounces", m_renderSettings.LightingSetting.PathBounces);
             cmd.SetRayTracingTextureParam(pathTracingShader, "_renderTarget", CurrentColorTarget);
             cmd.SetRayTracingBufferParam(pathTracingShader, "_restirTemporalBuffer", m_restirBuffers[0]);
             cmd.SetRayTracingAccelerationStructure(pathTracingShader, 

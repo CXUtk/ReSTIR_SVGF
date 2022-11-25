@@ -1,0 +1,128 @@
+#pragma once
+#pragma max_recursion_depth 2
+#include "../Library/Utils.hlsl"
+#include "SVGFStructure.hlsl"
+#include "RayTraceLighting.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
+
+RWTexture2D<float4> _renderTarget;
+RWStructuredBuffer<restir_RESERVOIR> _restirTemporalBuffer;
+
+Texture2D _albedoR;
+Texture2D _normalM;
+Texture2D _worldPos;
+TextureCube _CubeMap;
+
+SamplerState my_point_clamp_sampler;
+
+uint _screenWidth;
+uint _screenHeight;
+uint _uGlobalFrames;
+
+uint _PathBounces;
+
+[shader("anyhit")] // Add to hit group #0
+void ShadowAnyHit(inout PathTracingPayload pay, BuiltInTriangleIntersectionAttributes attrib) 
+{
+    pay.L = 0;
+}
+
+[shader("miss")]
+void MyMissShader(inout PathTracingPayload payload : SV_RayPayload)
+{
+    float3 Le = _CubeMap.SampleLevel(my_point_clamp_sampler, WorldRayDirection(), 0).xyz * 3;
+    payload.L = 1;
+    payload.E = Le;
+    payload.N = -WorldRayDirection();
+}
+
+
+[shader("raygeneration")]
+void MyRaygenShader()
+{
+    uint2 dispatchIdx = DispatchRaysIndex().xy;
+    
+    uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
+    float a = wang_hash(seed) / 4294967295.0;
+    float b = wang_hash(seed) / 4294967295.0;
+
+    float4 normalM = _normalM[dispatchIdx];
+    float3 worldPos = _worldPos[dispatchIdx].xyz;
+    float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
+    if(normalM.x == 0 && normalM.y == 0 && normalM.z == 0)
+    {
+        return;
+    }
+    float3 N = normalize(normalM.xyz * 2 - 1);
+
+    float4 albedoR = _albedoR[dispatchIdx];
+    
+    Surface surface;
+    surface.worldPos = worldPos.xyz;
+    surface.normal = N;
+    surface.color = albedoR.xyz;
+    surface.alpha = 1;
+    surface.roughness = albedoR.a;
+    surface.metallic = normalM.a;
+    surface.emission = 0;
+
+    float3 wi;
+    float pdf;
+    float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi, pdf);
+    
+
+    float3 beta = brdfNoLDivPdf;
+    float3 L = (Direct_DirectionalLight_alter(surface, wo, 1) + Direct_AreaLight_alter(surface, wo, seed, 1));
+
+    seed = seed + 771132;
+
+    for(int i = 0; i < _PathBounces; i++)
+    {
+        RayDesc ray;
+        ray.Origin = worldPos + N * 1e-3; 
+        ray.Direction = wi;
+        ray.TMin = 0;
+        ray.TMax = 999999;
+
+        PathTracingPayload payload = CreatePathTracingPayload();
+        TraceRay(_RaytracingAccelerationStructure, RAY_FLAG_NONE, 0xFFFFFFF, 0, 1, 0, ray, payload);
+
+        Surface surfaceHit;
+        surfaceHit.worldPos = ray.Origin + payload.T * ray.Direction;
+        surfaceHit.normal = payload.N;
+        surfaceHit.color = payload.Albedo;
+        surfaceHit.alpha = 1;
+        surfaceHit.roughness = payload.Roughness;
+        surfaceHit.metallic = payload.Metallic;
+        surfaceHit.emission = payload.E;
+
+        // // Add emission
+        // L += beta * surfaceHit.emission;
+
+        if(payload.T == 999999)
+        {
+            L += beta * surfaceHit.emission;
+            break;
+        }
+
+        wo = -wi;
+        L += beta * (Direct_DirectionalLight_alter(surfaceHit, wo, surfaceHit.color) + Direct_AreaLight_alter(surfaceHit, wo, seed, surfaceHit.color));
+
+        seed = seed + 2334532;
+
+        float x = wang_hash(seed) / 4294967295.0;
+        float y = wang_hash(seed) / 4294967295.0;
+        beta *= GGXImportanceSample(float2(x, y), surfaceHit, wo, wi, pdf);
+
+        worldPos = surfaceHit.worldPos;
+        N = surfaceHit.normal;
+    }
+    float4 newColor = float4(L, 1);
+    
+    if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
+    {
+        _renderTarget[dispatchIdx] = float4(1, 1, 0, 1);
+        return;
+    }
+    _renderTarget[dispatchIdx] = float4(L, 1);// * float4(surface.color, 1);
+}

@@ -22,7 +22,7 @@ namespace Assets.Pipeline
         private ScriptableRenderContext m_context;
         private CullingResults m_cullingResults;
         public const int maxDirLightCount = 4;
-        public const int MAX_AREALIGHT_COUNT = 4;
+        public const int MAX_AREALIGHT_COUNT = 8;
         public const int maxShadowedDirectionalLightCount = 1;
         private bool m_firstFrame;
 

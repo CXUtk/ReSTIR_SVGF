@@ -7,5 +7,7 @@ namespace Assets.Pipeline.Settings
     {
         [SerializeField]
         internal Cubemap EnvironmentMap;
+
+        [SerializeField] [Range(0, 6)] internal int PathBounces = 1;
     }
 }

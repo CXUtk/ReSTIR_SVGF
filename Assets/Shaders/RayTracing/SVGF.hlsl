@@ -226,7 +226,7 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
                 if(length(nq) < 1e-5) continue;
                 nq = normalize(nq * 2 - 1);
 
-                int2 imageCoord2 = floor(uv * _invScreenSize.zw);
+                int2 imageCoord2 = round(uv * _invScreenSize.zw);
                 int bufferId2 = imageCoord2.y * (int)_invScreenSize.z + imageCoord2.x;
                 
                 float3 C = _temporalBufferR[bufferId2].mean;
@@ -252,26 +252,21 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
         
                 mean += w * C;
                 mean2 += w * C2;
-                weight += w ;
+                weight += w;
             }
         }
         if (weight < 1e-5)
         {
-            return float4(0, 0, 0, 1);
+            return float4(10, 10, 10, 1);
         }
         float3 mean2W = mean2 / weight;
         float3 meanW = mean / weight;
-        return float4(abs(mean2W - meanW * meanW), 1);
+        return float4(max(0.1, abs(mean2W - meanW * meanW)) * 4 / data.count, 1);
     }
     
-    float3 mean = data.mean ;
-    float3 mean2 = data.mean2 ;
-    float3 stdev = sqrt(abs(mean2 - mean * mean));
-    
-    //abs(_temporalBufferR[bufferId].mean2 - mean * mean)
-    float c = dot(float3(0.2126, 0.7152, 0.0722), abs(data.meanShort - mean) / (stdev + 1e-5));
+    float3 mean = data.mean;
+    float3 mean2 = data.mean2;
     return float4(abs(mean2 - mean * mean), 1);
-    // return float4(mean * mean, 1);
 }
 // float4 variance_estimation (v2f V2F) : SV_TARGET
 // {
