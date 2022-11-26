@@ -72,7 +72,8 @@ void MyRaygenShader()
     
 
     float3 beta = brdfNoLDivPdf;
-    float3 L = (Direct_DirectionalLight_alter(surface, wo, 1) + Direct_AreaLight_alter(surface, wo, seed, 1));
+    float3 LDirect = (Direct_DirectionalLight_alter(surface, wo, 1) + Direct_AreaLight_alter(surface, wo, seed, 1));
+    float3 LIndirect = 0;
 
     seed = seed + 771132;
 
@@ -97,16 +98,16 @@ void MyRaygenShader()
         surfaceHit.emission = payload.E;
 
         // // Add emission
-        // L += beta * surfaceHit.emission;
+        // LIndirect += beta * surfaceHit.emission;
 
         if(payload.T == 999999)
         {
-            L += beta * surfaceHit.emission;
+            LIndirect += beta * surfaceHit.emission;
             break;
         }
 
         wo = -wi;
-        L += beta * (Direct_DirectionalLight_alter(surfaceHit, wo, surfaceHit.color) + Direct_AreaLight_alter(surfaceHit, wo, seed, surfaceHit.color));
+        LIndirect += beta * (Direct_DirectionalLight_alter(surfaceHit, wo, surfaceHit.color) + Direct_AreaLight_alter(surfaceHit, wo, seed, surfaceHit.color));
 
         seed = seed + 2334532;
 
@@ -117,12 +118,12 @@ void MyRaygenShader()
         worldPos = surfaceHit.worldPos;
         N = surfaceHit.normal;
     }
-    float4 newColor = float4(L, 1);
+    float4 newColor = float4(LDirect + LIndirect, 1);
     
     if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
     {
         _renderTarget[dispatchIdx] = float4(1, 1, 0, 1);
         return;
     }
-    _renderTarget[dispatchIdx] = float4(L, 1);// * float4(surface.color, 1);
+    _renderTarget[dispatchIdx] = float4(LDirect + LIndirect, 1);// * float4(surface.color, 1);
 }

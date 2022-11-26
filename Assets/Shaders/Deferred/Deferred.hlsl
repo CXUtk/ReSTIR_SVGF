@@ -49,7 +49,7 @@ Varyings vert_gbuffer (Attributes v)
     o.positionWS = worldPos;
     o.positionCS = TransformWorldToHClip(worldPos);
     o.positionSS = TransformWorldToHClip(worldPos);
-    o.normalWS = TransformObjectToWorldNormal(v.normalOS);
+    o.normalWS = normalize(TransformObjectToWorldNormal(v.normalOS));
     o.uv = TRANSFORM_TEX(v.uv, _Albedo);
     return o;
 }

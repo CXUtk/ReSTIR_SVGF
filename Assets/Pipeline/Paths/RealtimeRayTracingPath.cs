@@ -23,6 +23,7 @@ namespace Assets.Pipeline.Paths
         
         private GBufferPackage[] m_gBuffer;
         private int m_gbufferPointer;
+        private int m_frameCounter;
         private bool m_firstFrame;
         private Matrix4x4 m_vpMatrixPrev;
         
@@ -52,6 +53,7 @@ namespace Assets.Pipeline.Paths
         {
             m_camera = null;
             m_gbufferPointer = 0;
+            m_frameCounter = 0;
 
             m_gBuffer = new GBufferPackage[2];
             for (int i = 0; i < 2; i++)
@@ -415,14 +417,14 @@ namespace Assets.Pipeline.Paths
                 m_firstFrame = false;
             }
 
-            if (Time.frameCount % 1000 == 0)
-            {
-                var command = new CommandBuffer()
-                {
-                    name = "Accel"
-                };
-                UpdateAccelStructure(command);
-            }
+            // if (Time.frameCount % 1000 == 0)
+            // {
+            //     var command = new CommandBuffer()
+            //     {
+            //         name = "Accel"
+            //     };
+            //     UpdateAccelStructure(command);
+            // }
 
             var cmd = new CommandBuffer()
             {
@@ -484,6 +486,7 @@ namespace Assets.Pipeline.Paths
             //深度值，渲染到纹理。Y要翻转
             Matrix4x4 projectionMatrix = GL.GetGPUProjectionMatrix(m_camera.projectionMatrix, true);
             m_vpMatrixPrev = projectionMatrix * m_camera.worldToCameraMatrix;
+            m_frameCounter++;
         }
 
         private void SetInitialParameters()
@@ -495,7 +498,7 @@ namespace Assets.Pipeline.Paths
 
             cmd.SetGlobalInt("_screenWidth", Screen.width);
             cmd.SetGlobalInt("_screenHeight", Screen.height);
-            cmd.SetGlobalInt("_uGlobalFrames", Time.frameCount);
+            cmd.SetGlobalInt("_uGlobalFrames", m_frameCounter);
             cmd.SetGlobalMatrix("_vpMatrixPrev", m_vpMatrixPrev);
             cmd.SetGlobalVector("_invScreenSize", 
                 new Vector4(1.0f / CurrentColorTarget.width, 1.0f / CurrentColorTarget.height,  

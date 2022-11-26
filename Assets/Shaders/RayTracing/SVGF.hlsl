@@ -196,7 +196,7 @@ float4 main_filter (v2f V2F) : SV_TARGET
 
 float4 variance_estimation (v2f V2F) : SV_TARGET
 {
-    int2 imageCoord = floor(V2F.uv / _invScreenSize.xy);
+    int2 imageCoord = floor(V2F.uv * _invScreenSize.zw);
     int bufferId = imageCoord.y * (int)_invScreenSize.z + imageCoord.x;
     
     float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
@@ -235,7 +235,7 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
                 // Xq.w is object Id
                 float4 Xq = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0);
                 float3 dir = Xq.xyz - posSelf.xyz;
-                if (Length2(dir) > 1e-6)
+                if (Length2(dir) > 1e-5)
                 {
                     dir = normalize(dir);
                 }
@@ -257,11 +257,11 @@ float4 variance_estimation (v2f V2F) : SV_TARGET
         }
         if (weight < 1e-5)
         {
-            return float4(10, 10, 10, 1);
+            return float4(1, 1, 1, 1);
         }
         float3 mean2W = mean2 / weight;
         float3 meanW = mean / weight;
-        return float4(max(0.1, abs(mean2W - meanW * meanW)) * 4 / data.count, 1);
+        return float4(abs(mean2W - meanW * meanW) * 4 / data.count, 1);
     }
     
     float3 mean = data.mean;
