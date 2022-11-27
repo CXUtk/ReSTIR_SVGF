@@ -11,6 +11,8 @@ using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using Scene = UnityEditor.SearchService.Scene;
 
 namespace Assets.Pipeline
 {
@@ -165,53 +167,50 @@ namespace Assets.Pipeline
             m_commandBuffer.SetGlobalVectorArray(dirLightDirectionsId, dirLightDirections);
             ExecuteBuffer();
         }
-        
+
         private void PrepareAreaLights()
         {
-            if (m_firstFrame)
+            areaLightIndex = 0;
+            
+            MeshRenderer[] allObjects = UnityEngine.Object.FindObjectsOfType<MeshRenderer>();
+            foreach (var renderer in allObjects)
             {
-                areaLightIndex = 0;
-
-                MeshRenderer[] allObjects = UnityEngine.Object.FindObjectsOfType<MeshRenderer>();
-                foreach (var renderer in allObjects)
+                if (renderer.sharedMaterial.shader.name.Equals("Custom Deferred/Default"))
                 {
-                    if (renderer.sharedMaterial.shader.name.Equals("Custom Deferred/Default"))
+                    Color color = renderer.sharedMaterial.GetColor("_Emission");
+                    color *= renderer.sharedMaterial.GetFloat("_EmissionIntensity");
+                    if (color.r > 0 && color.g > 0 && color.b > 0)
                     {
-                        Color color = renderer.sharedMaterial.GetColor("_Emission");
-                        color *= renderer.sharedMaterial.GetFloat("_EmissionIntensity");
-                        if (color.r > 0 && color.g > 0 && color.b > 0)
+                        var meshFilter = renderer.GetComponentInParent<MeshFilter>();
+                        var mesh = meshFilter.sharedMesh;
+                        int[] triangles = mesh.GetTriangles(0);
+                        for (int i = 0; i < triangles.Length; i += 3)
                         {
-                            var meshFilter = renderer.GetComponentInParent<MeshFilter>();
-                            var mesh = meshFilter.sharedMesh;
-                            int[] triangles = mesh.GetTriangles(0);
-                            for (int i = 0; i < triangles.Length; i += 3)
-                            {
-                                Vector3 A = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i]]);
-                                Vector3 B = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i + 1]]);
-                                Vector3 C = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i + 2]]);
-                                
-                                AddAreaLight(color, A, B, C);
-                                if (areaLightIndex >= MAX_AREALIGHT_COUNT)
-                                {
-                                    break;
-                                }
-                            }
+                            Vector3 A = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i]]);
+                            Vector3 B = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i + 1]]);
+                            Vector3 C = meshFilter.transform.TransformPoint(mesh.vertices[triangles[i + 2]]);
 
+                            AddAreaLight(color, A, B, C);
                             if (areaLightIndex >= MAX_AREALIGHT_COUNT)
                             {
                                 break;
                             }
                         }
+
+                        if (areaLightIndex >= MAX_AREALIGHT_COUNT)
+                        {
+                            break;
+                        }
                     }
                 }
-
-                m_commandBuffer.SetGlobalInt(areaLightCountId, areaLightIndex);
-                m_commandBuffer.SetGlobalVectorArray(areaLightEmissionId, areaLightEmissions);
-                m_commandBuffer.SetGlobalVectorArray(areaLightVAId, areaLightVA);
-                m_commandBuffer.SetGlobalVectorArray(areaLightVBId, areaLightVB);
-                m_commandBuffer.SetGlobalVectorArray(areaLightVCId, areaLightVC);
-                ExecuteBuffer();
             }
+
+            m_commandBuffer.SetGlobalInt(areaLightCountId, areaLightIndex);
+            m_commandBuffer.SetGlobalVectorArray(areaLightEmissionId, areaLightEmissions);
+            m_commandBuffer.SetGlobalVectorArray(areaLightVAId, areaLightVA);
+            m_commandBuffer.SetGlobalVectorArray(areaLightVBId, areaLightVB);
+            m_commandBuffer.SetGlobalVectorArray(areaLightVCId, areaLightVC);
+            ExecuteBuffer();
         }
 
         private void AddDirectionalLight(in VisibleLight light)

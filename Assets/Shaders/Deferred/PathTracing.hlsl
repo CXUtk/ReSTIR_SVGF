@@ -83,7 +83,7 @@ void MyHitPathTracerShader(inout PathTracingPayload payload : SV_RayPayload,
     // surface.metallic = _Metallic;
     // surface.emission = E;
 
-    payload.L = 1;
+    payload.L = 0;
     payload.T = RayTCurrent();
     payload.N = normalWS;
     payload.Albedo = color;

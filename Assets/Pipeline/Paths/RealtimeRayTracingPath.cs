@@ -234,8 +234,14 @@ namespace Assets.Pipeline.Paths
                     cmd.SetGlobalFloat("_sigmaX", m_renderSettings.DenoisingSettings.SigmaX);
 
                     // Variance Estimate
-                    cmd.SetGlobalBuffer("_temporalBufferR", CurrentTemporalBuffer);
-                    cmd.Blit(CurrentColorTarget, m_varianceTexture[0], svgfShader, 3);
+                    cmd.SetComputeBufferParam(filterShader, 1, "_temporalBufferR", CurrentTemporalBuffer);
+                    cmd.SetComputeTextureParam(filterShader, 1, "_renderW", m_varianceTexture[0]);
+                    cmd.DispatchCompute(filterShader, 1,
+                        DivCeil(m_renderTexture.width, 16),
+                        DivCeil(m_renderTexture.height, 16),
+                        1);
+                    // cmd.SetGlobalBuffer("_temporalBufferR", CurrentTemporalBuffer);
+                    // cmd.Blit(CurrentColorTarget, m_varianceTexture[0], svgfShader, 3);
                     // cmd.Blit(m_varianceTexture[0], m_renderTexture);
                     // return;
                 }
@@ -417,25 +423,20 @@ namespace Assets.Pipeline.Paths
                 m_firstFrame = false;
             }
 
-            // if (Time.frameCount % 1000 == 0)
-            // {
-            //     var command = new CommandBuffer()
-            //     {
-            //         name = "Accel"
-            //     };
-            //     UpdateAccelStructure(command);
-            // }
 
             var cmd = new CommandBuffer()
             {
                 name = "Do ray tracing"
             };
             
+            UpdateAccelStructure(cmd);
+            ExecuteCommand(cmd);
+
             var cmdFiltering = new CommandBuffer()
             {
                 name = "Do filter"
             };
-            
+
             m_context.SetupCameraProperties(m_camera);
             using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Generate Rays")))
             {
@@ -443,16 +444,17 @@ namespace Assets.Pipeline.Paths
 
                 PathTracing(cmd);
             }
+
             ExecuteCommand(cmd);
-            
+
             using (var scope = new ProfilingScope(cmdFiltering, new ProfilingSampler("Filters")))
             {
                 Filtering(cmdFiltering);
             }
+
             Material miscShader = new Material(Shader.Find("Utils/Misc"));
             cmdFiltering.Blit(m_renderTexture, BuiltinRenderTextureType.CameraTarget, miscShader, 1);
             ExecuteCommand(cmdFiltering);
-
         }
 
         private void InitializeBuffers(CommandBuffer cmd)

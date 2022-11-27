@@ -7,7 +7,7 @@
 #pragma kernel MainSVGFFilter
 
 // 1
-#pragma kernel VarianceTemporalAccumulation
+#pragma kernel VarianceEstimate
 
 // 2
 #pragma kernel VarianceTemporalAccumulation_Plus
@@ -184,65 +184,87 @@ RWStructuredBuffer<temporal_data> _temporalBufferR;
 RWStructuredBuffer<temporal_data> _temporalBufferW;
 
 [numthreads(16, 16, 1)]
-void VarianceTemporalAccumulation(uint3 id : SV_DispatchThreadID)
+void VarianceEstimate(uint3 id : SV_DispatchThreadID)
 {
-    // int2 imageCoord = id.xy;
-    // if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
-    // {
-    //     return;
-    // }
-    // int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
-    // float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
-    //
-    // float2 motion = _motionVector[imageCoord];
-    // float4 cur = _curColorTarget[imageCoord];
-    // int2 imageCoord_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
-    //
-    // if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0
-    //     || imageCoord_prev.y >= _screenHeight)
-    // {
-    //     temporal_data data;
-    //     data.mean = cur.rgb;
-    //     data.mean2 = cur.rgb * cur.rgb;
-    //     data.meanShort = cur.rgb;
-    //     data.count = 1;
-    //     _temporalBufferW[bufferId] = data;
-    //     return;
-    // }
-    //
-    // float4 WSpos = _worldPos[imageCoord_prev];
-    // float objectId = WSpos.w;
-    //
-    // float prevObjectId = _worldPos_prev[imageCoord_prev].a;
-    // if (objectId != prevObjectId)
-    // {
-    //     temporal_data data;
-    //     data.mean = cur.rgb;
-    //     data.mean2 = cur.rgb * cur.rgb;
-    //     data.meanShort = cur.rgb;
-    //     data.count = 1;
-    //     _temporalBufferW[bufferId] = data;
-    //     return;
-    // }
-    //
-    // const temporal_data prev = _temporalBufferR[bufferId];
-    //
-    // int cnt = prev.count + 1;
-    // temporal_data data;
-    // if(cnt < 4)
-    // {
-    //     data.mean = prev.mean + cur.rgb;
-    //     data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
-    // }
-    // else
-    // {
-    //     data.mean = lerp(prev.mean, cur.rgb, 0.25);
-    //     data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, 0.25);
-    // }
-    // data.meanShort = lerp(prev.meanShort, cur.rgb, _temporalFactor);
-    // data.count = min(cnt, 4);
-    //
-    // _temporalBufferW[bufferId] = data;
+    int2 imageCoord = id.xy;
+    if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
+    {
+        return;
+    }
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+
+    float4 cur_color = _curColorTarget[imageCoord];
+    float4 cur_WSpos = _worldPos[imageCoord];
+    float3 cur_normalN = _normalM[imageCoord].xyz;
+    
+    if(length(cur_normalN) < 1e-5)
+    {
+        _renderW[imageCoord] = float4(0, 0, 0, 0);
+        return;
+    }
+    float3 N = normalize(cur_normalN * 2 - 1);
+
+    const temporal_data data = _temporalBufferR[bufferId];
+
+    // If we have less than 4 samples
+    if(data.count < 4)
+    {
+        float3 mean = 0;
+        float3 mean2 = 0;
+        float weight = 0;
+        for (int i = -3; i <= 3; i++)
+        {
+            for (int j = -3; j <= 3; j++)
+            {
+                int2 coord = imageCoord + int2(j, i);
+                if(coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight) continue;
+                float3 nq = _normalM[coord].xyz;
+                // If is empty then skip
+                if(length(nq) < 1e-5) continue;
+                nq = normalize(nq * 2 - 1);
+                
+                int bufferId2 = coord.y * _screenWidth + coord.x;
+                
+                float3 C = _temporalBufferR[bufferId2].mean;
+                float3 C2 = _temporalBufferR[bufferId2].mean2;
+        
+                // Xq.w is object Id
+                float4 Xq = _worldPos[coord];
+                float3 dir = Xq.xyz - cur_WSpos.xyz;
+                if (length(dir) > 1e-5)
+                {
+                    dir = normalize(dir);
+                }
+                float Lumin = abs(dot(float3(0.2126, 0.7152, 0.0722), C - data.mean));
+                
+                float wn = pow(max(0, dot(nq, N)), _sigmaN);
+                // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
+                float wz = -abs(dot(N, dir)) / _sigmaZ;
+                float wx = -length(Xq.xyz - cur_WSpos.xyz) / _sigmaX;
+                float wid = (Xq.w == cur_WSpos.w) ? 1 : 0;
+                
+                int k = (2 + i) * 5 + (2 + j);
+                float w = wn * exp(wz + wx) * wid;
+        
+                mean += w * C;
+                mean2 += w * C2;
+                weight += w;
+            }
+        }
+        if (weight < 1e-5)
+        {
+            _renderW[imageCoord] = float4(1, 1, 1, 1);
+            return;
+        }
+        float3 mean2W = mean2 / weight;
+        float3 meanW = mean / weight;
+        _renderW[imageCoord] = float4(abs(mean2W - meanW * meanW) * 4 / data.count, 1);
+        return;
+    }
+    
+    float3 mean = data.mean;
+    float3 mean2 = data.mean2;
+    _renderW[imageCoord] = float4(abs(mean2 - mean * mean), 1);
 }
 
 
@@ -255,61 +277,130 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
         return;
     }
     int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
-    float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
+    float2 uv = (imageCoord) / float2(_screenWidth, _screenHeight);
 
     float2 motion = _motionVector[imageCoord];
-    float4 cur = _curColorTarget[imageCoord];
-    int2 imageCoord_prev = floor((uv + motion) * float2(_screenWidth, _screenHeight));
-    int bufferId_prev = imageCoord_prev.y * _screenWidth + imageCoord_prev.x;
-    
-    if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0
-        || imageCoord_prev.y >= _screenHeight)
+    float4 cur_color = _curColorTarget[imageCoord];
+    float4 cur_WSpos = _worldPos[imageCoord];
+    float3 cur_normalN = _normalM[imageCoord];
+    float2 pixel_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
+    int2 imageCoord_prev = floor(pixel_prev);
+
+    // Current is empty pixel
+    if(length(cur_normalN) < 1e-5)
     {
-        temporal_data data;
-        data.mean = cur.rgb;
-        data.mean2 = cur.rgb * cur.rgb;
-        data.meanShort = cur.rgb;
-        data.count = 1;
-        _temporalBufferW[bufferId] = data;
         return;
+    }
+    float3 cur_N = normalize(cur_normalN * 2 - 1);
+    
+    // Compute bilinear filtering weights
+    int2 offsets[4];
+    offsets[0] = int2(0, 0);
+    offsets[1] = int2(1, 0);
+    offsets[2] = int2(0, 1);
+    offsets[3] = int2(1, 1);
+
+    float2 pix_fract = pixel_prev - imageCoord_prev;
+    float2 inv_pix_fract = 1.0f - pix_fract;
+    float weights[4];
+    weights[0] = inv_pix_fract.x * inv_pix_fract.y;
+    weights[1] = pix_fract.x * inv_pix_fract.y;
+    weights[2] = inv_pix_fract.x * pix_fract.y;
+    weights[3] = pix_fract.x * pix_fract.y;
+
+    float sum_weights = 0;
+    float3 sum_color = 0;
+    float3 sum_mean2 = 0;
+    float sum_spp = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        int2 uvQ = imageCoord_prev + offsets[i];
+        if (uvQ.x < 0 || uvQ.x >= _screenWidth || uvQ.y < 0 || uvQ.y >= _screenHeight)
+        {
+            continue;
+        }
+        
+        float3 prev_normalN = _normalM_prev[uvQ];
+        if(length(prev_normalN) < 1e-5)
+        {
+            continue;
+        }
+        float3 prev_normal = normalize(prev_normalN * 2 - 1);
+        const temporal_data prev = _temporalBufferR[uvQ.y * _screenWidth + uvQ.x];
+        float4 prev_WSPos = _worldPos_prev[uvQ];
+        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.8)
+        {
+            continue;
+        }
+
+        sum_color += prev.mean * weights[i];
+        sum_mean2 += prev.mean2 * weights[i];
+        sum_weights += weights[i];
+        sum_spp += weights[i] * prev.count;
     }
 
-    const temporal_data prev = _temporalBufferR[bufferId_prev];
-    float4 WSpos = _worldPos[imageCoord_prev];
-    float objectId = WSpos.w;
-    float prevObjectId = _worldPos_prev[imageCoord_prev].a;
-    if (objectId != prevObjectId)
+    if(sum_weights < 1e-5)
     {
         temporal_data data;
-        data.mean = cur.rgb;
-        data.mean2 = cur.rgb * cur.rgb;
-        data.meanShort = cur.rgb;
+        data.mean = cur_color.rgb;
+        data.mean2 = cur_color.rgb * cur_color.rgb;
+        data.meanShort = cur_color.rgb;
         data.count = 1;
         _temporalBufferW[bufferId] = data;
-        return;
     }
-    
-    temporal_data data;
-    // data.mean = prev.mean + cur.rgb;
-    // data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
-    data.count = min(10, prev.count + 1);
-    data.mean = lerp(prev.mean, cur.rgb, max(1 / data.count, _temporalFactor));
-    data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / data.count, _temporalFactor));
-    data.meanShort = lerp(prev.meanShort, cur.rgb, 0.33);
-    
-    // float3 mean = data.mean;
-    // float3 mean2 = data.mean2;
-    // float3 stdev = sqrt(abs(mean2 - mean * mean));
-    // float3 diffV = (data.meanShort - mean) / max(1e-5, mean);
-    // float diff = abs(dot(float3(0.2126, 0.7152, 0.0722), (data.meanShort - mean) / max(1e-5, stdev)));
-    // if (diff > 0.5)
+    else
+    {
+        float spp = sum_spp / sum_weights;
+        float3 ss_color = sum_color / sum_weights;
+        float3 ss_color2 = sum_mean2 / sum_weights;
+        
+        temporal_data data;
+        // data.mean = prev.mean + cur.rgb;
+        // data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
+        data.count = min(10, spp + 1);
+        data.mean = lerp(ss_color, cur_color.rgb, max(1 / data.count, _temporalFactor));
+        data.mean2 = lerp(ss_color2, cur_color.rgb * cur_color.rgb, max(1 / data.count, _temporalFactor));
+        data.meanShort = 0;
+        _temporalBufferW[bufferId] = data;
+    }
+    return;
+
+    // const temporal_data prev = _temporalBufferR[bufferId_prev];
+    // float4 WSpos = _worldPos[imageCoord_prev];
+    // float objectId = WSpos.w;
+    // float prevObjectId = _worldPos_prev[imageCoord_prev].a;
+    // if (objectId != prevObjectId)
     // {
-    //     float t = min(data.count * exp(-diff / 3), 10);
-    //     data.mean = 0.5 * (mean + cur.rgb);
-    //     data.mean2 = 0.5 * (mean2 + cur.rgb * cur.rgb);
+    //     temporal_data data;
+    //     data.mean = cur.rgb;
+    //     data.mean2 = cur.rgb * cur.rgb;
+    //     data.meanShort = cur.rgb;
     //     data.count = 1;
+    //     _temporalBufferW[bufferId] = data;
+    //     return;
     // }
-    _temporalBufferW[bufferId] = data;
+    //
+    // temporal_data data;
+    // // data.mean = prev.mean + cur.rgb;
+    // // data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
+    // data.count = min(10, prev.count + 1);
+    // data.mean = lerp(prev.mean, cur.rgb, max(1 / data.count, _temporalFactor));
+    // data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / data.count, _temporalFactor));
+    // data.meanShort = lerp(prev.meanShort, cur.rgb, 0.33);
+    //
+    // // float3 mean = data.mean;
+    // // float3 mean2 = data.mean2;
+    // // float3 stdev = sqrt(abs(mean2 - mean * mean));
+    // // float3 diffV = (data.meanShort - mean) / max(1e-5, mean);
+    // // float diff = abs(dot(float3(0.2126, 0.7152, 0.0722), (data.meanShort - mean) / max(1e-5, stdev)));
+    // // if (diff > 0.5)
+    // // {
+    // //     float t = min(data.count * exp(-diff / 3), 10);
+    // //     data.mean = 0.5 * (mean + cur.rgb);
+    // //     data.mean2 = 0.5 * (mean2 + cur.rgb * cur.rgb);
+    // //     data.count = 1;
+    // // }
+    // _temporalBufferW[bufferId] = data;
 }
 
 
@@ -337,14 +428,12 @@ void ClearTemporalBuffer(uint3 id : SV_DispatchThreadID)
 void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
 {
     int2 imageCoord = id.xy;
-
     if (imageCoord.x >= _screenWidth || imageCoord.y >= _screenHeight)
     {
         return;
     }
+    float2 uv = (imageCoord) / float2(_screenWidth, _screenHeight);
 
-
-    float2 uv = imageCoord / float2(_screenWidth, _screenHeight);
     float2 motion = _motionVector[imageCoord];
     float2 pixel_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
     int2 imageCoord_prev = floor(pixel_prev);
@@ -352,6 +441,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
     float4 cur_color = _curColorTarget[imageCoord];
     float4 cur_WSpos = _worldPos[imageCoord];
     float3 cur_normalN = _normalM[imageCoord];
+    
 
     if(_uGlobalFrames == 0)
     {
@@ -449,13 +539,15 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         if(sum_weights > 0)
         {
             float spp = sum_spp / sum_weights;
+            spp = min(spp, 30);
             float3 ss_color = sum_color / sum_weights;
             float3 stdev = sqrt(_varianceTarget[imageCoord].rgb);
             // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
         
             float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-            float3 highThreshold = 0.1 + ss_color + sigma * 8;
+            float3 highThreshold = 0.1 + ss_color + stdev * 8;
             float3 overflow = max(0.0, cur_color.rgb - highThreshold);
+            // ss_color = clamp(ss_color, cur_color.rgb - stdev * 2, cur_color.rgb + stdev * 2);
             cur_color.rgb -= overflow;
             
             _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);
@@ -477,14 +569,14 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
         
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-        float3 highThreshold = 0.1 + ss_color + sigma * 8;
+        float3 highThreshold = 0.1 + ss_color + stdev * 8;
         float3 overflow = max(0.0, cur_color.rgb - highThreshold);
         cur_color.rgb -= overflow;
-        spp = min(spp, 10);
-        // if(sigma > 8)
-        // {
-        //     spp = min(floor(spp * exp(-3 - sigma / 7)), 10);
-        // }
+        if(sigma > 8)
+        {
+            spp = 2;
+        }
+        spp = min(spp, 30);
     }
     else
     {

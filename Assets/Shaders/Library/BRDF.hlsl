@@ -12,7 +12,7 @@ float3x3 BuildTNB(float3 N)
 
 float RoughnessToAlpha(float x)
 {
-    return x * x;
+    return max(0.01, x * x);
 }
 
 // 微表面模型的D项
@@ -62,14 +62,14 @@ float Pdf_GGX(in Surface surface, float3 wi, float3 wo)
 {
     if(surface.roughness == 1)
     {
-        return max(1e-5, dot(surface.normal, wi)) / PI;
+        return max(1e-7, dot(surface.normal, wi)) / PI;
     }
     float alpha = RoughnessToAlpha(surface.roughness);
     float3 H = normalize(wi + wo);
     float D = D_GGX(surface.normal, H, alpha);
-    float VdotH = max(0, dot(wo, H));
-    float NdotH = max(0, dot(surface.normal, H));
-    return max(1e-5, D * NdotH / (4 * VdotH));
+    float VdotH = max(1e-7, dot(wo, H));
+    float NdotH = max(1e-7, dot(surface.normal, H));
+    return max(1e-7, D * NdotH / (4 * VdotH));
 }
 
 float3 BRDF_Diffuse(in Surface surface, float3 wi, float3 wo)
@@ -159,7 +159,7 @@ float3 GGXImportanceSample(float2 sample, in Surface surface, float3 wo, out flo
     
     wi = wIn;
     pdf = Pdf_GGX(surface, wIn, wo);
-    return (4 * F * V * VdotH * NdotL) / max(EPS, NdotH);
+    return (4 * F * V * VdotH * NdotL) / max(1e-7, NdotH);
 }
 
 float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo, out float3 wi, out float pdf)
@@ -186,5 +186,5 @@ float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo
     
     wi = wIn;
     pdf = Pdf_GGX(surface, wIn, wo);
-    return (4 * F * V * VdotH * NdotL) / max(EPS, NdotH);
+    return (4 * F * V * VdotH * NdotL) / max(1e-7, NdotH);
 }
