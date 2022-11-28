@@ -110,14 +110,14 @@ float3 BRDFNoL_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)
 {
     if(surface.roughness == 1)
     {
-        return max(1e-5, dot(surface.normal, wi)) / PI;
+        return max(1e-7, dot(surface.normal, wi)) / PI;
     }
     float alpha = RoughnessToAlpha(surface.roughness);
     float3 H = normalize(wi + wo);
     float D = D_GGX(surface.normal, H, alpha);
     float V = V_SmithGGXCorrelated(surface.normal, wi, wo, alpha);
     float3 F = F_Schlick(1, H, wi);
-    return D * V * F * max(1e-5, dot(surface.normal, wi));
+    return D * V * F * max(1e-7, dot(surface.normal, wi));
 }
 
 float3 BRDF_GGX_NoAlbedo(in Surface surface, float3 wi, float3 wo)

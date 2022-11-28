@@ -20,7 +20,7 @@ MonoBehaviour:
         atlasSize: 1024
     LightingSetting:
       EnvironmentMap: {fileID: 8900000, guid: 2288e023d12a740468d683a2c1ebddc8, type: 3}
-      PathBounces: 5
+      PathBounces: 1
     PipelineResourceSetting:
       SVGFFilterShader: {fileID: 7200000, guid: 35c03422aa2f9bf419956a0d83489338, type: 3}
       DirectRayTracingShader: {fileID: 4807578003741378534, guid: 0fa7fe91288e4aa782f3f6d32bc8891f, type: 3}
@@ -30,8 +30,8 @@ MonoBehaviour:
       SigmaZ: 1
       SigmaX: 4
       SigmaC: 4
-      SigmaN: 64
+      SigmaN: 128
       TemporalFactor: 0.1
       GroundTruth: 0
-      TemporalPlus: 0
+      SeperateIndirect: 1
       EnableReSTIR: 0

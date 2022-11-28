@@ -26,7 +26,6 @@ namespace Assets.Pipeline
         public const int maxDirLightCount = 4;
         public const int MAX_AREALIGHT_COUNT = 8;
         public const int maxShadowedDirectionalLightCount = 1;
-        private bool m_firstFrame;
 
         private static int
             dirLightCountId = Shader.PropertyToID("_DirectionalLightCount"),
@@ -75,8 +74,6 @@ namespace Assets.Pipeline
             areaLightVA = new Vector4[MAX_AREALIGHT_COUNT];
             areaLightVB = new Vector4[MAX_AREALIGHT_COUNT];
             areaLightVC = new Vector4[MAX_AREALIGHT_COUNT];
-
-            m_firstFrame = true;
         }
 
         public void Render(Camera camera, ScriptableRenderContext context, RenderingSettings shadowSettings)
@@ -105,8 +102,7 @@ namespace Assets.Pipeline
             }
             // 提交绘制命令
             m_context.Submit();
-
-            m_firstFrame = false;
+            
         }
 
         private bool DoCulling()

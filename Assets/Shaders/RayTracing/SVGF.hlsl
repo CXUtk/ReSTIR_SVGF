@@ -27,6 +27,7 @@ v2f vert_tex2D (appdata v)
 SamplerState my_point_clamp_sampler;
 
 Texture2D _MainTex;
+Texture2D _MainTex2;
 
 Texture2D _prevColorTarget;
 Texture2D _curColorTarget;
@@ -196,77 +197,78 @@ float4 main_filter (v2f V2F) : SV_TARGET
 
 float4 variance_estimation (v2f V2F) : SV_TARGET
 {
-    int2 imageCoord = round(V2F.uv * _invScreenSize.zw - 0.5);
-    int bufferId = imageCoord.y * (int)_invScreenSize.z + imageCoord.x;
-    
-    float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
-    if(length(N) < 1e-5) return float4(0, 0, 0, 0);
-    N = normalize(N * 2 - 1);
-    
-    // posSelf.w is object Id
-    float4 posSelf = _worldPos.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
-
-    const temporal_data data = _temporalBufferR[bufferId];
-
-    // If we have less than 4 samples
-    if(data.count < 4)
-    {
-        float3 mean = 0;
-        float3 mean2 = 0;
-        float weight = 0;
-        for (int i = -3; i <= 3; i++)
-        {
-            for (int j = -3; j <= 3; j++)
-            {
-                float2 offset = _invScreenSize.xy * float2(j, i);
-                float2 uv = V2F.uv + offset;
-                if(uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) continue;
-                float3 nq = _normalM.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
-                // If is empty then skip
-                if(length(nq) < 1e-5) continue;
-                nq = normalize(nq * 2 - 1);
-
-                int2 imageCoord2 = round(uv * _invScreenSize.zw);
-                int bufferId2 = imageCoord2.y * (int)_invScreenSize.z + imageCoord2.x;
-                
-                float3 C = _temporalBufferR[bufferId2].mean;
-                float3 C2 = _temporalBufferR[bufferId2].mean2;
-        
-                // Xq.w is object Id
-                float4 Xq = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0);
-                float3 dir = Xq.xyz - posSelf.xyz;
-                if (Length2(dir) > 1e-5)
-                {
-                    dir = normalize(dir);
-                }
-                float Lumin = abs(dot(float3(0.2126, 0.7152, 0.0722), C - data.mean));
-                
-                float wn = pow(max(0, dot(nq, N)), _sigmaN);
-                // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
-                float wz = -abs(dot(N, dir)) / _sigmaZ;
-                float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
-                float wid = (Xq.w == posSelf.w) ? 1 : 0;
-                
-                int k = (2 + i) * 5 + (2 + j);
-                float w = wn * exp(wz + wx) * wid;
-        
-                mean += w * C;
-                mean2 += w * C2;
-                weight += w;
-            }
-        }
-        if (weight < 1e-5)
-        {
-            return float4(1, 1, 1, 1);
-        }
-        float3 mean2W = mean2 / weight;
-        float3 meanW = mean / weight;
-        return float4(abs(mean2W - meanW * meanW) * 4 / data.count, 1);
-    }
-    
-    float3 mean = data.mean;
-    float3 mean2 = data.mean2;
-    return float4(abs(mean2 - mean * mean), 1);
+    return float4(1, 1, 1, 1);
+    // int2 imageCoord = round(V2F.uv * _invScreenSize.zw - 0.5);
+    // int bufferId = imageCoord.y * (int)_invScreenSize.z + imageCoord.x;
+    //
+    // float3 N = _normalM.SampleLevel(my_point_clamp_sampler, V2F.uv, 0).xyz;
+    // if(length(N) < 1e-5) return float4(0, 0, 0, 0);
+    // N = normalize(N * 2 - 1);
+    //
+    // // posSelf.w is object Id
+    // float4 posSelf = _worldPos.SampleLevel(my_point_clamp_sampler, V2F.uv, 0);
+    //
+    // const temporal_data data = _temporalBufferR[bufferId];
+    //
+    // // If we have less than 4 samples
+    // if(data.count < 4)
+    // {
+    //     float3 mean = 0;
+    //     float3 mean2 = 0;
+    //     float weight = 0;
+    //     for (int i = -3; i <= 3; i++)
+    //     {
+    //         for (int j = -3; j <= 3; j++)
+    //         {
+    //             float2 offset = _invScreenSize.xy * float2(j, i);
+    //             float2 uv = V2F.uv + offset;
+    //             if(uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) continue;
+    //             float3 nq = _normalM.SampleLevel(my_point_clamp_sampler, uv, 0).xyz;
+    //             // If is empty then skip
+    //             if(length(nq) < 1e-5) continue;
+    //             nq = normalize(nq * 2 - 1);
+    //
+    //             int2 imageCoord2 = round(uv * _invScreenSize.zw);
+    //             int bufferId2 = imageCoord2.y * (int)_invScreenSize.z + imageCoord2.x;
+    //             
+    //             float3 C = _temporalBufferR[bufferId2].mean;
+    //             float3 C2 = _temporalBufferR[bufferId2].mean2;
+    //     
+    //             // Xq.w is object Id
+    //             float4 Xq = _worldPos.SampleLevel(my_point_clamp_sampler, uv, 0);
+    //             float3 dir = Xq.xyz - posSelf.xyz;
+    //             if (Length2(dir) > 1e-5)
+    //             {
+    //                 dir = normalize(dir);
+    //             }
+    //             float Lumin = abs(dot(float3(0.2126, 0.7152, 0.0722), C - data.mean));
+    //             
+    //             float wn = pow(max(0, dot(nq, N)), _sigmaN);
+    //             // float wz = exp(-abs(Z - Zq) / (_sigmaZ * abs(dot(gradZ, -offset)) + 1e-5));
+    //             float wz = -abs(dot(N, dir)) / _sigmaZ;
+    //             float wx = -length(Xq.xyz - posSelf.xyz) / _sigmaX;
+    //             float wid = (Xq.w == posSelf.w) ? 1 : 0;
+    //             
+    //             int k = (2 + i) * 5 + (2 + j);
+    //             float w = wn * exp(wz + wx) * wid;
+    //     
+    //             mean += w * C;
+    //             mean2 += w * C2;
+    //             weight += w;
+    //         }
+    //     }
+    //     if (weight < 1e-5)
+    //     {
+    //         return float4(1, 1, 1, 1);
+    //     }
+    //     float3 mean2W = mean2 / weight;
+    //     float3 meanW = mean / weight;
+    //     return float4(abs(mean2W - meanW * meanW) * 4 / data.count, 1);
+    // }
+    //
+    // float3 mean = data.mean;
+    // float3 mean2 = data.mean2;
+    // return float4(abs(mean2 - mean * mean), 1);
 }
 // float4 variance_estimation (v2f V2F) : SV_TARGET
 // {
@@ -332,7 +334,14 @@ float4 final_gather (v2f i) : SV_TARGET
     return float4(emission + light * colorSelf, 1);
 }
 
-
+float4 final_gather2 (v2f i) : SV_TARGET
+{
+    float3 direct = _MainTex.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
+    float3 indirect = _MainTex2.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
+    float3 colorSelf = _albedoR.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
+    float3 emission = _emission.SampleLevel(my_point_clamp_sampler, i.uv, 0).rgb;
+    return float4(emission + (direct + indirect) * colorSelf, 1);
+}
 
 StructuredBuffer<restir_RESERVOIR> _restirBuffer;
 float4 restir_color_check (v2f i) : SV_TARGET
@@ -356,6 +365,7 @@ float4 restir_color_check (v2f i) : SV_TARGET
     surface.alpha = 1;
     surface.roughness = albedoR.a;
     surface.metallic = normalN.a;
+    surface.emission = 0;
 
     const restir_RESERVOIR R = _restirBuffer[bufferId];
     float3 WI = normalize(R.sample.Xs - R.sample.Xv);

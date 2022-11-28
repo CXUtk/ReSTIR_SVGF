@@ -6,7 +6,7 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
 
 RWTexture2D<float4> _renderTarget;
-RWStructuredBuffer<restir_RESERVOIR> _restirTemporalBuffer;
+RWStructuredBuffer<restir_RESERVOIR> _prevRestirBuffer;
 
 Texture2D _albedoR;
 Texture2D _normalM;
@@ -37,15 +37,12 @@ void MyMissShader(inout PathTracingPayload payload : SV_RayPayload)
 }
 
 
-[shader("raygeneration")]
-void MyRaygenShader()
+void DoPathTracing(int2 dispatchIdx, inout uint seed, out float3 LDirect, out float3 LIndirect, 
+out float3 hitN, out float3 hitPos, out float Pdf)
 {
-    uint2 dispatchIdx = DispatchRaysIndex().xy;
-    
-    uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
     float a = wang_hash(seed) / 4294967295.0;
     float b = wang_hash(seed) / 4294967295.0;
-
+    
     float4 normalM = _normalM[dispatchIdx];
     float3 worldPos = _worldPos[dispatchIdx].xyz;
     float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
@@ -69,11 +66,12 @@ void MyRaygenShader()
     float3 wi;
     float pdf;
     float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi, pdf);
+    Pdf = pdf;
     
 
     float3 beta = brdfNoLDivPdf;
-    float3 LDirect = (Direct_DirectionalLight_alter(surface, wo, 1) + Direct_AreaLight_alter(surface, wo, seed, 1));
-    float3 LIndirect = 0;
+    LDirect = (Direct_DirectionalLight_alter(surface, wo, 1) + Direct_AreaLight_alter(surface, wo, seed, 1));
+    LIndirect = 0;
 
     seed = seed + 771132;
 
@@ -100,6 +98,9 @@ void MyRaygenShader()
         // // Add emission
         // LIndirect += beta * surfaceHit.emission;
 
+        hitN = surfaceHit.normal;
+        hitPos = surfaceHit.worldPos;
+
         if(payload.T == 999999)
         {
             LIndirect += beta * surfaceHit.emission;
@@ -118,6 +119,20 @@ void MyRaygenShader()
         worldPos = surfaceHit.worldPos;
         N = surfaceHit.normal;
     }
+}
+
+[shader("raygeneration")]
+void MyRaygenShader()
+{
+    uint2 dispatchIdx = DispatchRaysIndex().xy;
+    
+    uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
+
+    float3 LDirect, LIndirect;
+    float3 hitN, hitPos;
+    float pdf;
+    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf);
+
     float4 newColor = float4(LDirect + LIndirect, 1);
     
     if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
@@ -126,4 +141,103 @@ void MyRaygenShader()
         return;
     }
     _renderTarget[dispatchIdx] = float4(LDirect + LIndirect, 1);// * float4(surface.color, 1);
+}
+
+
+RWTexture2D<float4> _directTarget;
+RWTexture2D<float4> _indirectTarget;
+
+[shader("raygeneration")]
+void SeperatePathTracing()
+{
+    uint2 dispatchIdx = DispatchRaysIndex().xy;
+    
+    uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
+
+    float3 LDirect, LIndirect;
+    float3 hitN, hitPos;
+    float pdf;
+    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf);
+    
+    if (isnan(LDirect.x) || isnan(LDirect.y) || isnan(LDirect.z))
+    {
+        _directTarget[dispatchIdx] = float4(1, 0, 1, 1);
+        return;
+    }
+
+    if (isnan(LIndirect.x) || isnan(LIndirect.y) || isnan(LIndirect.z))
+    {
+        _indirectTarget[dispatchIdx] = float4(1, 0, 1, 1);
+        return;
+    }
+    _directTarget[dispatchIdx] = float4(LDirect, 1);// * float4(surface.color, 1);
+    _indirectTarget[dispatchIdx] = float4(LIndirect, 1);
+}
+
+[shader("raygeneration")]
+void SeperatePathTracing_ReSTIR()
+{
+    uint2 dispatchIdx = DispatchRaysIndex().xy;
+
+    float4 normalM = _normalM[dispatchIdx];
+    float3 worldPos = _worldPos[dispatchIdx].xyz;
+    float3 wo = normalize(_WorldSpaceCameraPos.xyz - worldPos);
+    if(length(normalM.xyz) < 1e-5)
+    {
+        return;
+    }
+    float3 N = normalize(normalM.xyz * 2 - 1);
+    
+    uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
+
+    float3 LDirect, LIndirect;
+    float3 hitN, hitPos;
+    float pdf;
+    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf);
+    
+    if (isnan(LDirect.x) || isnan(LDirect.y) || isnan(LDirect.z))
+    {
+        _directTarget[dispatchIdx] = float4(1, 0, 1, 1);
+        return;
+    }
+
+    if (isnan(LIndirect.x) || isnan(LIndirect.y) || isnan(LIndirect.z))
+    {
+        _indirectTarget[dispatchIdx] = float4(1, 0, 1, 1);
+        return;
+    }
+    
+    // ------------------- ReSTIR process
+    float3 Lo = LIndirect;
+
+    restir_RESERVOIR R;
+    R.sample.Xv = worldPos;
+    R.sample.Nv = N;
+    R.sample.Xs = hitPos;
+    R.sample.Ns = hitN; 
+    R.sample.Lo = Lo;
+
+    float pQ = Luminance(Lo) / pdf;
+    R.w = pQ;
+    R.M = 1;
+    R.Wout = pQ / Luminance(Lo);
+    
+    uint seed2 = _uGlobalFrames * 7714523u + dispatchIdx.y * 7732u + dispatchIdx.x * 123;
+    float p = wang_hash(seed2) / 4294967295.0;
+    uint bufferId = dispatchIdx.y * _screenWidth + dispatchIdx.x;
+
+    restir_RESERVOIR cur_sample = R;
+    restir_RESERVOIR old_sample = _prevRestirBuffer[bufferId];
+    float w = cur_sample.w;
+    RESERVOIR_update(old_sample, cur_sample.sample, w, p);
+    old_sample.Wout = old_sample.w / (old_sample.M * Luminance(old_sample.sample.Lo));
+    _prevRestirBuffer[bufferId] = old_sample;
+
+    // Lo = old_sample.sample.Lo * old_sample.Wout;
+
+    // ------------------- ReSTIR process END
+    
+    
+    _directTarget[dispatchIdx] = float4(LDirect, 1);
+    _indirectTarget[dispatchIdx] = float4(LIndirect, 1);
 }

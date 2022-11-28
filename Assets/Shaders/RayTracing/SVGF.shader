@@ -60,5 +60,16 @@
 			#include "SVGF.hlsl"
 			ENDHLSL
 		}
+		
+		Pass
+		{
+			Name "Final Gather 2"
+			HLSLPROGRAM
+			#pragma vertex vert_tex2D
+			#pragma fragment final_gather2
+			
+			#include "SVGF.hlsl"
+			ENDHLSL
+		}
 	}
 }

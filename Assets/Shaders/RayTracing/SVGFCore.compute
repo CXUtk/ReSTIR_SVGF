@@ -81,6 +81,16 @@ static const float gaussian[9] = {
     1.0 / 16.0, 1.0 / 8.0, 1.0 / 16.0
 };
 
+uint wang_hash(inout uint seed)
+{
+    seed = (seed ^ 61) ^ (seed >> 16);
+    seed *= 9;
+    seed = seed ^ (seed >> 4);
+    seed *= 0x27d4eb2d;
+    seed = seed ^ (seed >> 15);
+    return seed;
+}
+
 [numthreads(16, 16, 1)]
 void MainSVGFFilter(uint3 id : SV_DispatchThreadID)
 {
@@ -99,7 +109,7 @@ void MainSVGFFilter(uint3 id : SV_DispatchThreadID)
     }
     N = normalize(N * 2 - 1);
 
-    float3 colorSelf = _renderR[imageCoord].rgb;
+    const float3 colorSelf = _renderR[imageCoord].rgb;
 
     // posSelf.w is object Id
     float4 posSelf = _worldPos[imageCoord];
@@ -192,8 +202,7 @@ void VarianceEstimate(uint3 id : SV_DispatchThreadID)
         return;
     }
     int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
-
-    float4 cur_color = _curColorTarget[imageCoord];
+    
     float4 cur_WSpos = _worldPos[imageCoord];
     float3 cur_normalN = _normalM[imageCoord].xyz;
     
@@ -243,7 +252,6 @@ void VarianceEstimate(uint3 id : SV_DispatchThreadID)
                 float wx = -length(Xq.xyz - cur_WSpos.xyz) / _sigmaX;
                 float wid = (Xq.w == cur_WSpos.w) ? 1 : 0;
                 
-                int k = (2 + i) * 5 + (2 + j);
                 float w = wn * exp(wz + wx) * wid;
         
                 mean += w * C;
@@ -253,7 +261,7 @@ void VarianceEstimate(uint3 id : SV_DispatchThreadID)
         }
         if (weight < 1e-5)
         {
-            _renderW[imageCoord] = float4(1, 1, 1, 1);
+            _renderW[imageCoord] = float4(mean2 - mean * mean, 1);
             return;
         }
         float3 mean2W = mean2 / weight;
@@ -287,7 +295,7 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
     int2 imageCoord_prev = floor(pixel_prev);
 
     // Current is empty pixel
-    if(length(cur_normalN) < 1e-5)
+    if (length(cur_normalN) < 1e-5)
     {
         return;
     }
@@ -328,15 +336,23 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
         float3 prev_normal = normalize(prev_normalN * 2 - 1);
         const temporal_data prev = _temporalBufferR[uvQ.y * _screenWidth + uvQ.x];
         float4 prev_WSPos = _worldPos_prev[uvQ];
-        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.8)
+        float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
+        if (length(dir) > 1e-5)
+        {
+            dir = normalize(dir);
+        }
+        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.5 || abs(dot(cur_N, dir)) > 0.1)
         {
             continue;
         }
 
-        sum_color += prev.mean * weights[i];
-        sum_mean2 += prev.mean2 * weights[i];
-        sum_weights += weights[i];
-        sum_spp += weights[i] * prev.count;
+        float wn = pow(max(0, dot(prev_normal, cur_N)), _sigmaN);
+        float wc = -abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color - prev.mean) / (_sigmaC)));
+        float w = weights[i] * wn * exp(wc);
+        sum_color += prev.mean * w;
+        sum_mean2 += prev.mean2 * w;
+        sum_weights += w;
+        sum_spp += w * prev.count;
     }
 
     if(sum_weights < 1e-5)
@@ -363,44 +379,6 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
         data.meanShort = 0;
         _temporalBufferW[bufferId] = data;
     }
-    return;
-
-    // const temporal_data prev = _temporalBufferR[bufferId_prev];
-    // float4 WSpos = _worldPos[imageCoord_prev];
-    // float objectId = WSpos.w;
-    // float prevObjectId = _worldPos_prev[imageCoord_prev].a;
-    // if (objectId != prevObjectId)
-    // {
-    //     temporal_data data;
-    //     data.mean = cur.rgb;
-    //     data.mean2 = cur.rgb * cur.rgb;
-    //     data.meanShort = cur.rgb;
-    //     data.count = 1;
-    //     _temporalBufferW[bufferId] = data;
-    //     return;
-    // }
-    //
-    // temporal_data data;
-    // // data.mean = prev.mean + cur.rgb;
-    // // data.mean2 = prev.mean2 + cur.rgb * cur.rgb;
-    // data.count = min(10, prev.count + 1);
-    // data.mean = lerp(prev.mean, cur.rgb, max(1 / data.count, _temporalFactor));
-    // data.mean2 = lerp(prev.mean2, cur.rgb * cur.rgb, max(1 / data.count, _temporalFactor));
-    // data.meanShort = lerp(prev.meanShort, cur.rgb, 0.33);
-    //
-    // // float3 mean = data.mean;
-    // // float3 mean2 = data.mean2;
-    // // float3 stdev = sqrt(abs(mean2 - mean * mean));
-    // // float3 diffV = (data.meanShort - mean) / max(1e-5, mean);
-    // // float diff = abs(dot(float3(0.2126, 0.7152, 0.0722), (data.meanShort - mean) / max(1e-5, stdev)));
-    // // if (diff > 0.5)
-    // // {
-    // //     float t = min(data.count * exp(-diff / 3), 10);
-    // //     data.mean = 0.5 * (mean + cur.rgb);
-    // //     data.mean2 = 0.5 * (mean2 + cur.rgb * cur.rgb);
-    // //     data.count = 1;
-    // // }
-    // _temporalBufferW[bufferId] = data;
 }
 
 
@@ -493,14 +471,15 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         float4 prev_WSPos = _worldPos_prev[uvQ];
 
         float3 c = prev_color.rgb / prev_color.a;
-        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.8)
+        float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
+        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.01)
         {
             continue;
         }
 
         sum_color += c * weights[i];
         sum_weights += weights[i];
-        sum_spp += weights[i] * prev_color.a;
+        sum_spp += prev_color.a * weights[i];
     }
 
     if(sum_weights < 1e-5)
@@ -524,8 +503,9 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
                 float4 prev_color = _prevColorTarget[coord];
                 float4 prev_WSPos = _worldPos_prev[coord];
 
+                float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
                 float3 c = prev_color.rgb / prev_color.a;
-                if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.5)
+                if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.01 || true)
                 {
                     continue;
                 }
@@ -539,7 +519,6 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         if(sum_weights > 0)
         {
             float spp = sum_spp / sum_weights;
-            spp = min(spp, 30);
             float3 ss_color = sum_color / sum_weights;
             float3 stdev = sqrt(_varianceTarget[imageCoord].rgb);
             // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
@@ -549,7 +528,13 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
             float3 overflow = max(0.0, cur_color.rgb - highThreshold);
             // ss_color = clamp(ss_color, cur_color.rgb - stdev * 2, cur_color.rgb + stdev * 2);
             cur_color.rgb -= overflow;
-            
+
+            if(sigma > 8)
+            {
+                spp = spp / 3;
+            }
+            spp = min(spp, 30);
+
             _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);
             //_renderW[imageCoord] = float4(100, 0, 0, 100);
         }
@@ -572,9 +557,10 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         float3 highThreshold = 0.1 + ss_color + stdev * 8;
         float3 overflow = max(0.0, cur_color.rgb - highThreshold);
         cur_color.rgb -= overflow;
+
         if(sigma > 8)
         {
-            spp = 2;
+            spp = spp / 3;
         }
         spp = min(spp, 30);
     }
@@ -626,16 +612,6 @@ void ReSTIR_Copy(uint3 id : SV_DispatchThreadID)
     _restirBufferDest[bufferId] = _restirBuffer[bufferId];
 }
 
-
-uint wang_hash(inout uint seed)
-{
-    seed = (seed ^ 61) ^ (seed >> 16);
-    seed *= 9;
-    seed = seed ^ (seed >> 4);
-    seed *= 0x27d4eb2d;
-    seed = seed ^ (seed >> 15);
-    return seed;
-}
 
 [numthreads(16, 16, 1)]
 void ReSTIR_Temporal(uint3 id : SV_DispatchThreadID)

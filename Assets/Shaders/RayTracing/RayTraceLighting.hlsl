@@ -235,7 +235,7 @@ float3 Direct_DirectionalLight_alter(in Surface surface, float3 wo, float3 chang
         shadowRay.Origin = surface.worldPos + surface.normal * 1e-3; 
         shadowRay.Direction = wLight;
         shadowRay.TMin = 0;
-        shadowRay.TMax = 10000;
+        shadowRay.TMax = 999999;
 
         TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
         0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
