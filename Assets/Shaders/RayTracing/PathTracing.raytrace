@@ -6,11 +6,22 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
 
 RWTexture2D<float4> _renderTarget;
-RWStructuredBuffer<restir_RESERVOIR> _prevRestirBuffer;
+RWStructuredBuffer<restir_RESERVOIR> _curRestirBuffer;
+StructuredBuffer<restir_RESERVOIR> _prevRestirBuffer;
 
-Texture2D _albedoR;
-Texture2D _normalM;
-Texture2D _worldPos;
+Texture2D<float> _gdepth;
+Texture2D<float4> _albedoR;
+Texture2D<float4> _normalM;
+Texture2D<float2> _motionVector;
+Texture2D<float4> _worldPos;
+
+Texture2D<float> _gdepth_prev;
+Texture2D<float4> _albedoR_prev;
+Texture2D<float4> _normalM_prev;
+Texture2D<float2> _motionVector_prev;
+Texture2D<float4> _worldPos_prev;
+
+
 TextureCube _CubeMap;
 
 SamplerState my_point_clamp_sampler;
@@ -38,7 +49,7 @@ void MyMissShader(inout PathTracingPayload payload : SV_RayPayload)
 
 
 void DoPathTracing(int2 dispatchIdx, inout uint seed, out float3 LDirect, out float3 LIndirect, 
-out float3 hitN, out float3 hitPos, out float Pdf)
+out float3 hitN, out float3 hitPos, out float Pdf, out float3 brdfNoLDivPdfindirect)
 {
     float a = wang_hash(seed) / 4294967295.0;
     float b = wang_hash(seed) / 4294967295.0;
@@ -67,9 +78,10 @@ out float3 hitN, out float3 hitPos, out float Pdf)
     float pdf;
     float3 brdfNoLDivPdf = GGXImportanceSample_NoAlbedo(float2(a, b), surface, wo, wi, pdf);
     Pdf = pdf;
+    brdfNoLDivPdfindirect = brdfNoLDivPdf;
     
 
-    float3 beta = brdfNoLDivPdf;
+    float3 beta = 1;
     LDirect = (Direct_DirectionalLight_alter(surface, wo, 1) + Direct_AreaLight_alter(surface, wo, seed, 1));
     LIndirect = 0;
 
@@ -97,11 +109,14 @@ out float3 hitN, out float3 hitPos, out float Pdf)
 
         // // Add emission
         // LIndirect += beta * surfaceHit.emission;
+        
+        if (i == 0)
+        {
+            hitN = surfaceHit.normal;
+            hitPos = surfaceHit.worldPos;
+        }
 
-        hitN = surfaceHit.normal;
-        hitPos = surfaceHit.worldPos;
-
-        if(payload.T == 999999)
+        if (payload.T == 999999)
         {
             LIndirect += beta * surfaceHit.emission;
             break;
@@ -129,18 +144,18 @@ void MyRaygenShader()
     uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
 
     float3 LDirect, LIndirect;
-    float3 hitN, hitPos;
+    float3 hitN, hitPos, brdfNoLDivPdfindirect;
     float pdf;
-    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf);
+    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf, brdfNoLDivPdfindirect);
 
-    float4 newColor = float4(LDirect + LIndirect, 1);
+    float4 newColor = float4(LDirect + LIndirect * brdfNoLDivPdfindirect, 1);
     
     if (isnan(newColor.x) || isnan(newColor.y) || isnan(newColor.z))
     {
         _renderTarget[dispatchIdx] = float4(1, 1, 0, 1);
         return;
     }
-    _renderTarget[dispatchIdx] = float4(LDirect + LIndirect, 1);// * float4(surface.color, 1);
+    _renderTarget[dispatchIdx] = float4(LDirect + LIndirect * brdfNoLDivPdfindirect, 1);// * float4(surface.color, 1);
 }
 
 
@@ -155,9 +170,9 @@ void SeperatePathTracing()
     uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
 
     float3 LDirect, LIndirect;
-    float3 hitN, hitPos;
+    float3 hitN, hitPos, brdfNoLDivPdfindirect;
     float pdf;
-    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf);
+    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf, brdfNoLDivPdfindirect);
     
     if (isnan(LDirect.x) || isnan(LDirect.y) || isnan(LDirect.z))
     {
@@ -171,7 +186,46 @@ void SeperatePathTracing()
         return;
     }
     _directTarget[dispatchIdx] = float4(LDirect, 1);// * float4(surface.color, 1);
-    _indirectTarget[dispatchIdx] = float4(LIndirect, 1);
+    _indirectTarget[dispatchIdx] = float4(LIndirect * brdfNoLDivPdfindirect, 1);
+}
+
+bool temporal_reject(int2 dispatchIdx, out int2 prevCoord)
+{
+    bool reject = false;
+    float2 uv = (dispatchIdx + 0.5) / float2(_screenWidth, _screenHeight);
+
+    float2 motion = _motionVector[dispatchIdx];
+    float2 pixel_prev = (uv + motion) * float2(_screenWidth, _screenHeight);
+    int2 imageCoord_prev = floor(pixel_prev);
+    prevCoord = imageCoord_prev;
+
+    if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0 || imageCoord_prev.y >= _screenHeight)
+    {
+        return true;
+    }
+    
+    float4 cur_WSpos = _worldPos[dispatchIdx];
+    float3 cur_normalN = _normalM[dispatchIdx];
+    // Current is empty pixel
+    if(length(cur_normalN) < 1e-5)
+    {
+        return true;
+    }
+    float3 cur_N = normalize(cur_normalN * 2 - 1);
+
+    float3 prev_normalN = _normalM_prev[imageCoord_prev];
+    if(length(prev_normalN) < 1e-5)
+    {
+        return true;
+    }
+    float3 prev_normal = normalize(prev_normalN * 2 - 1);
+    float4 prev_WSPos = _worldPos_prev[imageCoord_prev];
+    float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
+    if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.1)
+    {
+        return true;
+    }
+    return false;
 }
 
 [shader("raygeneration")]
@@ -187,57 +241,99 @@ void SeperatePathTracing_ReSTIR()
         return;
     }
     float3 N = normalize(normalM.xyz * 2 - 1);
+    float4 albedoR = _albedoR[dispatchIdx];
+    
+    Surface surface;
+    surface.worldPos = worldPos.xyz;
+    surface.normal = N;
+    surface.color = albedoR.xyz;
+    surface.alpha = 1;
+    surface.roughness = albedoR.a;
+    surface.metallic = normalM.a;
+    surface.emission = 0;
+    
     
     uint seed = _uGlobalFrames * 2242231u + dispatchIdx.y * 1923u + dispatchIdx.x;
 
     float3 LDirect, LIndirect;
-    float3 hitN, hitPos;
+    float3 hitN, hitPos, brdfNoLDivPdfindirect;
     float pdf;
-    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf);
-    
-    if (isnan(LDirect.x) || isnan(LDirect.y) || isnan(LDirect.z))
-    {
-        _directTarget[dispatchIdx] = float4(1, 0, 1, 1);
-        return;
-    }
+    DoPathTracing(dispatchIdx, seed, LDirect, LIndirect, hitN, hitPos, pdf, brdfNoLDivPdfindirect);
 
-    if (isnan(LIndirect.x) || isnan(LIndirect.y) || isnan(LIndirect.z))
-    {
-        _indirectTarget[dispatchIdx] = float4(1, 0, 1, 1);
-        return;
-    }
     
     // ------------------- ReSTIR process
     float3 Lo = LIndirect;
 
     restir_RESERVOIR R;
-    R.sample.Xv = worldPos;
+    R.sample.Xv = worldPos + N * 1e-3;
     R.sample.Nv = N;
     R.sample.Xs = hitPos;
     R.sample.Ns = hitN; 
     R.sample.Lo = Lo;
 
+
     float pQ = Luminance(Lo) / pdf;
     R.w = pQ;
     R.M = 1;
-    R.Wout = pQ / Luminance(Lo);
+    R.Wout = 1 / pdf;
+
+
+    int bufferId = dispatchIdx.y * _screenWidth + dispatchIdx.x;
+    int2 prevCoord;
     
-    uint seed2 = _uGlobalFrames * 7714523u + dispatchIdx.y * 7732u + dispatchIdx.x * 123;
-    float p = wang_hash(seed2) / 4294967295.0;
-    uint bufferId = dispatchIdx.y * _screenWidth + dispatchIdx.x;
+    float3 oldColor = LIndirect * brdfNoLDivPdfindirect;
+    float3 newColor = oldColor;
+    
+    if(temporal_reject(dispatchIdx, prevCoord))
+    {
+        if (Luminance(Lo) == 0)
+        {
+            R.w = 0;
+            R.M = 0;
+            R.Wout = 0;
+        }
+        _curRestirBuffer[bufferId] = R;
+        float3 WI = normalize(R.sample.Xs - R.sample.Xv);
+        newColor = BRDFNoL_GGX_NoAlbedo(surface, WI, wo) * R.sample.Lo * R.Wout;
+        // newColor = Lo * BRDFNoL_GGX_NoAlbedo(surface, WI, wo) / pdf;
+    }
+    else
+    {
+        uint seed2 = _uGlobalFrames * 7714523u + dispatchIdx.y * 7732u + dispatchIdx.x * 3;
+        float p = wang_hash(seed2) / 4294967295.0;
 
-    restir_RESERVOIR cur_sample = R;
-    restir_RESERVOIR old_sample = _prevRestirBuffer[bufferId];
-    float w = cur_sample.w;
-    RESERVOIR_update(old_sample, cur_sample.sample, w, p);
-    old_sample.Wout = old_sample.w / (old_sample.M * Luminance(old_sample.sample.Lo));
-    _prevRestirBuffer[bufferId] = old_sample;
+        uint bufferId2 = prevCoord.y * _screenWidth + prevCoord.x;
+        restir_RESERVOIR old_sample = _prevRestirBuffer[bufferId];
 
-    // Lo = old_sample.sample.Lo * old_sample.Wout;
-
+        float w = R.w;
+        RESERVOIR_update(old_sample, R.sample, w, p);
+        old_sample.Wout = old_sample.w / (old_sample.M * Luminance(old_sample.sample.Lo));
+        if(Luminance(old_sample.sample.Lo) == 0)
+        {
+            old_sample.Wout = 0;
+        }
+        _curRestirBuffer[bufferId] = old_sample;
+        float3 WI = normalize(old_sample.sample.Xs - old_sample.sample.Xv);
+        newColor = BRDFNoL_GGX_NoAlbedo(surface, WI, wo) * old_sample.sample.Lo * old_sample.Wout;
+    }
+    
     // ------------------- ReSTIR process END
-    
-    
-    _directTarget[dispatchIdx] = float4(LDirect, 1);
-    _indirectTarget[dispatchIdx] = float4(LIndirect, 1);
+
+    if (isnan(LDirect.x) || isnan(LDirect.y) || isnan(LDirect.z))
+    {
+        _directTarget[dispatchIdx] = float4(1, 0, 1, 1);
+    }
+    else
+    {
+        _directTarget[dispatchIdx] = float4(LDirect, 1);
+    }
+
+    if (isnan(oldColor.x) || isnan(oldColor.y) || isnan(oldColor.z))
+    {
+        _indirectTarget[dispatchIdx] = float4(1, 0, 1, 1);
+    }
+    else
+    {
+        _indirectTarget[dispatchIdx] = float4(newColor, 1);
+    }
 }

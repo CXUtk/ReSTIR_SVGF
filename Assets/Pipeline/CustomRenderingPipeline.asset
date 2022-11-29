@@ -35,3 +35,4 @@ MonoBehaviour:
       GroundTruth: 0
       SeperateIndirect: 1
       EnableReSTIR: 0
+      EnableReSTIRSpatial: 0

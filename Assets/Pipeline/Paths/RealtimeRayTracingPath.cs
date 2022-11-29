@@ -235,21 +235,20 @@ namespace Assets.Pipeline.Paths
             Material miscShader = new Material(Shader.Find("Utils/Misc"));
             Material svgfShader = new Material(Shader.Find("RayTracing/SVGF"));
 
-                if (m_renderSettings.DenoisingSettings.SeperateIndirect)
-                {
-                    Filtering(cmd, m_svgfDirect, "Direct");
-                    Filtering(cmd, m_svgfIndirect, "Indirect");
-                    // Final apply albedo
-                    cmd.SetGlobalTexture("_MainTex2", m_svgfIndirect.getCurrentTexture(m_gbufferPointer));
-                    cmd.Blit(m_svgfDirect.getCurrentTexture(m_gbufferPointer), m_renderTexture, svgfShader, 5);
-                }
-                else
-                {
-                    Filtering(cmd, m_svgfDirect, "All");
-                    // Final apply albedo
-                    cmd.Blit(m_svgfDirect.getCurrentTexture(m_gbufferPointer), m_renderTexture, svgfShader, 2);
-                }
-           
+            if (m_renderSettings.DenoisingSettings.SeperateIndirect)
+            {
+                Filtering(cmd, m_svgfDirect, "Direct");
+                Filtering(cmd, m_svgfIndirect, "Indirect");
+                // Final apply albedo
+                cmd.SetGlobalTexture("_MainTex2", m_svgfIndirect.getCurrentTexture(m_gbufferPointer));
+                cmd.Blit(m_svgfDirect.getCurrentTexture(m_gbufferPointer), m_renderTexture, svgfShader, 5);
+            }
+            else
+            {
+                Filtering(cmd, m_svgfDirect, "All");
+                // Final apply albedo
+                cmd.Blit(m_svgfDirect.getCurrentTexture(m_gbufferPointer), m_renderTexture, svgfShader, 2);
+            }
         }
 
         private void Filtering(CommandBuffer cmd, SVGFPackage inputTexture, string name)
@@ -261,6 +260,9 @@ namespace Assets.Pipeline.Paths
                 Material miscShader = new Material(Shader.Find("Utils/Misc"));
                 Material svgfShader = new Material(Shader.Find("RayTracing/SVGF"));
                 var filterShader = m_renderSettings.PipelineResourceSetting.SVGFFilterShader;
+                
+                // cmd.Blit(m_svgfIndirect.getCurrentTexture(m_gbufferPointer), m_renderTexture);
+                // return;
 
                 if (!m_renderSettings.DenoisingSettings.GroundTruth)
                 {
@@ -293,14 +295,14 @@ namespace Assets.Pipeline.Paths
                         // return;
                     }
 
-                    if (m_renderSettings.DenoisingSettings.EnableReSTIR)
+                    if (m_renderSettings.DenoisingSettings.EnableReSTIR && name != "Direct")
                     {
-                        // using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Generate ReSTIR Frame")))
-                        // {
-                        //     cmd.SetGlobalBuffer("_restirBuffer", m_restirBuffers[1]);
-                        //     // cmd.Blit(CurrentColorTarget, m_swapTexture);
-                        //     cmd.Blit(m_swapTexture, inputTexture, svgfShader, 4);
-                        // }
+                        using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Generate ReSTIR Frame")))
+                        {
+                            cmd.SetGlobalBuffer("_restirBuffer", inputTexture.getCurrentReSTIRBuffer(m_gbufferPointer));
+                            // cmd.Blit(CurrentColorTarget, m_swapTexture);
+                            cmd.Blit(m_swapTexture, inputTexture.getCurrentTexture(m_gbufferPointer), svgfShader, 4);
+                        }
                     }
 
                     using (var scope = new ProfilingScope(cmd, new ProfilingSampler("Wavelet Transform Level 1")))
@@ -422,7 +424,8 @@ namespace Assets.Pipeline.Paths
                 cmd.SetGlobalInt("_PathBounces", m_renderSettings.LightingSetting.PathBounces);
                 cmd.SetRayTracingTextureParam(pathTracingShader, "_directTarget", m_svgfDirect.getCurrentTexture(m_gbufferPointer));
                 cmd.SetRayTracingTextureParam(pathTracingShader, "_indirectTarget", m_svgfIndirect.getCurrentTexture(m_gbufferPointer));
-                cmd.SetRayTracingBufferParam(pathTracingShader, "_prevRestirBuffer", m_svgfDirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                cmd.SetRayTracingBufferParam(pathTracingShader, "_curRestirBuffer", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                cmd.SetRayTracingBufferParam(pathTracingShader, "_prevRestirBuffer", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
                 cmd.SetRayTracingAccelerationStructure(pathTracingShader, 
                     "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
                 cmd.SetRayTracingShaderPass(pathTracingShader, "MyPathtracingShaderPass");
@@ -449,18 +452,24 @@ namespace Assets.Pipeline.Paths
                     m_camera);
             }
 
-            
-            
             var filterShader = m_renderSettings.PipelineResourceSetting.SVGFFilterShader;
             Material svgfShader = new Material(Shader.Find("RayTracing/SVGF"));
-
-            if (m_renderSettings.DenoisingSettings.EnableReSTIR)
+            
+            if (m_renderSettings.DenoisingSettings.EnableReSTIR && m_renderSettings.DenoisingSettings.EnableReSTIRSpatial)
             {
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("ReSTIR Spatial Filtering")))
                 {
-                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBuffer", m_svgfDirect.getCurrentReSTIRBuffer(m_gbufferPointer));
-                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBufferDest", m_svgfDirect.getPrevReSTIRBuffer(m_gbufferPointer));
+                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBuffer", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBufferDest", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
                     cmd.DispatchCompute(filterShader, 8,
+                        DivCeil(m_renderTexture.width, 16),
+                        DivCeil(m_renderTexture.height, 16),
+                        1);
+                    
+                    cmd.SetComputeBufferParam(filterShader, 6, "_restirBuffer", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
+                    cmd.SetComputeBufferParam(filterShader, 6, "_restirBufferDest", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                    // Copy to current
+                    cmd.DispatchCompute(filterShader, 6,
                         DivCeil(m_renderTexture.width, 16),
                         DivCeil(m_renderTexture.height, 16),
                         1);
@@ -537,7 +546,7 @@ namespace Assets.Pipeline.Paths
                 1);
             
             cmd.SetComputeBufferParam(filterShader, 5, "_restirBufferDest",
-                m_svgfDirect.getPrevReSTIRBuffer(m_gbufferPointer));
+                m_svgfDirect.getCurrentReSTIRBuffer(m_gbufferPointer));
             cmd.DispatchCompute(filterShader, 5,
                 DivCeil(m_renderTexture.width, 16),
                 DivCeil(m_renderTexture.height, 16),
@@ -554,6 +563,13 @@ namespace Assets.Pipeline.Paths
                 cmd.SetComputeBufferParam(filterShader, 3, "_temporalBufferW",
                     m_svgfIndirect.getPrevTemporalBuffer(m_gbufferPointer));
                 cmd.DispatchCompute(filterShader, 3,
+                    DivCeil(m_renderTexture.width, 16),
+                    DivCeil(m_renderTexture.height, 16),
+                    1);
+                
+                cmd.SetComputeBufferParam(filterShader, 5, "_restirBufferDest",
+                    m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                cmd.DispatchCompute(filterShader, 5,
                     DivCeil(m_renderTexture.width, 16),
                     DivCeil(m_renderTexture.height, 16),
                     1);

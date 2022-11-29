@@ -505,7 +505,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
 
                 float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
                 float3 c = prev_color.rgb / prev_color.a;
-                if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.01 || true)
+                if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.1)
                 {
                     continue;
                 }
@@ -558,21 +558,27 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         float3 overflow = max(0.0, cur_color.rgb - highThreshold);
         cur_color.rgb -= overflow;
 
-        if(sigma > 8)
-        {
-            spp = spp / 3;
-        }
+        // if(sigma > 8)
+        // {
+        //     spp = spp / 3;
+        // }
         spp = min(spp, 30);
     }
     else
     {
-        if (isnan(cur_color.x) || isnan(cur_color.y) || isnan(cur_color.z))
-        {
-            _renderW[imageCoord] = float4(1, 0, 1, 1);
-            return;
-        }
-        _renderW[imageCoord] = float4(cur_color.rgb, 1);
-        return;
+        // float3 stdev = sqrt(_varianceTarget[imageCoord].rgb);
+        // // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
+        //
+        // float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
+        // float3 highThreshold = 0.1 + ss_color + stdev * 8;
+        // float3 overflow = max(0.0, cur_color.rgb - highThreshold);
+        // cur_color.rgb -= overflow;
+        //
+        // if(sigma > 8)
+        // {
+        //     spp = spp / 3;
+        // }
+        spp = min(spp, 30);
     }
 
     _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);
@@ -658,21 +664,21 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
     
     const int Radius = 5;
     int m_count = 0;
-    for(int i = 0; i < 9; i++)
+    for(int i = 0; i < 5; i++)
     {
         float x = wang_hash(seed) / 4294967295.0;
         float y = wang_hash(seed) / 4294967295.0;
-
+    
         int dx = (x * 2 - 1) * Radius;
         int dy = (y * 2 - 1) * Radius;
-
+    
         int2 coord = imageCoord + int2(dx, dy);
-
+    
         if (coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight)
         {
             continue;
         }
-
+    
         if(coord.x == imageCoord.x && coord.y == imageCoord.y)
         {
             continue;
@@ -685,15 +691,15 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
         }
         float3 q_normal = normalize(q_normalN * 2 - 1);
         float4 q_WSPos = _worldPos[coord];
-        
-        if (length(cur_WSpos.xyz - q_WSPos.xyz) > 3 || dot(q_normal, cur_N) < 0.9)
+        float3 dir = q_WSPos.xyz - cur_WSpos.xyz;
+        if (length(cur_WSpos.xyz - q_WSPos.xyz) > 3 || dot(q_normal, cur_N) < 0.9 || abs(dot(cur_N, dir)) > 0.1)
         {
             continue;
         }
-
+    
         int bufferId2 = coord.y * _screenWidth + coord.x;
         restir_RESERVOIR Rn = _restirBuffer[bufferId2];
-
+    
         float3 Qdir = Rn.sample.Xs - Q.sample.Xv;
         float3 Rdir = Rn.sample.Xs - Rn.sample.Xv;
         
@@ -707,6 +713,16 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
         m_count += Rn.M;
     }
 
-    Q.Wout = Q.w / (m_count * Luminance(Q.sample.Lo));
+    if(m_count > 0)
+    {
+        if(Luminance(Q.sample.Lo) > 0)
+        {
+            Q.Wout = Q.w / (m_count * Luminance(Q.sample.Lo));
+        }
+        else
+        {
+            Q.Wout = 0;
+        }
+    }
     _restirBufferDest[bufferId] = Q;
 }

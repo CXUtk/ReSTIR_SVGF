@@ -13,5 +13,6 @@ namespace Assets.Pipeline.Settings
         [SerializeField] internal bool GroundTruth = false;
         [SerializeField] internal bool SeperateIndirect = false;
         [SerializeField] internal bool EnableReSTIR = false;
+        [SerializeField] internal bool EnableReSTIRSpatial = false;
     }
 }
