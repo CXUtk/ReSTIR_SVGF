@@ -490,7 +490,7 @@ namespace Assets.Pipeline.Paths
                 ExecuteCommand(command);
 
                 // Replace materials
-                // InitialSetMaterials();
+                InitialSetMaterials();
                 InitializeBuffers(command);
                 UpdateAccelStructure(command);
                 ExecuteCommand(command);

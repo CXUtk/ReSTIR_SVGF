@@ -187,5 +187,5 @@ float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo
     wi = wIn;
     pdf = Pdf_GGX(surface, wIn, wo);
     //(4 * F * V * VdotH * NdotL) / NdotH
-    return BRDFNoL_GGX_NoAlbedo(surface, wIn, wo) / pdf;
+    return (4 * F * V * VdotH * NdotL) / NdotH; //BRDFNoL_GGX_NoAlbedo(surface, wIn, wo) / pdf;
 }

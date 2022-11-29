@@ -199,7 +199,8 @@ bool temporal_reject(int2 dispatchIdx, out int2 prevCoord)
     int2 imageCoord_prev = floor(pixel_prev);
     prevCoord = imageCoord_prev;
 
-    if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth || imageCoord_prev.y < 0 || imageCoord_prev.y >= _screenHeight)
+    if (imageCoord_prev.x < 0 || imageCoord_prev.x >= _screenWidth 
+    || imageCoord_prev.y < 0 || imageCoord_prev.y >= _screenHeight)
     {
         return true;
     }
@@ -334,6 +335,6 @@ void SeperatePathTracing_ReSTIR()
     }
     else
     {
-        _indirectTarget[dispatchIdx] = float4(newColor, 1);
+        _indirectTarget[dispatchIdx] = float4(oldColor, 1);
     }
 }

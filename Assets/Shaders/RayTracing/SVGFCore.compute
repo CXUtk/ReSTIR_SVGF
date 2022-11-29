@@ -472,7 +472,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
 
         float3 c = prev_color.rgb / prev_color.a;
         float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
-        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.01)
+        if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.7 || abs(dot(cur_N, dir)) > 0.1)
         {
             continue;
         }
@@ -528,7 +528,7 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
             float3 overflow = max(0.0, cur_color.rgb - highThreshold);
             // ss_color = clamp(ss_color, cur_color.rgb - stdev * 2, cur_color.rgb + stdev * 2);
             cur_color.rgb -= overflow;
-
+            
             if(sigma > 8)
             {
                 spp = spp / 3;
@@ -554,31 +554,31 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
         
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-        float3 highThreshold = 0.1 + ss_color + stdev * 8;
+        float3 highThreshold = 0.1 + ss_color + stdev * 5;
         float3 overflow = max(0.0, cur_color.rgb - highThreshold);
         cur_color.rgb -= overflow;
-
-        // if(sigma > 8)
-        // {
-        //     spp = spp / 3;
-        // }
+        //
+        if(sigma > 8)
+        {
+            spp = spp / 3;
+        }
         spp = min(spp, 30);
     }
     else
     {
-        // float3 stdev = sqrt(_varianceTarget[imageCoord].rgb);
-        // // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
-        //
-        // float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-        // float3 highThreshold = 0.1 + ss_color + stdev * 8;
-        // float3 overflow = max(0.0, cur_color.rgb - highThreshold);
-        // cur_color.rgb -= overflow;
-        //
-        // if(sigma > 8)
-        // {
-        //     spp = spp / 3;
-        // }
-        spp = min(spp, 30);
+        float3 stdev = sqrt(_varianceTarget[imageCoord].rgb);
+        // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
+        
+        float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
+        float3 highThreshold = 0.1 + ss_color + stdev;
+        float3 overflow = max(0.0, cur_color.rgb - highThreshold);
+        cur_color.rgb -= overflow;
+        
+        if(sigma > 1)
+        {
+            spp = spp / 8;
+        }
+        spp = min(spp, 10);
     }
 
     _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);

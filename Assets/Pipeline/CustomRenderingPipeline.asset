@@ -15,7 +15,7 @@ MonoBehaviour:
   RenderingSettings:
     ShadowSettings:
       maxDistance: 100
-      shadowBias: 0
+      shadowBias: 0.089
       directional:
         atlasSize: 1024
     LightingSetting:
@@ -34,5 +34,5 @@ MonoBehaviour:
       TemporalFactor: 0.1
       GroundTruth: 0
       SeperateIndirect: 1
-      EnableReSTIR: 0
+      EnableReSTIR: 1
       EnableReSTIRSpatial: 0

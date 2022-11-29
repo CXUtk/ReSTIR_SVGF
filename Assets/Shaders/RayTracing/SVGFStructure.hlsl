@@ -28,7 +28,7 @@ void RESERVOIR_update(inout restir_RESERVOIR R, restir_sample S, float W, float 
 
     if(R.M > MAX_TEMPORAL)
     {
-        R.w = MAX_TEMPORAL / R.M;
+        R.w *= MAX_TEMPORAL / R.M;
         R.M = MAX_TEMPORAL;
     }
     if(rand < W / R.w)
