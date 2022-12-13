@@ -337,10 +337,6 @@ void VarianceTemporalAccumulation_Plus(uint3 id : SV_DispatchThreadID)
         const temporal_data prev = _temporalBufferR[uvQ.y * _screenWidth + uvQ.x];
         float4 prev_WSPos = _worldPos_prev[uvQ];
         float3 dir = prev_WSPos.xyz - cur_WSpos.xyz;
-        if (length(dir) > 1e-5)
-        {
-            dir = normalize(dir);
-        }
         if (cur_WSpos.w != prev_WSPos.w || dot(prev_normal, cur_N) < 0.5 || abs(dot(cur_N, dir)) > 0.1)
         {
             continue;
@@ -524,15 +520,11 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
             // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
         
             float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-            float3 highThreshold = 0.1 + ss_color + stdev * 8;
+            float3 highThreshold = 0.1 + ss_color + stdev * 6;
             float3 overflow = max(0.0, cur_color.rgb - highThreshold);
             // ss_color = clamp(ss_color, cur_color.rgb - stdev * 2, cur_color.rgb + stdev * 2);
             cur_color.rgb -= overflow;
             
-            if(sigma > 8)
-            {
-                spp = spp / 3;
-            }
             spp = min(spp, 30);
 
             _renderW[imageCoord] = float4(ss_color * spp + cur_color.rgb, spp + 1);
@@ -551,10 +543,10 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
     if(_useReSTIR == 0)
     {
         float3 stdev = sqrt(_varianceTarget[imageCoord].rgb);
-        // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
+        //prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
         
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-        float3 highThreshold = 0.1 + ss_color + stdev * 5;
+        float3 highThreshold = 0.1 + ss_color + stdev * 6;
         float3 overflow = max(0.0, cur_color.rgb - highThreshold);
         cur_color.rgb -= overflow;
         //
@@ -570,13 +562,13 @@ void Temporal_Reprojection(uint3 id : SV_DispatchThreadID)
         // prev.xyz = clamp(prev.xyz, cur - variance, cur + variance);
         
         float sigma = abs(dot(float3(0.2126, 0.7152, 0.0722), (cur_color.rgb - ss_color) / max(1e-5, stdev)));
-        float3 highThreshold = 0.1 + ss_color + stdev;
+        float3 highThreshold = 0.1 + ss_color + stdev * 2;
         float3 overflow = max(0.0, cur_color.rgb - highThreshold);
         cur_color.rgb -= overflow;
-        
-        if(sigma > 1)
+
+        if(sigma > 2)
         {
-            spp = spp / 8;
+            spp = 1;
         }
         spp = min(spp, 10);
     }
@@ -648,7 +640,7 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
         return;
     }
     int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
-    uint seed = _uGlobalFrames * 7314523u + bufferId * 2u;
+    uint seed = _uGlobalFrames * 7314523u + bufferId;
 
     float4 cur_WSpos = _worldPos[imageCoord];
     float3 cur_normalN = _normalM[imageCoord];
@@ -661,7 +653,7 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
     float3 cur_N = normalize(cur_normalN * 2 - 1);
 
     restir_RESERVOIR Q = _restirBuffer[bufferId];
-    
+
     const int Radius = 5;
     int m_count = 0;
     for(int i = 0; i < 5; i++)
@@ -700,12 +692,12 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
         int bufferId2 = coord.y * _screenWidth + coord.x;
         restir_RESERVOIR Rn = _restirBuffer[bufferId2];
     
-        float3 Qdir = Rn.sample.Xs - Q.sample.Xv;
+        float3 Qdir = Rn.sample.Xs - cur_WSpos.xyz;
         float3 Rdir = Rn.sample.Xs - Rn.sample.Xv;
         
-        float a = abs(dot(Q.sample.Ns, normalize(Qdir))) / abs(dot(Q.sample.Ns, normalize(Rdir)));
-        float b = max(1e-5, dot(Rdir, Rdir) / dot(Qdir, Qdir));
-        float J = a / b;
+        float a = abs(dot(Rn.sample.Ns, normalize(Qdir))) / abs(dot(Rn.sample.Ns, normalize(Rdir)));
+        float b = dot(Rdir, Rdir) / dot(Qdir, Qdir);
+        float J = a * b;
         
         float Pz = Luminance(Rn.sample.Lo) / J;
         Rn.sample.Xv = cur_WSpos.xyz;
@@ -717,7 +709,7 @@ void ReSTIR_Spatial(uint3 id : SV_DispatchThreadID)
     {
         if(Luminance(Q.sample.Lo) > 0)
         {
-            Q.Wout = Q.w / (m_count * Luminance(Q.sample.Lo));
+            Q.Wout = Q.w / (Q.M * Luminance(Q.sample.Lo));
         }
         else
         {

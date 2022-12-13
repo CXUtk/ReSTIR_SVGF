@@ -300,14 +300,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103626338}
-  m_LocalRotation: {x: 0.6013029, y: -0.20255388, z: 0.16111861, w: 0.7559415}
+  m_LocalRotation: {x: 0.6438209, y: -0.19294338, z: 0.17251125, w: 0.7200746}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 77, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 83.6, y: -30, z: 0}
 --- !u!1 &190710030
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,7 +944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1356407227
 Transform:
   m_ObjectHideFlags: 0
@@ -1095,7 +1095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &1456080631
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1200,6 +1200,7 @@ GameObject:
   - component: {fileID: 1771289817}
   - component: {fileID: 1771289816}
   - component: {fileID: 1771289815}
+  - component: {fileID: 1771289819}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -1286,6 +1287,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1771289819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771289814}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f5f0d2dfbfc2d345bf1cae23f7c0c19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  YMax: 20
+  YMin: 12
+  Speed: 1
 --- !u!1 &1880018859
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,7 +1516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1918652283
 AudioListener:
   m_ObjectHideFlags: 0

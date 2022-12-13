@@ -361,7 +361,7 @@ float4 restir_color_check (v2f i) : SV_TARGET
     Surface surface;
     surface.worldPos = posSelf.xyz;
     surface.normal = N;
-    surface.color = albedoR.xyz;
+    surface.color = 1;
     surface.alpha = 1;
     surface.roughness = albedoR.a;
     surface.metallic = normalN.a;

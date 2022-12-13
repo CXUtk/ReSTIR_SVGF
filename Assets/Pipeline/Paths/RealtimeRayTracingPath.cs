@@ -302,6 +302,8 @@ namespace Assets.Pipeline.Paths
                             cmd.SetGlobalBuffer("_restirBuffer", inputTexture.getCurrentReSTIRBuffer(m_gbufferPointer));
                             // cmd.Blit(CurrentColorTarget, m_swapTexture);
                             cmd.Blit(m_swapTexture, inputTexture.getCurrentTexture(m_gbufferPointer), svgfShader, 4);
+                            // cmd.Blit(m_swapTexture, m_renderTexture, svgfShader, 4);
+                            // return;
                         }
                     }
 
@@ -459,12 +461,23 @@ namespace Assets.Pipeline.Paths
             {
                 using (var scope = new ProfilingScope(cmd, new ProfilingSampler("ReSTIR Spatial Filtering")))
                 {
-                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBuffer", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
-                    cmd.SetComputeBufferParam(filterShader, 8, "_restirBufferDest", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
-                    cmd.DispatchCompute(filterShader, 8,
-                        DivCeil(m_renderTexture.width, 16),
-                        DivCeil(m_renderTexture.height, 16),
-                        1);
+                    // cmd.SetComputeBufferParam(filterShader, 8, "_restirBuffer", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                    // cmd.SetComputeBufferParam(filterShader, 8, "_restirBufferDest", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
+                    // cmd.DispatchCompute(filterShader, 8,
+                    //     DivCeil(m_renderTexture.width, 16),
+                    //     DivCeil(m_renderTexture.height, 16),
+                    //     1);
+                    cmd.SetRayTracingBufferParam(pathTracingShader, "_prevRestirBuffer", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));
+                    cmd.SetRayTracingBufferParam(pathTracingShader, "_curRestirBuffer", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
+                    cmd.SetRayTracingAccelerationStructure(pathTracingShader, 
+                        "_RaytracingAccelerationStructure", m_rayTracingAccelerationStructure);
+                    cmd.SetRayTracingShaderPass(pathTracingShader, "MyPathtracingShaderPass");
+                    cmd.DispatchRays(pathTracingShader, 
+                        "ReSTIR_SpatialReuse", 
+                        (uint)m_renderTexture.width,
+                        (uint)m_renderTexture.height, 
+                        1u,
+                        m_camera);
                     
                     cmd.SetComputeBufferParam(filterShader, 6, "_restirBuffer", m_svgfIndirect.getPrevReSTIRBuffer(m_gbufferPointer));
                     cmd.SetComputeBufferParam(filterShader, 6, "_restirBufferDest", m_svgfIndirect.getCurrentReSTIRBuffer(m_gbufferPointer));

@@ -1,5 +1,5 @@
 #pragma once
-#pragma max_recursion_depth 2
+#pragma max_recursion_depth 1
 #include "../Library/Utils.hlsl"
 #include "SVGFStructure.hlsl"
 #include "RayTraceLighting.hlsl"
@@ -8,6 +8,7 @@
 RWTexture2D<float4> _renderTarget;
 RWStructuredBuffer<restir_RESERVOIR> _curRestirBuffer;
 StructuredBuffer<restir_RESERVOIR> _prevRestirBuffer;
+
 
 Texture2D<float> _gdepth;
 Texture2D<float4> _albedoR;
@@ -304,7 +305,7 @@ void SeperatePathTracing_ReSTIR()
         float p = wang_hash(seed2) / 4294967295.0;
 
         uint bufferId2 = prevCoord.y * _screenWidth + prevCoord.x;
-        restir_RESERVOIR old_sample = _prevRestirBuffer[bufferId];
+        restir_RESERVOIR old_sample = _prevRestirBuffer[bufferId2];
 
         float w = R.w;
         RESERVOIR_update(old_sample, R.sample, w, p);
@@ -337,4 +338,99 @@ void SeperatePathTracing_ReSTIR()
     {
         _indirectTarget[dispatchIdx] = float4(oldColor, 1);
     }
+}
+
+
+[shader("raygeneration")]
+void ReSTIR_SpatialReuse()
+{
+    int2 imageCoord = DispatchRaysIndex().xy;
+    int bufferId = imageCoord.y * _screenWidth + imageCoord.x;
+    uint seed = _uGlobalFrames * 731452u + bufferId;
+
+    float4 cur_WSpos = _worldPos[imageCoord];
+    float3 cur_normalN = _normalM[imageCoord];
+    // Current is empty pixel
+    if(length(cur_normalN) < 1e-5)
+    {
+        return;
+    }
+    
+    float3 cur_N = normalize(cur_normalN * 2 - 1);
+
+    int2 prevCoord;
+    
+    restir_RESERVOIR Q = _prevRestirBuffer[bufferId];
+
+    const int Radius = 10;
+    for(int i = 0; i < 5; i++)
+    {
+        float x = wang_hash(seed) / 4294967295.0;
+        float y = wang_hash(seed) / 4294967295.0;
+        
+        int dx = (x * 2 - 1) * Radius;
+        int dy = (y * 2 - 1) * Radius;
+        
+        int2 coord = imageCoord + int2(dx, dy);
+        
+        if (coord.x < 0 || coord.x >= _screenWidth || coord.y < 0 || coord.y >= _screenHeight)
+        {
+            continue;
+        }
+        
+        if(coord.x == imageCoord.x && coord.y == imageCoord.y)
+        {
+            continue;
+        }
+        
+        float3 q_normalN = _normalM[coord];
+        if(length(q_normalN) < 1e-5)
+        {
+            continue;
+        }
+        float3 q_normal = normalize(q_normalN * 2 - 1);
+        float4 q_WSPos = _worldPos[coord];
+        float3 dir = q_WSPos.xyz - cur_WSpos.xyz;
+        if (length(cur_WSpos.xyz - q_WSPos.xyz) > 3 || dot(q_normal, cur_N) < 0.9 || abs(dot(cur_N, dir)) > 0.1)
+        {
+            continue;
+        }
+        
+        int bufferId2 = coord.y * _screenWidth + coord.x;
+        restir_RESERVOIR Rn = _prevRestirBuffer[bufferId2];
+
+        PathTracingPayload shadowPayLoad = CreatePathTracingPayload();
+        
+        RayDesc shadowRay;
+        float3 origin = cur_WSpos.xyz + cur_N * 1e-3;
+        shadowRay.Origin = origin; 
+        shadowRay.Direction = Rn.sample.Xs - origin;
+        shadowRay.TMin = 0;
+        shadowRay.TMax = -1;
+
+        TraceRay(_RaytracingAccelerationStructure, (RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH), 
+        0xFF, 0, 1, 0, shadowRay, shadowPayLoad);
+        
+        float3 Qdir = Rn.sample.Xs - cur_WSpos.xyz;
+        float3 Rdir = Rn.sample.Xs - Rn.sample.Xv;
+        
+        float a = abs(dot(Rn.sample.Ns, normalize(Qdir))) / abs(dot(Rn.sample.Ns, normalize(Rdir)));
+        float b = dot(Rdir, Rdir) / dot(Qdir, Qdir);
+        float J = a * b;
+        
+        float Pz = Luminance(Rn.sample.Lo * shadowPayLoad.L);
+        Rn.sample.Xv = cur_WSpos.xyz;
+        RESERVOIR_merge_spataial(Q, Rn, Pz, wang_hash(seed) / 4294967295.0);
+    }
+
+    if(Luminance(Q.sample.Lo) > 0)
+    {
+        Q.Wout = Q.w / (Q.M * Luminance(Q.sample.Lo));
+    }
+    else
+    {
+        Q.Wout = 0;
+    }
+    
+    _curRestirBuffer[bufferId] = Q;
 }

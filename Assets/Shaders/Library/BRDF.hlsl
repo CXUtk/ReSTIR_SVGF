@@ -189,3 +189,35 @@ float3 GGXImportanceSample_NoAlbedo(float2 sample, in Surface surface, float3 wo
     //(4 * F * V * VdotH * NdotL) / NdotH
     return (4 * F * V * VdotH * NdotL) / NdotH; //BRDFNoL_GGX_NoAlbedo(surface, wIn, wo) / pdf;
 }
+
+
+float3 GGXImportanceSample_NoAlbedo_U(float2 sample, in Surface surface, float3 wo, out float3 wi, out float pdf)
+{
+    float alpha = RoughnessToAlpha(surface.roughness);
+    float3x3 TNB = BuildTNB(surface.normal);
+
+    if(surface.roughness == 1)
+    {
+        float3 wIn = SampleSphereUniform(sample.x, sample.y);
+        wIn = mul(transpose(TNB), wIn.xzy);
+        pdf = 1 / (2 * PI);
+        wi = wIn;
+        float NdotL = max(1e-7, dot(surface.normal, wIn));
+        return 2 * NdotL;
+    }
+    
+    float3 H = GGXImportanceSampleH(sample, alpha);
+    H = mul(transpose(TNB), H);
+
+    float3 wIn = reflect(-wo, H);
+    float V = V_SmithGGXCorrelated(surface.normal, wIn, wo, alpha);
+    float3 F = F_Schlick(1, H, wIn);
+    float VdotH = max(1e-7, dot(wo, H));
+    float NdotH = max(1e-7, dot(surface.normal, H));
+    float NdotL = max(1e-7, dot(surface.normal, wIn));
+    
+    wi = wIn;
+    pdf = Pdf_GGX(surface, wIn, wo);
+    //(4 * F * V * VdotH * NdotL) / NdotH
+    return (4 * F * V * VdotH * NdotL) / NdotH; //BRDFNoL_GGX_NoAlbedo(surface, wIn, wo) / pdf;
+}

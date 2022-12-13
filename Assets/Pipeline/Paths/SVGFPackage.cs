@@ -12,6 +12,7 @@ namespace Assets.Pipeline.Paths
         public ComputeBuffer getCurrentTemporalBuffer(int gid) => m_temporalBuffers[gid];
         public ComputeBuffer getPrevTemporalBuffer(int gid) => m_temporalBuffers[1 - gid];
         
+        public ComputeBuffer getTemporalReSTIRBuffer(int gid) => m_restirBuffers[0];
         public ComputeBuffer getCurrentReSTIRBuffer(int gid) => m_restirBuffers[gid];
         public ComputeBuffer getPrevReSTIRBuffer(int gid) => m_restirBuffers[1 - gid];
 
@@ -19,6 +20,7 @@ namespace Assets.Pipeline.Paths
         private ComputeBuffer[] m_temporalBuffers;
         private ComputeBuffer[] m_restirBuffers;
         private const int MAX_BUFFERS = 2;
+        private const int MAX_BUFFERS_ReSTIR = 2;
         
         public SVGFPackage()
         {
@@ -40,8 +42,8 @@ namespace Assets.Pipeline.Paths
                     ComputeBufferType.Structured);
             }
             
-            m_restirBuffers = new ComputeBuffer[MAX_BUFFERS];
-            for (int i = 0; i < MAX_BUFFERS; i++)
+            m_restirBuffers = new ComputeBuffer[MAX_BUFFERS_ReSTIR];
+            for (int i = 0; i < MAX_BUFFERS_ReSTIR; i++)
             {
                 m_restirBuffers[i] = new ComputeBuffer(Screen.width * Screen.height, sizeof(float) * 18,
                     ComputeBufferType.Structured);
@@ -54,6 +56,10 @@ namespace Assets.Pipeline.Paths
             for (int i = 0; i < MAX_BUFFERS; i++)
             {
                 m_temporalBuffers[i].Dispose();
+            }
+
+            for (int i = 0; i < MAX_BUFFERS_ReSTIR; i++)
+            {
                 m_restirBuffers[i].Dispose();
             }
         }
